@@ -129,8 +129,6 @@ use Bbgi\Integration\Google;
     					console.log(\'Firing Page View - \' + window.location.href);
     					window.beasleyanalytics.setAnalyticsForMParticle(\'page_url\', window.location.href);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'title\', window.document.title);
-						window.beasleyanalytics.setAnalyticsForMParticle(\'call_sign\', window.bbgiconfig?.publisher?.title);
-						window.beasleyanalytics.setAnalyticsForMParticle(\'call_sign_id\', window.bbgiconfig?.publisher?.AppId);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_category\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_category_id\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'show_name\', \'%s\');

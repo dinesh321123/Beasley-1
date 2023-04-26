@@ -89,8 +89,8 @@ window.mParticleSchema = {
 										"station_location": {"description": "", "type": ["string", "null"]},
 										"title": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -123,8 +123,8 @@ window.mParticleSchema = {
 										"screen_position": {"description": "", "type": ["string", "null"]},
 										"title": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									},
 									"required": [],
@@ -154,8 +154,8 @@ window.mParticleSchema = {
 										"page_url": {"description": "", "type": ["string", "null"], "format": "uri"},
 										"title": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									},
 									"required": [],
@@ -380,9 +380,17 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
+										"stream_call_letters": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"is_primary_stream": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["boolean", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -450,9 +458,17 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
+										"stream_call_letters": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"is_primary_stream": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["boolean", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -518,9 +534,17 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
+										"stream_call_letters": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"is_primary_stream": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["boolean", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -589,9 +613,17 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
+										"stream_call_letters": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"is_primary_stream": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["boolean", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -660,9 +692,17 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
+										"stream_call_letters": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"is_primary_stream": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["boolean", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -766,9 +806,17 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
+										"stream_call_letters": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"is_primary_stream": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["boolean", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
-										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -832,5 +880,5 @@ window.mParticleSchema = {
 				}
 			}
 		}]
-	}
+	},
 };
