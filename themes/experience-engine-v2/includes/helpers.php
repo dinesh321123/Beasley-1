@@ -546,8 +546,7 @@ if ( ! function_exists( 'ee_mparticle_prepare_pageview_data' ) ) :
 		$mParticleContentType = get_post_type( $post );
 		$mParticleContentType = get_content_type_text( $mParticleContentType );
 
-		$mapFunction = fn( $value )  => isset($value) ? esc_attr( $value ) : $value;
-		return array_map($mapFunction, [
+		return [
 			'mParticleContentType'						=> $mParticleContentType,
 			'mParticle_category'						=> $mParticle_category ?: '',
 			'mParticle_categories'						=> $mParticle_categories ?: '',
@@ -567,7 +566,7 @@ if ( ! function_exists( 'ee_mparticle_prepare_pageview_data' ) ) :
 			'mParticle_primary_author' 					=> $mParticle_primary_author ?: '',
 			'mParticle_secondary_author' 				=> $mParticle_secondary_author ?: '',
 			'mParticle_word_count' 						=> $mParticle_word_count ?:  null
-		]);
+		];
 	}
 endif;
 
