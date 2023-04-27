@@ -362,8 +362,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				var mp = document.createElement("script");
 				mp.type = "text/javascript";
 				mp.async = true;
-				mp.src = ("https:" == document.location.protocol ? "https://jssdkcdns" : "http://jssdkcdn") + ".mparticle.com/js/v2/" + t + "/mparticle.js" + dbUrl;
-				// With CNames mp.src = "https://mparticle.bbgi.com/tags/JS/v2/" + t + "/mparticle.js" + dbUrl;
+				// Without CNAMES mp.src = ("https:" == document.location.protocol ? "https://jssdkcdns" : "http://jssdkcdn") + ".mparticle.com/js/v2/" + t + "/mparticle.js" + dbUrl;
+				mp.src = "https://mparticle.bbgi.com/tags/JS/v2/" + t + "/mparticle.js" + dbUrl;
 				var c = document.getElementsByTagName("script")[0];
 				c.parentNode.insertBefore(mp, c)
 			}
