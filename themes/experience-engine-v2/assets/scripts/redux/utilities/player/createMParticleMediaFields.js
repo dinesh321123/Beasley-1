@@ -1,3 +1,11 @@
+const isPrimaryStream = tapID => {
+	return (
+		tapID &&
+		window.bbgiconfig?.streams &&
+		window.bbgiconfig.streams[0]?.stream_tap_id === tapID
+	);
+};
+
 export default function createMParticleMediaFields(
 	playerType,
 	stream,
@@ -14,6 +22,9 @@ export default function createMParticleMediaFields(
 		streamParams.content_duration = 1000 * 60 * 60 * 24; // Default to 1 day
 		streamParams.content_title = stream?.title || '';
 		streamParams.content_asset_id = stream?.stream_tap_id || '';
+		streamParams.is_primary_stream = isPrimaryStream(
+			streamParams.content_asset_id,
+		);
 		streamParams.content_network = stream?.stream_cmod_domain || '';
 		streamParams.stream_call_letters = stream?.stream_call_letters || '';
 		streamParams.primary_category =
@@ -22,12 +33,12 @@ export default function createMParticleMediaFields(
 		streamParams.show_name = '?LiveStreamShowName?';
 		streamParams.show_id = '?LiveStreamShowID?';
 		streamParams.content_daypart = '?LiveStreamContentDayPart?';
-		streamParams.is_primary_stream = 'True';
 	} else {
 		streamParams.stream_type = 'OnDemand';
 		streamParams.content_duration = 1000 * 60 * 60 * 24; // Default to 1 day
 		streamParams.content_title = payload?.cueTitle || '';
 		streamParams.content_asset_id = payload?.src || '';
+		streamParams.is_primary_stream = '?PodcastIsPrimaryStream?';
 		streamParams.content_network = '?PodcastNetwork?';
 		streamParams.stream_call_letters = '?PodcastCallLetters?';
 		streamParams.primary_category = '?PodcastCategory?';
@@ -35,7 +46,6 @@ export default function createMParticleMediaFields(
 		streamParams.show_name = payload?.artistName || '';
 		streamParams.show_id = '?PodcastShowID?';
 		streamParams.content_daypart = '?PodcastContentDayPart?';
-		streamParams.is_primary_stream = '?PodcastIsPrimaryStream?';
 	}
 
 	// Load Up Beasley Analytics With All Media Params

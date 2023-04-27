@@ -84,10 +84,10 @@ window.mParticleSchema = {
 										"categories_stringified": {"description": "", "type": ["string", "null"]},
 										"tags_stringified": {"description": "", "type": ["string", "null"]},
 										"referrer": {"description": "", "type": ["string", "null"]},
-										"page_url": {"description": "", "type": ["string", "null"]},
 										"station_formats": {"description": "", "type": ["string", "null"]},
 										"station_location": {"description": "", "type": ["string", "null"]},
 										"title": {"description": "", "type": ["string", "null"]},
+										"page_url": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"station_id": {"description": "", "type": ["string", "null"]},
 										"call_letters": {"description": "", "type": ["string", "null"]},
@@ -122,6 +122,7 @@ window.mParticleSchema = {
 										"module_element_num": {"description": "", "type": ["string", "null"]},
 										"screen_position": {"description": "", "type": ["string", "null"]},
 										"title": {"description": "", "type": ["string", "null"]},
+										"page_url": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"station_id": {"description": "", "type": ["string", "null"]},
 										"call_letters": {"description": "", "type": ["string", "null"]},
@@ -151,8 +152,8 @@ window.mParticleSchema = {
 									"properties": {
 										"search_term": {"description": "", "type": ["string", "null"]},
 										"search_num_results": {"description": "", "type": ["number", "null"]},
-										"page_url": {"description": "", "type": ["string", "null"], "format": "uri"},
 										"title": {"description": "", "type": ["string", "null"]},
+										"page_url": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"station_id": {"description": "", "type": ["string", "null"]},
 										"call_letters": {"description": "", "type": ["string", "null"]},
@@ -188,9 +189,12 @@ window.mParticleSchema = {
 										"search_term": {"description": "", "type": ["string", "null"]},
 										"search_term_selected": {"description": "", "type": ["string", "null"]},
 										"search_term_position": {"description": "", "type": ["number", "null"]},
+										"title": {"description": "", "type": ["string", "null"]},
+										"page_url": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"page_url": {"description": "", "type": ["string", "null"], "format": "uri"},
-										"call_sign": {"description": "", "type": ["string", "null"]}
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
+										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									},
 									"required": [],
 									"type": "object"
@@ -212,19 +216,11 @@ window.mParticleSchema = {
 				"type": "json_schema", "definition": {
 					"properties": {
 						"data": {
-							"additionalProperties": true,
-							"properties": {
+							"additionalProperties": true, "properties": {
 								"custom_attributes": {
 									"additionalProperties": false,
 									"description": "",
 									"properties": {
-										"domain": {
-											"description": "",
-											"type": ["string", "null"],
-											"format": "hostname"
-										},
-										"page_url": {"description": "", "type": ["string", "null"], "format": "uri"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
 										"container_id": {"description": "", "type": ["string", "null"]},
 										"module_type": {"description": "", "type": ["string", "null"]},
 										"module_name": {"description": "", "type": ["string", "null"]},
@@ -237,14 +233,18 @@ window.mParticleSchema = {
 										},
 										"form_name": {"description": "", "type": ["string", "null"]},
 										"form_position": {"description": "", "type": ["string", "null"]},
-										"form_destination": {"description": "", "type": ["string", "null"]}
+										"form_destination": {"description": "", "type": ["string", "null"]},
+										"title": {"description": "", "type": ["string", "null"]},
+										"page_url": {"description": "", "type": ["string", "null"]},
+										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
+										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									},
 									"required": [],
 									"type": "object"
 								}
-							},
-							"required": [],
-							"type": "object"
+							}, "required": [], "type": "object"
 						}
 					}
 				}
@@ -263,16 +263,15 @@ window.mParticleSchema = {
 									"additionalProperties": false,
 									"description": "",
 									"properties": {
-										"page_url": {
-											"description": "",
-											"type": ["string", "null"],
-											"format": "uri"
-										},
 										"from_page_url": {"description": "", "type": ["string", "null"]},
 										"content_name": {"description": "", "type": ["string", "null"]},
 										"shared_to_service": {"description": "", "type": ["string", "null"]},
-										"domain": {"description": "", "type": ["string", "null"]},
-										"call_sign": {"description": "", "type": ["string", "null"]}
+										"title": {"description": "", "type": ["string", "null"]},
+										"page_url": {"description": "", "type": ["string", "null"]},
+										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
+										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									},
 									"required": [],
 									"type": "object"
@@ -301,15 +300,14 @@ window.mParticleSchema = {
 									"additionalProperties": false,
 									"description": "",
 									"properties": {
-										"page_url": {
-											"description": "",
-											"type": ["string", "null"],
-											"format": "uri"
-										},
-										"domain": {"description": "", "type": ["string", "null"]},
-										"call_sign": {"description": "", "type": ["string", "null"]},
 										"podcast_name": {"description": "", "type": ["string", "null"]},
-										"episode_title": {"description": "", "type": ["string", "null"]}
+										"episode_title": {"description": "", "type": ["string", "null"]},
+										"title": {"description": "", "type": ["string", "null"]},
+										"page_url": {"description": "", "type": ["string", "null"]},
+										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
+										"station_id": {"description": "", "type": ["string", "null"]},
+										"call_letters": {"description": "", "type": ["string", "null"]},
+										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									},
 									"required": [],
 									"type": "object"
@@ -880,5 +878,5 @@ window.mParticleSchema = {
 				}
 			}
 		}]
-	},
+	}
 };
