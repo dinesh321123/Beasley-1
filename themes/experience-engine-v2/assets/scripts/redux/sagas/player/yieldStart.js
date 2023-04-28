@@ -1,7 +1,7 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, takeLatest, select } from 'redux-saga/effects';
 import { sendInlineAudioPlaying } from '../../../library/google-analytics';
 import { ACTION_PLAYER_START } from '../../actions/player';
-import { showSignInModal } from '../../actions/modal';
+// import { showSignInModal } from '../../actions/modal';
 
 /**
  * @function yieldStart
@@ -14,7 +14,8 @@ function* yieldStart() {
 	const modalStore = yield select(({ modal }) => modal);
 
 	if (!authStore.user && !modalStore.signInWasShown) {
-		yield put(showSignInModal());
+		// disable signin
+		// yield put(showSignInModal());
 	}
 
 	// Get interval from global
