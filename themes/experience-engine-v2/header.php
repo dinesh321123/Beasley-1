@@ -42,7 +42,7 @@ use Bbgi\Integration\Google;
 		if (isset($wp_query->query['post_type'])) {
 			$headerCacheTag[] = "archive-" . $wp_query->query['post_type'];
 			$headerCacheTag[] = $wp_query->query['post_type'];
-			$mparticle_pageview_event_data['mParticleContentType'] = $wp_query->query['post_type'];;
+			$mparticle_pageview_event_data['mParticleContentType'] = $wp_query->query['post_type'];
 		}
 
 	}  else {
@@ -71,6 +71,7 @@ use Bbgi\Integration\Google;
 	if ( is_search() && isset($_GET['s'] ) ) {
 		if( !empty($mparticle_pageview_event_data_search_page) ) {
 			$mparticle_pageview_event_data = $mparticle_pageview_event_data_search_page;
+			$mparticle_pageview_event_data['mParticleContentType'] = "search results";
 		}
 	}
 
@@ -149,7 +150,6 @@ use Bbgi\Integration\Google;
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_author\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'secondary_author\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'consent_cookie\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'prebid_enabled\', window.bbgiconfig?.prebid_enabled);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'publish_date\', %s);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'publish_day_of_the_week\', %s);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'publish_hour_of_the_day\', %s);

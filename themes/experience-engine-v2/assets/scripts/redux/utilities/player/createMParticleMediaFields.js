@@ -32,7 +32,9 @@ export default function createMParticleMediaFields(
 		streamParams.primary_category_id = '?LiveStreamCategoryID?';
 		streamParams.show_name = '?LiveStreamShowName?';
 		streamParams.show_id = '?LiveStreamShowID?';
-		streamParams.content_daypart = '?LiveStreamContentDayPart?';
+		const currentDateTime = new Date();
+		const hourOfDay = currentDateTime.getHours() || 0;
+		streamParams.content_daypart = window.getDayPart(hourOfDay);
 	} else {
 		streamParams.stream_type = 'OnDemand';
 		streamParams.content_duration = 1000 * 60 * 60 * 24; // Default to 1 day

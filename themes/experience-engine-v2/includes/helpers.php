@@ -500,7 +500,7 @@ if ( ! function_exists( 'ee_mparticle_get_author_data' ) ) :
 
 		$response['author'] = $post->post_author ? get_the_author_meta( 'login', $post->post_author ) : '';
 		$primary_author = get_field( 'primary_author_cpt', $post );
-		$response['primary_author'] = $primary_author ? get_the_author_meta( 'login', $primary_author ) : '';
+		$response['primary_author'] = $primary_author ? get_the_author_meta( 'login', $primary_author ) : $response['author'];
 		$secondary_author = get_field( 'secondary_author_cpt', $post );
 		$response['secondary_author'] = $secondary_author ? get_the_author_meta( 'login', $secondary_author ) : '';
 
