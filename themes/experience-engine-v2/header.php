@@ -45,6 +45,10 @@ use Bbgi\Integration\Google;
 			$mparticle_pageview_event_data['mParticleContentType'] = $wp_query->query['post_type'];
 		}
 
+		if ( is_category() ) {
+			$mparticle_pageview_event_data['mParticleContentType'] = 'magazine';
+		}
+
 	}  else {
 		global $post;
 		$currentPostType	= "";
