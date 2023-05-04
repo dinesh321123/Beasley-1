@@ -3,10 +3,17 @@
  * Class CommonSettings
  */
 class CommonSettings {
+
+	function __construct()
+	{
+		$this->init();
+	}
+
 	/**
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
+		add_action( 'admin_init', array( __CLASS__ , 'settings_admin_init' ),0 );
 		add_action( 'init', array( __CLASS__, 'settings_cpt_init' ), 0 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'required_alt_text' ) );	// Script for validate Alt text from Add media button
@@ -51,6 +58,29 @@ class CommonSettings {
 	 */
 	public static function allow_sticky_posttype_list() {
 		return (array) apply_filters( 'allow-sticky-for-posttypes', array( 'post', 'page', 'tribe_events', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'gmr_album', 'contest', 'show', 'podcast', 'episode', 'content-kit' ) );
+	}
+
+	public static function settings_admin_init() {
+		$author_page			= get_page_by_path( 'authors', OBJECT );
+		if (!isset($author_page)) {
+			$author_title		= 'Authors Posts';				// Post title
+			$author_content		= '';							// Post Description
+			$author_template	= 'templates/postslist.php';	// Add template Name Here
+			$author_page_exist	= get_page_by_title($author_title);	// Author Exist
+			$author_array		= array(
+					'post_type'		=> 'page',
+					'post_title'	=> $author_title,
+					'post_content'	=> $author_content,
+					'post_status'	=> 'publish',
+					'post_author'	=> 1,
+					);
+			if (!isset($author_page_exist->ID)) {
+				$author_id	= wp_insert_post($author_array);
+				if (!empty($author_template)) {
+					update_post_meta($author_id, '_wp_page_template', $author_template);
+				}
+			}
+		}
 	}
 
 	public static function required_alt_text() {
@@ -139,6 +169,7 @@ class CommonSettings {
 	}
 
 	public static function settings_cpt_init() {
+
 		// Register custom capability for Draft Kings On/Off Setting and Max mega menu
 		$roles = [ 'administrator' ];
 
@@ -150,8 +181,14 @@ class CommonSettings {
 				$role_obj->add_cap('manage_max_mega_menu', false);
 			}
 		}
-
+		add_filter('query_vars', array( __CLASS__, 'add_query_vars'));
 		add_filter( 'megamenu_options_capability', array( __CLASS__, 'megamenu_options_capability_callback' ) );
+		
+	}
+
+	public static function add_query_vars( $author_query_vars ) {
+		$author_query_vars[] = 'author_id';
+		return $author_query_vars;
 	}
 
 	public static function megamenu_options_capability_callback() {
@@ -203,4 +240,5 @@ class CommonSettings {
 	}
 }
 
-CommonSettings::init();
+// CommonSettings::init();
+new CommonSettings();
