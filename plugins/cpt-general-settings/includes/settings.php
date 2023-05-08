@@ -127,6 +127,9 @@ class CommonSettings {
 	public static function allow_require_feature_img_posttype_list() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'post', 'page', 'listicle_cpt', 'affiliate_marketing' )  );
 	}
+	public static function general_admin() {
+		return (array) apply_filters( 'allow-general-admin-posttype', array( 'tribe_events' )  );
+	}
 
 	/**
 	 * Enqueues admin scripts and styles.
@@ -141,6 +144,11 @@ class CommonSettings {
 		if ( in_array( $typenow, CommonSettings::allow_fontawesome_posttype_list() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			wp_register_style('general-font-awesome',GENERAL_SETTINGS_CPT_URL . "assets/css/general-font-awesome". $postfix .".css", array(), GENERAL_SETTINGS_CPT_VERSION, 'all');
 			wp_enqueue_style('general-font-awesome');
+		}
+
+		if ( in_array( $typenow, CommonSettings::general_admin() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			wp_register_style('general-admin',GENERAL_SETTINGS_CPT_URL . "assets/css/general-admin". $postfix .".css", array(), GENERAL_SETTINGS_CPT_VERSION, 'all');
+			wp_enqueue_style('general-admin');
 		}
 
 		if ( in_array( $typenow, CommonSettings::allow_require_feature_img_posttype_list() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
