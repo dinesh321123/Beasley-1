@@ -14,7 +14,6 @@ window.mParticleSchema = {
 										"primary_category_id": {"description": "", "type": ["string", "null"]},
 										"show_name": {"description": "", "type": ["string", "null"]},
 										"show_id": {"description": "", "type": ["string", "null"]},
-										"tags": {"description": "", "type": ["string", "null"]},
 										"content_type": {"description": "", "type": ["string", "null"]},
 										"view_type": {
 											"description": "",

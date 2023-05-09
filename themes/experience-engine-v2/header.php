@@ -138,7 +138,6 @@ use Bbgi\Integration\Google;
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_category_id\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'show_name\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'show_id\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'tags\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'content_type\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'view_type\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_id\', \'%s\');
@@ -176,7 +175,6 @@ use Bbgi\Integration\Google;
 							$mparticle_pageview_event_data['mParticle_category'] ? $mparticle_pageview_event_data['mParticle_category']->slug : 'null',
 							$mparticle_pageview_event_data['mParticle_show'] ? $mparticle_pageview_event_data['mParticle_show']->name : 'null',
 							$mparticle_pageview_event_data['mParticle_show'] ? $mparticle_pageview_event_data['mParticle_show']->slug : 'null',
-							$mparticle_pageview_event_data['mParticle_tags'] ?: 'null',
 							$mparticle_pageview_event_data['mParticleContentType'] ?: 'null',
 							'primary',
 							$mparticle_pageview_event_data['mParticle_select_embed_parent_id'] ?: 'null',

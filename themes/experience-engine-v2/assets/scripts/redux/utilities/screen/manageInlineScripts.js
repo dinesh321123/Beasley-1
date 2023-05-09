@@ -3,7 +3,7 @@ export default function manageInlineScripts(scriptArray) {
 		scriptArray.forEach(inlineScript => {
 			try {
 				// eslint-disable-next-line no-eval
-				eval(inlineScript.replace(`\\`, `\\\\`));
+				eval(inlineScript);
 			} catch {
 				console.error(`ERROR RUNNING INLINE SCRIPT -> '${inlineScript}'`);
 			}
