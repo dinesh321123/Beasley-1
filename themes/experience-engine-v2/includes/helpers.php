@@ -546,7 +546,10 @@ if ( ! function_exists( 'ee_mparticle_prepare_pageview_data' ) ) :
 		$mParticleContentType = get_post_type( $post );
 		$mParticleContentType = get_content_type_text( $mParticleContentType );
 
-		$mapFunction = fn( $value )  => isset( $value ) && is_string( $value ) ? str_replace('&quot;', "\'", addslashes(htmlspecialchars( $value ))) : $value;
+		$sourceChars = array("[&quot;", "&quot;,&quot;", "&quot;]", "\\&quot;");
+		$destinationChars = array('["', '","', '"]', "'");
+
+		$mapFunction = fn( $value )  => isset( $value ) && is_string( $value ) ? str_replace($sourceChars, $destinationChars, addslashes(htmlspecialchars( $value ))) : $value;
 		return array_map($mapFunction, [
 			'mParticleContentType'						=> $mParticleContentType,
 			'mParticle_category'						=> $mParticle_category ?: '',
