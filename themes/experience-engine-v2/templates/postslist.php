@@ -8,66 +8,85 @@
 
 <?php
 $author_id = get_query_var( 'author_id' );
-echo '<div class="', join( ' ', get_post_class() ), '">'; ?>
+$user_data = get_userdata($author_id);
 
-	<div class="archive-title content-wrap">
-		<h1>
-			<span>
+if($author_id == '' || !$user_data){
+
+	echo '<div class="', join( ' ', get_post_class() ), '">'; ?>
+		<div class="archive-title content-wrap">
+			<h1>You done have rights to access this page directly</h1>
+		</div><?php
+	echo '</div>';
+
+}else{
+
+	echo '<div class="', join( ' ', get_post_class() ), '">'; ?>
+
+		<div class="archive-title content-wrap">
+			<h1>
+				<span>
+					<?php
+					echo get_the_author_meta('display_name', $author_id);
+					?>
+				</span>
+			</h1>
+		</div>
+
+	<?php
+		$pre_query = array(
+				'post_type' => array('post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing'),
+				// 'post_author'	=> $author_id, //Author ID
+				'meta_query' => array(
+						'relation' => 'OR',
+						array('key' => 'primary_author_cpt','value' => $author_id,'compare' => '=',),
+						array('key' => 'secondary_author_cpt','value' => $author_id,'compare' => '=',),
+						),
+				'post_status' => 'publish',
+				'paged' => get_query_var( 'paged' ),
+				'posts_per_page'=> '16',
+				'search_author_id' => $author_id
+		);
+		add_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
+		$author_query = new WP_Query( $pre_query );
+		remove_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
+		// echo "<pre>", print_r($author_query->request), "</pre>";
+		if ( $author_query->have_posts() ) {
+			echo '<div class="archive-tiles content-wrap -grid -large">';
+			while ( $author_query->have_posts() ) {
+				$author_query->the_post(); ?>
+				<div data-post-id="post" <?php post_class(); ?> >
+				<?php get_template_part( 'partials/tile/thumbnail' ); ?>
+				<?php get_template_part( 'partials/tile/title' ); ?>
+				</div>
 				<?php
-				echo get_the_author_meta('display_name', $author_id);
-				?>
-			</span>
-		</h1>
-	</div>
+			}
+			echo '</div>';
+			echo '<div class="content-wrap">';
+			ee_load_more( $author_query );
+			echo '</div>';
 
- <?php
-	$pre_query = array(
-			'post_type' => array('post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing'),
-			// 'post_author'	=> $author_id, //Author ID
-			'meta_query' => array(
-					'relation' => 'OR',
-					array('key' => 'primary_author_cpt','value' => $author_id,'compare' => '=',),
-					array('key' => 'secondary_author_cpt','value' => $author_id,'compare' => '=',),
-					),
-			'post_status' => 'publish',
-			'paged' => get_query_var( 'paged' ),
-			'posts_per_page'=> '16',
-			'search_author_id' => $author_id
-	);
-	add_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
-	$author_query = new WP_Query( $pre_query );
-	remove_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
-	// echo "<pre>", print_r($author_query->request), "</pre>";
-	if ( $author_query->have_posts() ) {
-		echo '<div class="archive-tiles content-wrap -grid -large">';
-		while ( $author_query->have_posts() ) {
-			$author_query->the_post(); ?>
-			<div data-post-id="post" <?php post_class(); ?> >
-			<?php get_template_part( 'partials/tile/thumbnail' ); ?>
-			<?php get_template_part( 'partials/tile/title' ); ?>
-			</div>
-			<?php
+		} else {
+			echo '<div class="content-wrap">';
+				ee_the_have_no_posts();
+			echo '</div>';
 		}
-		echo '</div>';
-		echo '<div class="content-wrap">';
-		ee_load_more( $author_query );
-		echo '</div>';
+	wp_reset_postdata();
 
-	} else {
-		echo '<div class="content-wrap">';
-			ee_the_have_no_posts();
-		echo '</div>';
+	echo '</div>';
+}
+
+function searchWithAuthorID( $where, $wp_query ){
+	global $wpdb;
+	$post_status = 'publish';
+	$post_types = array('post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing'); // Replace with your custom post types
+	$post_types_sql = implode("','", $post_types);
+
+	if ( $search_term = $wp_query->get( 'search_author_id' ) ) {
+		$where .= ' or post_author = '. $search_term;
+		$where .= " AND {$wpdb->posts}.post_status = '{$post_status}'";
+		$where .= " AND {$wpdb->posts}.post_type IN ('{$post_types_sql}')";
 	}
-wp_reset_postdata();
-
-echo '</div>';
-
- function searchWithAuthorID( $where, $wp_query ){
-	 global $wpdb;
-	 if ( $search_term = $wp_query->get( 'search_author_id' ) ) {
-		 $where .= ' or post_author = '. $search_term;
-	 }
-	 return $where;
- }
+	return $where;
+}
 
 get_footer(); ?>
