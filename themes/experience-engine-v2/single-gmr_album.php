@@ -32,7 +32,9 @@ the_post();
 		else :
 			ee_the_have_no_posts();
 		endif;
-	?></div>
+		?>	
+	</div>
+	<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
 </div><?php
 
 restore_current_blog();

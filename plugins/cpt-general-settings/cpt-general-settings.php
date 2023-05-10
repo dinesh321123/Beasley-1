@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: CPT - General admin settings
-Description: Settings to on/off Draft Kings iFrame, etc.
+Description: Settings to on/off draft kings iFrame, footer description, dashboard activity, whiz, newsletter signup form etc...
 Version: 0.0.1
 Author: Rupesh Jorkar (RJ)
 Author URI: https://bbgi.com/
@@ -29,6 +29,7 @@ include __DIR__ . '/includes/footer-description-settings.php';
 include __DIR__ . '/includes/dashboard-activity.php';
 include __DIR__ . '/includes/whiz-changes.php' ;
 include __DIR__ . '/includes/duplicate-listicle.php';
+include __DIR__ . '/includes/newsletter-signup-form.php';
 
 /** This should be removed after we confirm if logging the shutdown hook is successful */
 include __DIR__ . '/includes/shutdown-elasticsearch-log.php';

@@ -67,6 +67,7 @@ $contest_rules_output = ob_get_clean(); ?>
 			<?php echo $contest_rules_output; ?>
 
 			<?php get_template_part( 'partials/footer/common', 'description' ); ?>
+			<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>
