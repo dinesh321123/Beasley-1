@@ -19,6 +19,7 @@ export default function sendMParticlePlayMediaEvent() {
 	);
 	window.mediaSession.isStopped = false;
 
+	window.beasleyanalytics.setMParticlePerEventKeys();
 	const sessionStartOptions = {};
 	sessionStartOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
 		window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
@@ -26,6 +27,7 @@ export default function sendMParticlePlayMediaEvent() {
 	);
 	window.mediaSession.logMediaSessionStart(sessionStartOptions);
 
+	window.beasleyanalytics.setMParticlePerEventKeys();
 	const playOptions = {};
 	playOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
 		window.beasleyanalytics.BeasleyAnalyticsMParticleProvider

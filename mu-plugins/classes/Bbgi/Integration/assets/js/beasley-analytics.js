@@ -113,6 +113,13 @@ class BeasleyAnalytics {
 		}
 	}
 
+	setMParticlePerEventKeys() {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			return provider.setPerEventKeys.apply(provider, arguments);
+		}
+	}
+
 	fireLazyMParticlePageViewsForElementsWithMeta(elementList) {
 		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {

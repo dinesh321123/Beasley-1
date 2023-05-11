@@ -1,6 +1,8 @@
 export default function endMParticleMediaSession() {
 	if (!window.mediaSession?.isStopped) {
 		window.mediaSession.isStopped = true;
+
+		window.beasleyanalytics.setMParticlePerEventKeys();
 		const contentEndOptions = {};
 		contentEndOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
 			window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
@@ -8,6 +10,7 @@ export default function endMParticleMediaSession() {
 		);
 		window.mediaSession.logMediaContentEnd(contentEndOptions);
 
+		window.beasleyanalytics.setMParticlePerEventKeys();
 		const sessionEndOptions = {};
 		sessionEndOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
 			window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
