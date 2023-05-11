@@ -21,6 +21,7 @@
   "dependencies": {
     "@10up/eslint-config": "^1.0.9",
     "@10up/react-focus-trap-hoc": "^1.0.1",
+    "@mparticle/web-amplitude-kit": "^2.2.1",
     "@mparticle/web-media-sdk": "^1.4.6",
     "@mparticle/web-sdk": "^2.19.1",
     "bowser": "^2.9.0",
