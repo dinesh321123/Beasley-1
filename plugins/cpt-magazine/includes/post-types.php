@@ -14,7 +14,7 @@ class MagazineCPT {
 	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'magazine_cpt' ), 0 );
-		add_action( 'admin_init', array( __CLASS__, 'register_magazine_cap' ), 0 );
+		add_action( 'init', array( __CLASS__, 'register_magazine_cap' ), 0 );
 		add_action( 'wp_loaded', array( __CLASS__, 'acf_magazine_cpt' ), 0 );
 
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
@@ -42,19 +42,19 @@ class MagazineCPT {
 
 			if ( is_a( $role_obj, \WP_Role::class ) ) {
 
-				$role_obj->add_cap( "edit_{$singular}" , false ); 
-				$role_obj->add_cap( "edit_{$plural}" , false ); 
-				$role_obj->add_cap( "edit_others_{$plural}" , false ); 
-				$role_obj->add_cap( "publish_{$plural}" , false ); 
-				$role_obj->add_cap( "read_{$singular}" , false ); 
-				$role_obj->add_cap( "read_private_{$plural}" , false ); 
-				$role_obj->add_cap( "delete_{$singular}" , false ); 
-				$role_obj->add_cap( "delete_{$plural}" , false );
-				$role_obj->add_cap( "delete_private_{$plural}" , false );
-				$role_obj->add_cap( "delete_others_{$plural}" , false );
-				$role_obj->add_cap( "edit_published_{$plural}" , false );
-				$role_obj->add_cap( "edit_private_{$plural}" , false );
-				$role_obj->add_cap( "delete_published_{$plural}" , false );
+				$role_obj->add_cap( "edit_{$singular}" ); 
+				$role_obj->add_cap( "edit_{$plural}" ); 
+				$role_obj->add_cap( "edit_others_{$plural}" ); 
+				$role_obj->add_cap( "publish_{$plural}" ); 
+				$role_obj->add_cap( "read_{$singular}" ); 
+				$role_obj->add_cap( "read_private_{$plural}" ); 
+				$role_obj->add_cap( "delete_{$singular}" ); 
+				$role_obj->add_cap( "delete_{$plural}" );
+				$role_obj->add_cap( "delete_private_{$plural}" );
+				$role_obj->add_cap( "delete_others_{$plural}" );
+				$role_obj->add_cap( "edit_published_{$plural}" );
+				$role_obj->add_cap( "edit_private_{$plural}" );
+				$role_obj->add_cap( "delete_published_{$plural}" );
 			}
 		}
 	}
