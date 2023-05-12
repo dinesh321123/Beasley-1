@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import './library/geotargetly';
 import '../styles/main.css';
 import mParticle from '@mparticle/web-sdk';
+import amplitudeKit from '@mparticle/web-amplitude-kit';
 import { closestPolyfill } from './library';
 
 import createStore from './redux/store';
@@ -20,6 +21,9 @@ closestPolyfill();
 
 if (window.bbgiAnalyticsConfig?.mparticle_key) {
 	console.log('Configuring mparticle in bundle');
+
+	amplitudeKit.register(window.bbgiAnalyticsConfig.mParticleConfig);
+
 	// Configures the SDK. Note the settings below for isDevelopmentMode
 	// and logLevel.
 	mParticle.init(
