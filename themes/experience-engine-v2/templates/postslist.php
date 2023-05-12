@@ -12,11 +12,11 @@ $user_data = get_userdata($author_id);
 
 if($author_id == '' || !$user_data){
 
-	echo '<div class="', join( ' ', get_post_class() ), '">'; ?>
-		<div class="archive-title content-wrap">
-			<h1>You done have rights to access this page directly</h1>
-		</div><?php
-	echo '</div>';
+	global $wp_query;
+    $wp_query->set_404();
+    status_header(404);
+    include(get_404_template());
+    exit;
 
 }else{
 

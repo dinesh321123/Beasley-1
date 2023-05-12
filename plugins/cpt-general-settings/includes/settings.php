@@ -184,6 +184,8 @@ class CommonSettings {
 			}
 		}
 
+		add_rewrite_rule('^authors/([0-9]+)/?', 'index.php?pagename=authors&author_id=$matches[1]', 'top');
+
 	}
 
 	public static function add_query_vars( $author_query_vars ) {
