@@ -14,6 +14,9 @@
             var nsf_mailing_list_name 		= $("#nsf_mailing_list_name").val();
             var nsf_mailing_list_description = $("#nsf_mailing_list_description").val();
             var nsf_template_token 			= $("#nsf_template_token").val();
+            var nsf_siteid 			        = $("#nsf_siteid").val();
+            var nsf_domain 			        = $("#nsf_domain").val();
+            var nsf_page_path 			    = $("#nsf_page_path").val();
 
             if (name == "") {
                 $(".nsf-first-name").focus();
@@ -56,6 +59,9 @@
                     nsf_mailing_list_name : nsf_mailing_list_name,
                     nsf_mailing_list_description : nsf_mailing_list_description,
                     nsf_template_token : nsf_template_token,
+                    nsf_siteid : nsf_siteid,
+                    nsf_domain : nsf_domain,
+                    nsf_page_path : nsf_page_path,
 				},
                 beforeSend: function() {
                     $('.nsf-container #nsf-form .nsf-form-submit').prop('disabled', true).css('opacity', 0.5).css('cursor', 'not-allowed');

@@ -23,8 +23,7 @@ class NewsletterSignupForm {
 		wp_register_style('nsf-style',GENERAL_SETTINGS_CPT_URL . "assets/css/newsletter-signup-form". $postfix .".css", array(), GENERAL_SETTINGS_CPT_VERSION, 'all');
 		wp_enqueue_style('nsf-style');
 
-		// wp_register_script('nsf-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/newsletter-signup-form'. $postfix .'.js', array('jquery'), '1.0');
-		wp_register_script('nsf-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/newsletter-signup-form.js', array('jquery'), '1.0');
+		wp_register_script('nsf-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/newsletter-signup-form'. $postfix .'.js', array('jquery'), '1.0');
 		wp_localize_script( 
 			'nsf-script',
 			'nsf_ajax_object',
@@ -64,15 +63,17 @@ class NewsletterSignupForm {
 			$nsf_mailing_list_name			= get_option('nsf_mailing_list_name');
 			$nsf_mailing_list_description	= get_option('nsf_mailing_list_description');
 			$nsf_template_token				= get_option('nsf_template_token');
-
+			$siteid 						= (get_option( 'ee_publisher') != '') ? get_option( 'ee_publisher') : '';
+			$domain 						= get_site_url();
+			$page_path 						= get_permalink();
+			
+			$hidden_fields .= $siteid != '' ? '<input type="hidden" name="nsf_siteid" id="nsf_siteid" value="'.esc_attr($siteid).'">' : '';
+			$hidden_fields .= $domain != '' ? '<input type="hidden" name="nsf_domain" id="nsf_domain" value="'.esc_attr($domain).'">' : '';
+			$hidden_fields .= $page_path != '' ? '<input type="hidden" name="nsf_page_path" id="nsf_page_path" value="'.esc_attr($page_path).'">' : '';
 			$hidden_fields .= $attr['nsf_subscription_attributes'] != '' ? '<input type="hidden" name="nsf_subscription_attributes" id="nsf_subscription_attributes" value="'.esc_attr($attr['nsf_subscription_attributes']).'">' : ($nsf_subscription_attributes != '' ? '<input type="hidden" name="nsf_subscription_attributes" id="nsf_subscription_attributes" value="'.$nsf_subscription_attributes.'">' : '');
-
 			$hidden_fields .= $attr['nsf_subscription_id'] != '' ? '<input type="hidden" name="nsf_subscription_ID" id="nsf_subscription_ID" value="'.esc_attr($attr['nsf_subscription_id']).'">' : ($nsf_subscription_ID != '' ? '<input type="hidden" name="nsf_subscription_ID" id="nsf_subscription_ID" value="'.$nsf_subscription_ID.'">' : '');
-
 			$hidden_fields .= $attr['nsf_mailing_list_name'] != '' ? '<input type="hidden" name="nsf_mailing_list_name" id="nsf_mailing_list_name" value="'.esc_attr($attr['nsf_mailing_list_name']).'">' : ($nsf_mailing_list_name != '' ? '<input type="hidden" name="nsf_mailing_list_name" id="nsf_mailing_list_name" value="'.$nsf_mailing_list_name.'">' : '');
-
 			$hidden_fields .= $attr['nsf_mailing_list_description'] != '' ? '<input type="hidden" name="nsf_mailing_list_description" id="nsf_mailing_list_description" value="'.esc_attr($attr['nsf_mailing_list_description']).'">' : ($nsf_mailing_list_description != '' ? '<input type="hidden" name="nsf_mailing_list_description" id="nsf_mailing_list_description" value="'.$nsf_mailing_list_description.'">' : '');
-
 			$hidden_fields .= $attr['nsf_template_token'] != '' ? '<input type="hidden" name="nsf_template_token" id="nsf_template_token" value="'.esc_attr($attr['nsf_template_token']).'">' : ($nsf_template_token != '' ? '<input type="hidden" name="nsf_template_token" id="nsf_template_token" value="'.$nsf_template_token.'">' : '');
 
 			$html .= '<div class="nsf-container" id="root">';
@@ -163,6 +164,9 @@ class NewsletterSignupForm {
 			'nsf_mailing_list_name' 		=> sanitize_text_field($_POST['nsf_mailing_list_name']),
 			'nsf_mailing_list_description' 	=> sanitize_text_field($_POST['nsf_mailing_list_description']),
 			'nsf_template_token' 			=> sanitize_text_field($_POST['nsf_template_token']),
+			'domain'						=> esc_url($_POST['nsf_domain']),
+			'siteid'						=> sanitize_text_field($_POST['nsf_siteid']),
+			'pagepath'						=> esc_url($_POST['nsf_page_path']),
 		);
 
 		// Make an HTTP POST request using wp_remote_post()
