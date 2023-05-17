@@ -70,8 +70,8 @@ class SyndicationCPT {
 			$role_obj = get_role( $role );
 
 			if ( is_a( $role_obj, \WP_Role::class ) ) {
-				$role_obj->add_cap( 'manage_collection', false );
-				$role_obj->add_cap( 'assign_collection', false );
+				$role_obj->add_cap( 'manage_collection' );
+				$role_obj->add_cap( 'assign_collection' );
 			}
 		}
 	}
