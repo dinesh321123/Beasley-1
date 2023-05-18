@@ -14,6 +14,7 @@ class MagazineCPT {
 	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'magazine_cpt' ), 0 );
+		add_action( 'init', array( __CLASS__, 'register_magazine_cap' ), 0 );
 		add_action( 'wp_loaded', array( __CLASS__, 'acf_magazine_cpt' ), 0 );
 
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
@@ -23,6 +24,39 @@ class MagazineCPT {
 		// Add the custom columns to the magazine post type:
 		add_action( 'manage_'.self::MAGAZINE_POST_TYPE.'_posts_columns', array( __CLASS__, 'set_custom_edit_magazine_columns' ) );
 		add_action( 'manage_'.self::MAGAZINE_POST_TYPE.'_posts_custom_column', array( __CLASS__, 'custom_magazine_column' ), 10, 2);
+	}
+
+	/**
+	 * Register custom magazine capability for admins and DPDs.
+	 *
+	 * @return void
+	 */
+	public static function register_magazine_cap() {
+		$roles = [ 'administrator', 'dpd' ];
+		
+		$singular = 'cpt_magazine';
+		$plural = 'cpt_magazines';
+
+		foreach ( $roles as $role ) {
+			$role_obj = get_role( $role );
+
+			if ( is_a( $role_obj, \WP_Role::class ) ) {
+
+				$role_obj->add_cap( "edit_{$singular}" ); 
+				$role_obj->add_cap( "edit_{$plural}" ); 
+				$role_obj->add_cap( "edit_others_{$plural}" ); 
+				$role_obj->add_cap( "publish_{$plural}" ); 
+				$role_obj->add_cap( "read_{$singular}" ); 
+				$role_obj->add_cap( "read_private_{$plural}" ); 
+				$role_obj->add_cap( "delete_{$singular}" ); 
+				$role_obj->add_cap( "delete_{$plural}" );
+				$role_obj->add_cap( "delete_private_{$plural}" );
+				$role_obj->add_cap( "delete_others_{$plural}" );
+				$role_obj->add_cap( "edit_published_{$plural}" );
+				$role_obj->add_cap( "edit_private_{$plural}" );
+				$role_obj->add_cap( "delete_published_{$plural}" );
+			}
+		}
 	}
 
 	public static function set_custom_edit_magazine_columns($columns) {
@@ -120,7 +154,7 @@ class MagazineCPT {
 			'publicly_queryable' => true,
 			'query_var'          => true,
 			'rewrite'            => $rewrite,
-			'capability_type'    => array( 'magazine', 'magazines' ),
+			'capability_type'    => array( 'cpt_magazine', 'cpt_magazines' ),
 			'map_meta_cap'        => true,
 			'has_archive'        => true,
 			'supports'           => array( 'title' ),
