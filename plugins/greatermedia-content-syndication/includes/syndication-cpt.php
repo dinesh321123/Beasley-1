@@ -30,6 +30,7 @@ class SyndicationCPT {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_syndication_cpt' ) );
 		add_action( 'init', array( $this, 'register_collections_taxonomy' ) );
+		add_action( 'init', array( $this, 'register_custom_cap' ) );
 		add_action( 'admin_menu', array( $this, 'hide_publish_meta' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'subscription_admin_scripts' ) );
 		add_action( 'admin_head-post.php', array( $this, 'hide_publishing_actions' ) );
@@ -55,6 +56,24 @@ class SyndicationCPT {
 		add_filter( 'post_updated_messages', array( $this, 'custom_messages_for_subscription' ) );
 
 		add_action( 'wp_ajax_syndication_taxonomy_filters', array( $this, 'taxonomy_filters_callback' ) );
+	}
+
+	/**
+	 * Register custom capability for admins and editors.
+	 *
+	 * @return void
+	 */
+	public function register_custom_cap() {
+		$roles = [ 'administrator', 'dpd' ];
+
+		foreach ( $roles as $role ) {
+			$role_obj = get_role( $role );
+
+			if ( is_a( $role_obj, \WP_Role::class ) ) {
+				$role_obj->add_cap( 'manage_collection' );
+				$role_obj->add_cap( 'assign_collection' );
+			}
+		}
 	}
 
 	/**
@@ -90,7 +109,12 @@ class SyndicationCPT {
 			'query_var'         => true,
 			'rewrite'           => true,
 			'query_var'         => true,
-			'capabilities'      => array(),
+			'capabilities'      => [
+				'manage_terms' => 'manage_collection',
+				'delete_terms' => 'manage_collection',
+				'assign_terms' => 'assign_collection',
+				'edit_terms'   => 'manage_collection',
+			],
 		);
 
 		register_taxonomy( 'collection', array( 'post', 'announcement', 'content-kit', 'gmr_gallery', 'affiliate_marketing', 'listicle_cpt', 'show' ), $args );
