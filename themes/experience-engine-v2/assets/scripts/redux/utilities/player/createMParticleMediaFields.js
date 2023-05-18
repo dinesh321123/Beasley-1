@@ -2,6 +2,7 @@ const isPrimaryStream = tapID => {
 	return (
 		tapID &&
 		window.bbgiconfig?.streams &&
+		window.bbgiconfig.streams.length > 0 &&
 		window.bbgiconfig.streams[0]?.stream_tap_id === tapID
 	);
 };

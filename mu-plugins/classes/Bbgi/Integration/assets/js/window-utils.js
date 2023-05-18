@@ -1,7 +1,7 @@
 
 window.isWhiz = () => {
-	const searchParams = new URLSearchParams(window.location.search?.toLowerCase());
-	return searchParams.has('whiz')
+	const searchParams = new URLSearchParams(window.location?.search?.toLowerCase());
+	return searchParams && searchParams.has('whiz');
 };
 
 window.getDayPart = (hourOfDay) => {
