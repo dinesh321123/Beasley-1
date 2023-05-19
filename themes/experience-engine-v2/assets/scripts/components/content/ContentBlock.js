@@ -37,6 +37,7 @@ import Dimers from './embeds/Dimers';
 import DraftkingEmbed from './embeds/DraftkingEmbed';
 import AudienceEmbed from './embeds/Audience';
 import CancelAccount from './embeds/CancelAccount';
+import PreferenceCenter from './embeds/PreferenceCenter';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -71,6 +72,7 @@ const mapping = {
 	dimers: Dimers,
 	audience: AudienceEmbed,
 	cancelaccount: CancelAccount,
+	preferencecenter: PreferenceCenter,
 };
 
 /**

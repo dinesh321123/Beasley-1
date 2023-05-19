@@ -100,5 +100,5 @@
 @import "utilities/display";
 
 @import "../../node_modules/swiper/dist/css/swiper.css";
-
+@import "components/preferencecenter/preferencecenter";
 @import "components/cancelaccount/cancelaccount";

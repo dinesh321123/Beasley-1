@@ -376,6 +376,14 @@ export function deleteUser() {
 	});
 }
 
+export function getPreferenceLink(preferenceID) {
+	return getToken().then(token =>
+		fetch(
+			__api`user/getPreferenceURL/?authorization=${token}&preferenceID=${preferenceID}`,
+		),
+	);
+}
+
 export default {
 	saveUser,
 	getUser,
