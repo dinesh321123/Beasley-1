@@ -358,6 +358,24 @@ export function fixMegaSubMenuWidth() {
 	}
 }
 
+export function deleteUser() {
+	const params = {
+		method: 'delete',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: null,
+	};
+	return getToken().then(token => {
+		fetch(__api`user?authorization=${token}`, params).then(response => {
+			// Log user out
+			firebaseAuth.signOut();
+			response.json();
+		});
+	});
+}
+
 export default {
 	saveUser,
 	getUser,
@@ -371,4 +389,5 @@ export default {
 	fetchPublisherInformation,
 	getOffsetEl,
 	fixMegaSubMenuWidth,
+	deleteUser,
 };

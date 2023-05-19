@@ -100,3 +100,5 @@
 @import "utilities/display";
 
 @import "../../node_modules/swiper/dist/css/swiper.css";
+
+@import "components/cancelaccount/cancelaccount";
