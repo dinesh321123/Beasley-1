@@ -47,17 +47,10 @@ class GallerySelection extends \Bbgi\Module {
 	 * @return string Shortcode markup.
 	 */
 	public function render_shortcode( $atts ) {
-		global $cpt_embed_flag, $cpt_embed_ids;
+		global $cpt_embed_flag;
 		$post_id = get_the_ID();
 
-		// echo "<pre>", "FROM Gallery: Post ID: ".$post_id, "</pre>";
 		if( !empty($cpt_embed_flag) && $cpt_embed_flag[$post_id] ) {  // Check for the source post already have embed
-			// echo "<pre>", "This post is already have one embed", "</pre>";
-			return '';
-		}
-
-		if( !empty($cpt_embed_ids) && in_array($post_id, $cpt_embed_ids) ) {  // Check if the post is already embed in other post
-			// echo "<pre>", "This post is already embedded", "</pre>";
 			return '';
 		}
 
@@ -99,7 +92,6 @@ class GallerySelection extends \Bbgi\Module {
 				}
 			}
 			$content_updated .= $this->stringify_selected_gallery($content);
-			// echo "<pre>", "Gallery updating embed flag", "</pre>";
 			$cpt_embed_flag[$post_id] = true;
 			return $content_updated;
 		}
@@ -139,7 +131,6 @@ class GallerySelection extends \Bbgi\Module {
 			}
 		}
 		$content_updated .= $this->stringify_selected_gallery($content);
-		// echo "<pre>", "Gallery updating embed flag", "</pre>";
 		$cpt_embed_flag[$post_id] = true;
 		return $content_updated;
 	}
