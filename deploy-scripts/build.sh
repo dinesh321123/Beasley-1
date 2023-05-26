@@ -16,8 +16,8 @@ nvm use
 set -x
 node --version
 
-# update composer to 2.x
-composer self-update --2
+# composer V2 is declared in CI/CD environment variable
+#composer self-update --2
 
 composer install --no-dev -o
 

@@ -93,7 +93,17 @@ function scrollToSegmentation(type, item, heading_item = null) {
 
 	if (window.loadVimeoPlayers) {
 		try {
-			window.loadVimeoPlayers();
+			if(document.readyState === 'ready' || document.readyState === 'complete') {
+				window.loadVimeoPlayers();
+			} else {
+				const handleSendPageEventFunc = () => {
+					if (document.readyState === 'ready' || document.readyState === 'complete') {
+						window.loadVimeoPlayers();
+						document.removeEventListener('readystatechange', handleSendPageEventFunc);
+					}
+				};
+				document.addEventListener('readystatechange', handleSendPageEventFunc);
+			}
 		} catch (err) {
 			console.log("Error while initializing Vimeo Prerolls ", err.message);
 		}

@@ -128,7 +128,7 @@ function gmr_ll_live_link_suggest() {
 		'ignore_sticky_posts'  => true,
 	) );
 
-	echo implode( wp_list_pluck( $results, 'post_title' ), PHP_EOL );
+	echo implode( PHP_EOL, wp_list_pluck( $results, 'post_title' ) );
 	exit;
 }
 

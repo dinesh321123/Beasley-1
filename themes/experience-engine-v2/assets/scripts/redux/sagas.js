@@ -23,6 +23,7 @@ import {
 	watchAutoHideListenLive,
 	watchHideListenLive,
 	watchShowListenLive,
+	watchLoadVimeo,
 } from './sagas/';
 
 /**
@@ -53,5 +54,6 @@ export default function* rootSaga() {
 		watchAutoHideListenLive(),
 		watchHideListenLive(),
 		watchShowListenLive(),
+		watchLoadVimeo(),
 	]);
 }

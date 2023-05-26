@@ -1,5 +1,5 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
-import { lyticsTrack } from '../../utilities';
+import { endMParticleMediaSession, lyticsTrack } from '../../utilities';
 import { ACTION_PAUSE } from '../../actions/player';
 
 /**
@@ -23,6 +23,8 @@ function* yieldPause() {
 			yield call([player, 'stop']);
 		}
 	}
+
+	yield call(endMParticleMediaSession);
 
 	// Call lyticsTrack
 	if (

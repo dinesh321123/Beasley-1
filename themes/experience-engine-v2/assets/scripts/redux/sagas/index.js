@@ -16,6 +16,7 @@ export { default as watchSeekPosition } from './player/yieldSeekPosition';
 export { default as watchAdPlaybackStart } from './player/yieldAdPlaybackStart';
 export { default as watchAdPlaybackComplete } from './player/yieldAdPlaybackComplete';
 export { default as watchGamAdPlaybackStart } from './player/yieldGamAdPlaybackStart';
+export { default as watchLoadVimeo } from './player/yieldLoadVimeo';
 
 // Screen
 export { default as watchInitPage } from './screen/yieldInitPage';

@@ -55,6 +55,7 @@ class BlogData {
 		add_action( 'init', array( __CLASS__, 'get_content_site_id' ), 1 );
 		add_action( 'wp_ajax_syndicate-now', array( __CLASS__, 'syndicate_now' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'add_notice_for_undefined' ) );
+		add_action( 'ep_sync_post_on_transition', array( __CLASS__, 'sync_post_on_transition' ) );
 
 		self::$syndication_uniqid = uniqid( "SYN", true );
 	}
@@ -593,6 +594,20 @@ class BlogData {
 	}
 
 	/**
+	 * Sync post on transition.
+	 *
+	 * @param array $params Parameters.
+	 */
+	public static function sync_post_on_transition( $params ) {
+		$post_id = $params['post_id'];
+	
+		if ( class_exists( '\ElasticPress\Indexables' ) ) {
+			error_log ( "Indexing Logs: Running index on document $post_id after syndication complete." );
+			\ElasticPress\Indexables::factory()->get( 'post' )->index( $post_id );
+		}
+	}
+
+	/**
 	 * Import posts from content site and all related media
 	 *
 	 * @param \WP_Post $post
@@ -908,6 +923,10 @@ class BlogData {
 			}
 		}
 
+		if ( function_exists( 'wp_async_task_add' ) ) {
+			wp_async_task_add( 'ep_sync_post_on_transition', array( 'post_id' => $post_id ), 'high' );
+		}
+		
 		clean_post_cache( $post_id );
 
 		/**
@@ -1293,6 +1312,50 @@ class BlogData {
 		restore_current_blog();
 
 		return $terms;
+	}
+
+	/**
+	 * Get all terms of all taxonomies from the content site
+	 *
+	 * @return array
+	 */
+	public static function verifySourceSubscription( $source_site_id, $subscription_filter_terms_data, $enabled_filter_taxonomy, $current_blog_id ) {
+		global $switched;
+		global $wpdb;
+
+		$existingSubs = array();
+		switch_to_blog( self::$content_site_id );
+
+		$args = array();
+		if( isset( $subscription_filter_terms_data ) ) {
+			$args = array(
+					'meta_query' => array(
+							array(
+									'key' => 'subscription_filter_terms-'.$enabled_filter_taxonomy,
+									'value' => $subscription_filter_terms_data,
+							),
+							array(
+									'key' => 'subscription_source',	/*Rupesh Test this source side id data*/
+									'value' => $current_blog_id,		/*Here need to applied current blog id and its WMMR*/
+							)
+					)
+			);
+		}
+
+		$defaults = array(
+				'post_type'      => 'subscription',
+				'post_status'    => 'any',
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		$existingSubs = get_posts( $args );
+		// echo $wpdb->last_query; exit;
+		// echo "<pre>", print_r($existingSubs). '</pre>'; exit;
+
+		restore_current_blog();
+
+		return $existingSubs;
 	}
 
 	/**

@@ -14,6 +14,7 @@ class GreaterMediaGalleryCPT {
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'gallery_cpt' ), 0 );
 		add_action( 'init', array( __CLASS__, 'album_cpt' ), 0 );
+		add_action( 'wp_loaded', array( __CLASS__, 'acf_gallery_cpt' ), 0 );
 
 		add_filter( 'gmr_live_link_suggestion_post_types', array( __CLASS__, 'extend_live_link_suggestion_post_types' ) );
 		add_filter( 'gmr-homepage-curation-post-types', array( __CLASS__, 'extend_curration_post_types' ) );
@@ -22,67 +23,7 @@ class GreaterMediaGalleryCPT {
 
 		self::add_save_actions();
 	}
-
-	public static function add_save_actions() {
-		add_action( 'save_post_' . self::GALLERY_POST_TYPE, array( __CLASS__, 'save_gallery' ), 10, 2 );
-	}
-
-	public static function remove_save_actions() {
-		remove_action( 'save_post_' . self::GALLERY_POST_TYPE, array( __CLASS__, 'save_gallery' ), 10 );
-	}
-
-	/**
-	 * Add the Gallery Content Type
-	 */
-	public static function gallery_cpt() {
-		$labels = array(
-			'name'                => 'Galleries',
-			'singular_name'       => 'Gallery',
-			'menu_name'           => 'Galleries',
-			'parent_item_colon'   => 'Parent Item:',
-			'all_items'           => 'All Galleries',
-			'view_item'           => 'View Gallery',
-			'add_new_item'        => 'Add New Gallery',
-			'add_new'             => 'Add New',
-			'edit_item'           => 'Edit Gallery',
-			'update_item'         => 'Update Gallery',
-			'search_items'        => 'Search Galleries',
-			'not_found'           => 'Not found',
-			'not_found_in_trash'  => 'Not found in Trash',
-		);
-
-		$rewrite = array(
-			'slug'                => 'galleries',
-			'with_front'          => true,
-			'pages'               => true,
-			'feeds'               => true,
-		);
-
-		$args = array(
-			'label'               => 'gallery',
-			'description'         => 'A post type for Galleries',
-			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', ),
-			'taxonomies'          => array( 'post_tag', 'category' ),
-			'hierarchical'        => false,
-			'public'              => true,
-			'show_ui'             => true,
-			'show_in_menu'        => true,
-			'show_in_nav_menus'   => true,
-			'show_in_admin_bar'   => true,
-			'menu_position'       => 31,
-			'menu_icon'           => 'dashicons-format-gallery',
-			'can_export'          => true,
-			'has_archive'         => true,
-			'exclude_from_search' => false,
-			'publicly_queryable'  => true,
-			'rewrite'             => $rewrite,
-			'capability_type'     => array( 'gallery', 'galleries' ),
-			'map_meta_cap'        => true,
-		);
-
-		register_post_type( self::GALLERY_POST_TYPE, $args );
-
+	public static function acf_gallery_cpt() {
 		acf_add_local_field_group( array(
 			'key'                   => 'gallery_settings',
 			'title'                 => 'Gallery Settings',
@@ -188,6 +129,67 @@ class GreaterMediaGalleryCPT {
 				),
 			),
 		) );
+	}
+
+	public static function add_save_actions() {
+		add_action( 'save_post_' . self::GALLERY_POST_TYPE, array( __CLASS__, 'save_gallery' ), 10, 2 );
+	}
+
+	public static function remove_save_actions() {
+		remove_action( 'save_post_' . self::GALLERY_POST_TYPE, array( __CLASS__, 'save_gallery' ), 10 );
+	}
+
+	/**
+	 * Add the Gallery Content Type
+	 */
+	public static function gallery_cpt() {
+		$labels = array(
+			'name'                => 'Galleries',
+			'singular_name'       => 'Gallery',
+			'menu_name'           => 'Galleries',
+			'parent_item_colon'   => 'Parent Item:',
+			'all_items'           => 'All Galleries',
+			'view_item'           => 'View Gallery',
+			'add_new_item'        => 'Add New Gallery',
+			'add_new'             => 'Add New',
+			'edit_item'           => 'Edit Gallery',
+			'update_item'         => 'Update Gallery',
+			'search_items'        => 'Search Galleries',
+			'not_found'           => 'Not found',
+			'not_found_in_trash'  => 'Not found in Trash',
+		);
+
+		$rewrite = array(
+			'slug'                => 'galleries',
+			'with_front'          => true,
+			'pages'               => true,
+			'feeds'               => true,
+		);
+
+		$args = array(
+			'label'               => 'gallery',
+			'description'         => 'A post type for Galleries',
+			'labels'              => $labels,
+			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', ),
+			'taxonomies'          => array( 'post_tag', 'category' ),
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_nav_menus'   => true,
+			'show_in_admin_bar'   => true,
+			'menu_position'       => 31,
+			'menu_icon'           => 'dashicons-format-gallery',
+			'can_export'          => true,
+			'has_archive'         => true,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => true,
+			'rewrite'             => $rewrite,
+			'capability_type'     => array( 'gallery', 'galleries' ),
+			'map_meta_cap'        => true,
+		);
+
+		register_post_type( self::GALLERY_POST_TYPE, $args );
 	}
 
 	public static function album_cpt() {

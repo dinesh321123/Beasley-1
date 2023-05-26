@@ -53,7 +53,7 @@ class CommonSettings {
 		return (array) apply_filters( 'allow-sticky-for-posttypes', array( 'post', 'page', 'tribe_events', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'gmr_album', 'contest', 'show', 'podcast', 'episode', 'content-kit' ) );
 	}
 
-	public function required_alt_text() {
+	public static function required_alt_text() {
 		global $typenow, $pagenow;
 		if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) { ?>
 			<script type="text/javascript">
@@ -64,15 +64,15 @@ class CommonSettings {
 							clickListenerContent = jQuery._data(buttonInsertContent[0], 'events').click[0];
 							buttonInsertContent.off('click');
 							jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert').click(function(e){
-								var altTextContent = jQuery('input#attachment-details-alt-text').val();
-								if ( altTextContent  || jQuery('input#attachment-details-alt-text').length == 0 )
+								var altTextContent = jQuery('#attachment-details-alt-text').val();
+								if ( altTextContent  || jQuery('#attachment-details-alt-text').length == 0 )
 								{
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert').unbind("click");
 									buttonInsertContent.click(clickListenerContent.handler);
 									buttonInsertContent.triggerHandler('click');
 								} else {
 									alert( 'ERROR: Please fill the Alt text.' );
-									jQuery('input#attachment-details-alt-text').focus();
+									jQuery('#attachment-details-alt-text').focus();
 									return false;
 								}
 							});
@@ -84,15 +84,15 @@ class CommonSettings {
 							clickListenerFeature = jQuery._data(buttonInsertFeature[0], 'events').click[0];
 							buttonInsertFeature.off('click');
 							jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').click(function(e){
-								var altTextFeature = jQuery('input#attachment-details-alt-text').val();
-								if ( altTextFeature  || jQuery('input#attachment-details-alt-text').length == 0 )
+								var altTextFeature = jQuery('#attachment-details-alt-text').val();
+								if ( altTextFeature  || jQuery('#attachment-details-alt-text').length == 0 )
 								{
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').unbind("click");
 									buttonInsertFeature.click(clickListenerFeature.handler);
 									buttonInsertFeature.triggerHandler('click');
 								} else {
 									alert( 'ERROR: Please fill the Alt text.' );
-									jQuery('input#attachment-details-alt-text').focus();
+									jQuery('#attachment-details-alt-text').focus();
 									return false;
 								}
 							});
@@ -117,15 +117,15 @@ class CommonSettings {
 									clickListenerFeatureAjax = jQuery._data(buttonInsertFeatureAjax[0], 'events').click[0];
 									buttonInsertFeatureAjax.off('click');
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').click(function(e){
-										var altTextFeatureAjax = jQuery('input#attachment-details-alt-text').val();
-										if ( altTextFeatureAjax  || jQuery('input#attachment-details-alt-text').length == 0 )
+										var altTextFeatureAjax = jQuery('#attachment-details-alt-text').val();
+										if ( altTextFeatureAjax  || jQuery('#attachment-details-alt-text').length == 0 )
 										{
 											jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').unbind("click");
 											buttonInsertFeatureAjax.click(clickListenerFeatureAjax.handler);
 											buttonInsertFeatureAjax.triggerHandler('click');
 										} else {
 											alert( 'ERROR: Please fill the Alt text.' );
-											jQuery('input#attachment-details-alt-text').focus();
+											jQuery('#attachment-details-alt-text').focus();
 											return false;
 										}
 									});
@@ -154,7 +154,7 @@ class CommonSettings {
 		add_filter( 'megamenu_options_capability', array( __CLASS__, 'megamenu_options_capability_callback' ) );
 	}
 
-	public function megamenu_options_capability_callback() {
+	public static function megamenu_options_capability_callback() {
 		return 'manage_max_mega_menu';
 	}
 	/**
@@ -165,7 +165,7 @@ class CommonSettings {
 	public static function allow_fontawesome_posttype_list() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'listicle_cpt', 'affiliate_marketing' )  );
 	}
-	public function allow_require_feature_img_posttype_list() {
+	public static function allow_require_feature_img_posttype_list() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'post', 'page', 'listicle_cpt', 'affiliate_marketing' )  );
 	}
 

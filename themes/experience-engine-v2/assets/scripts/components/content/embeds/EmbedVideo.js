@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { loadVimeo } from '../../../redux/actions/player';
 
 class EmbedVideo extends PureComponent {
 	constructor(props) {
@@ -42,6 +45,13 @@ class EmbedVideo extends PureComponent {
 			this.setState({ isFallback: true });
 		}
 	};
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.state.show === true && prevState.show !== this.state.show) {
+			const { appendVimeoControlList } = this.props;
+			appendVimeoControlList();
+		}
+	}
 
 	// Exclude autoplay=1 on Vimeo Video links because it causes autoplay
 	adjustEmbeddedVideoUrlSrc = iframe => {
@@ -130,6 +140,15 @@ EmbedVideo.propTypes = {
 	html: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	thumbnail: PropTypes.string.isRequired,
+	appendVimeoControlList: PropTypes.func.isRequired,
 };
 
-export default EmbedVideo;
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			appendVimeoControlList: () => loadVimeo(true),
+		},
+		dispatch,
+	);
+
+export default connect(null, mapDispatchToProps)(EmbedVideo);

@@ -2,7 +2,7 @@
  * <div class="responsive-media">
  * See: includes/embeds.php
 */
-.responsive-media:not(.twitter):not(.instagram):not(.beasley):not(.tiktok) {
+.responsive-media:not(.twitter):not(.instagram):not(.beasley):not(.tiktok):not(.vimeo) {
 	height: 0;
 	max-width: 100%;
 	overflow: hidden;

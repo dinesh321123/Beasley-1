@@ -30,6 +30,7 @@ class SyndicationCPT {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_syndication_cpt' ) );
 		add_action( 'init', array( $this, 'register_collections_taxonomy' ) );
+		add_action( 'init', array( $this, 'register_custom_cap' ) );
 		add_action( 'admin_menu', array( $this, 'hide_publish_meta' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'subscription_admin_scripts' ) );
 		add_action( 'admin_head-post.php', array( $this, 'hide_publishing_actions' ) );
@@ -43,6 +44,9 @@ class SyndicationCPT {
 		add_action( 'save_post', array( $this, 'save' ) );
 		add_action( 'manage_subscription_posts_custom_column' , array( $this, 'subscription_column_data' ), 10, 2 );
 
+		add_filter( 'wp_insert_post_data', array( $this, 'validate_infinite_loop_term_data' ), 999999, 2 );
+		add_action( 'admin_notices', array( $this, 'infinite_loop_term_data_notices' ) );
+
 		add_filter( 'views_edit-' . $this->post_type, array( $this, 'change_status_labels' ), 10, 1);
 		add_filter( 'display_post_states' , array( $this, 'change_state_labels' ), 10, 1);
 		add_filter( 'gettext', array( $this, 'change_publish_button' ), 10, 2 );
@@ -52,6 +56,24 @@ class SyndicationCPT {
 		add_filter( 'post_updated_messages', array( $this, 'custom_messages_for_subscription' ) );
 
 		add_action( 'wp_ajax_syndication_taxonomy_filters', array( $this, 'taxonomy_filters_callback' ) );
+	}
+
+	/**
+	 * Register custom capability for admins and editors.
+	 *
+	 * @return void
+	 */
+	public function register_custom_cap() {
+		$roles = [ 'administrator', 'dpd' ];
+
+		foreach ( $roles as $role ) {
+			$role_obj = get_role( $role );
+
+			if ( is_a( $role_obj, \WP_Role::class ) ) {
+				$role_obj->add_cap( 'manage_collection' );
+				$role_obj->add_cap( 'assign_collection' );
+			}
+		}
 	}
 
 	/**
@@ -87,7 +109,12 @@ class SyndicationCPT {
 			'query_var'         => true,
 			'rewrite'           => true,
 			'query_var'         => true,
-			'capabilities'      => array(),
+			'capabilities'      => [
+				'manage_terms' => 'manage_collection',
+				'delete_terms' => 'manage_collection',
+				'assign_terms' => 'assign_collection',
+				'edit_terms'   => 'manage_collection',
+			],
 		);
 
 		register_taxonomy( 'collection', array( 'post', 'announcement', 'content-kit', 'gmr_gallery', 'affiliate_marketing', 'listicle_cpt', 'show' ), $args );
@@ -238,8 +265,10 @@ class SyndicationCPT {
 					date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
 				10 => sprintf( __('Subscription draft updated. <a target="_blank" href="%s">Preview subscription</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
 			);
+			if ( get_option( 'infinite_loop_occurs_'.$post_ID ) ) {
+				$messages[ $this->post_type ] = array();
+			}
 		}
-
 		return $messages;
 	}
 
@@ -333,6 +362,73 @@ class SyndicationCPT {
 	}
 
 	/**
+	 * Show admin notice for infinite loop syndication
+	 */
+	public function infinite_loop_term_data_notices() {
+		global $post, $post_ID;
+
+		if ( $post->post_type != $this->post_type ) {
+			return false;
+		}
+		if ( ! get_option( 'infinite_loop_occurs_'.$post_ID ) ) {
+			return false;
+		}
+		$decode_infinite_loop_data		=	json_decode( get_option( 'infinite_loop_occurs_'.$post_ID ) );
+		$subscription_source_details	=	get_blog_details( $decode_infinite_loop_data->subscription_source );
+		$current_blog_id_details		=	get_blog_details( $decode_infinite_loop_data->current_blog_id );
+
+		echo '<div class="error"><p>' . "Error: the <strong>". $decode_infinite_loop_data->subscription_filter_terms_data ."</strong> you selected conflicts with subscription <strong>" . $subscription_source_details->blogname . "</strong>  on <strong>". $current_blog_id_details->blogname . '</strong> </p></div>';
+		delete_option( 'infinite_loop_occurs_'.$post_ID );
+	}
+
+	public function validate_infinite_loop_term_data( $data, $postarr ) {
+		// Check if our nonce is set.
+		/* if ( ! isset( $_POST['subscription_custom_nonce'] ) ) {
+			return $data;
+		}
+
+		$nonce = $_POST['subscription_custom_nonce'];
+
+		// Verify that the nonce is valid.
+		if ( ! wp_verify_nonce( $nonce, 'save_subscription_status' ) ) {
+			return $data;
+		} */
+
+		if ( $data['post_type'] === $this->post_type && !empty( $postarr['subscription_source'] ) ) {
+			if ( isset( $postarr['enabled_filter_taxonomy'] ) ) {
+				$subscription_filter_terms_data =  $postarr['subscription_filter_terms-'.$postarr['enabled_filter_taxonomy']][0];
+				if( isset( $subscription_filter_terms_data ) && $subscription_filter_terms_data != "" ) {
+					global $blog_id;
+
+					$already_exist = $this->validate_subscriptions_loop( $postarr['subscription_source'], $subscription_filter_terms_data, $postarr['enabled_filter_taxonomy'], $blog_id );
+					if( isset( $already_exist ) && $already_exist != "" ) {
+						$data['post_status'] = 'draft';
+						$post_id = $postarr['post_ID'];
+						$infinite_loop_data = array('subscription_filter_terms_data'=> $subscription_filter_terms_data, 'enabled_filter_taxonomy'=> $postarr['enabled_filter_taxonomy'], 'subscription_source' => $postarr['subscription_source'], 'current_blog_id'=>$blog_id );
+						update_option( 'infinite_loop_occurs_' . $post_id, wp_json_encode($infinite_loop_data) );
+					}
+				}
+			}
+		}
+		return $data;
+	}
+	public function validate_subscriptions_loop( $source_site_id, $subscription_filter_terms_data, $enabled_filter_taxonomy, $current_blog_id ) {
+		if( ! isset( $source_site_id ) && ( ! isset( $subscription_filter_terms_data ) || !isset( $enabled_filter_taxonomy ) ) ) {
+			return false; // skip
+		}
+
+		BlogData::set_content_site_id( $source_site_id );
+		$existingSubs = BlogData::verifySourceSubscription( $source_site_id, $subscription_filter_terms_data, $enabled_filter_taxonomy, $current_blog_id );
+
+		if ( ! empty( $existingSubs ) ) {
+			// found loop return true
+			return true;
+		}
+
+		// default return false
+		return false;
+	}
+	/**
 	 * Save the meta when the post is saved.
 	 *
 	 * @param int $post_id The ID of the post being saved.
@@ -381,7 +477,7 @@ class SyndicationCPT {
 		$terms = '';
 
 		// Sanitize the user input.
-		if( isset( $_POST[ 'active_inactive' ] ) ) {
+		if( isset( $_POST[ 'active_inactive' ] ) && ! get_option( 'infinite_loop_occurs_'.$post_id )) {
 
 			$status = sanitize_text_field( $_POST['active_inactive'] );
 
@@ -438,16 +534,19 @@ class SyndicationCPT {
 		}
 
 		// get filter metas
-		foreach ( BlogData::$taxonomies as $taxonomy => $type ) {
-			$terms = '';
+		// Rupesh below condition for Category and collection
+		if ( ! get_option( 'infinite_loop_occurs_'.$post_id ) ) {
+			foreach (BlogData::$taxonomies as $taxonomy => $type) {
+				$terms = '';
 
-			if ( isset( $_POST['subscription_filter_terms-' . $taxonomy] ) ) {
-				$sanitized = array_map( 'sanitize_text_field', $_POST['subscription_filter_terms-' . $taxonomy] );
-				$terms = implode( ',', $sanitized );
+				if (isset($_POST['subscription_filter_terms-' . $taxonomy])) {
+					$sanitized = array_map('sanitize_text_field', $_POST['subscription_filter_terms-' . $taxonomy]);
+					$terms = implode(',', $sanitized);
+				}
+
+				// Update the meta field.
+				update_post_meta($post_id, 'subscription_filter_terms-' . $taxonomy, $terms);
 			}
-
-			// Update the meta field.
-			update_post_meta( $post_id, 'subscription_filter_terms-' . $taxonomy, $terms );
 		}
 
 		if ( isset( $_POST['enabled_filter_taxonomy'] ) ) {

@@ -319,6 +319,7 @@ class GF_Query {
 						$operator = GF_Query_Condition::LIKE;
 						break;
 					case 'NOT IN':
+					case 'NOTIN':
 						$operator = GF_Query_Condition::NIN;
 						break;
 					case 'IN':
@@ -355,20 +356,29 @@ class GF_Query {
 				}
 
 				if ( $key == 'date_created' && $operator == GF_Query_Condition::EQ ) {
-					$search_date           = new DateTime( $value );
-					$search_date_str       = $search_date->format( 'Y-m-d' );
-					$date_created_start    = $search_date_str . ' 00:00:00';
-					$date_create_start_utc = get_gmt_from_date( $date_created_start );
-					$date_created_end      = $search_date_str . ' 23:59:59';
-					$date_created_end_utc  = get_gmt_from_date( $date_created_end );
+					if ( ! empty( $value ) ) {
+						try {
+							$search_date           = new DateTime( $value );
+							$search_date_str       = $search_date->format( 'Y-m-d' );
+							$date_created_start    = $search_date_str . ' 00:00:00';
+							$date_create_start_utc = get_gmt_from_date( $date_created_start );
+							$date_created_end      = $search_date_str . ' 23:59:59';
+							$date_created_end_utc  = get_gmt_from_date( $date_created_end );
 
-					$column = count( $from ) > 1 ? new GF_Query_Column( $key ) : new GF_Query_Column( $key, $form_id );
+							$column = count( $from ) > 1 ? new GF_Query_Column( $key ) : new GF_Query_Column( $key, $form_id );
 
-					$filters[] = new GF_Query_Condition(
-						$column,
-						GF_Query_Condition::BETWEEN,
-						new GF_Query_Series( array( new GF_Query_Literal( $date_create_start_utc ), new GF_Query_Literal( $date_created_end_utc ) ) )
-					);
+							$filters[] = new GF_Query_Condition(
+								$column,
+								GF_Query_Condition::BETWEEN,
+								new GF_Query_Series( array(
+									new GF_Query_Literal( $date_create_start_utc ),
+									new GF_Query_Literal( $date_created_end_utc ),
+								) )
+							);
+						} catch ( Exception $e ) {
+							GFAPI::log_error( __METHOD__ . '(): Invalid date_created; ' . $e->getMessage() );
+						}
+					}
 
 					continue;
 				}
@@ -443,6 +453,7 @@ class GF_Query {
 				$operator = GF_Query_Condition::LIKE;
 				break;
 			case 'NOT IN':
+			case 'NOTIN':
 				$operator = GF_Query_Condition::NIN;
 				break;
 			case 'IN':
@@ -722,8 +733,12 @@ class GF_Query {
 		/**
 		 * JOIN.
 		 */
-		$joins = array_merge( $this->_join_infer( $this->where ), $this->_join_infer_orders( $this->where, $this->order ), $this->_join_generate( $this->joins ) );
-		$join = count( $joins ) ? 'LEFT JOIN ' . implode( ' LEFT JOIN ', $this->_prime_joins( $joins ) ) : '';
+		$joins = $this->_prime_joins(
+			$this->_join_generate( $this->joins ),
+			$this->_join_infer( $this->where ),
+			$this->_join_infer_orders( $this->where, $this->order )
+		);
+		$join = count( $joins ) ? 'LEFT JOIN ' . implode( ' LEFT JOIN ', $joins ) : '';
 
 		/**
 		 * SELECT.
@@ -915,6 +930,8 @@ class GF_Query {
 	 * @return string[] The individual JOIN statements.
 	 */
 	public function _join_generate( $joins ) {
+		global $wpdb;
+
 		$_joins = array();
 
 		foreach ( $joins as $join ) {
@@ -926,6 +943,8 @@ class GF_Query {
 			if ( ! $on->field_id || ! $on->source || ! $column->field_id || ! $column->source ) {
 				continue;
 			}
+
+			$conditions = array();
 
 			/**
 			 * Join on the entry table when dealing with an entry column.
@@ -946,25 +965,10 @@ class GF_Query {
 				/**
 				 * Make sure a WHERE clause exists on meta fields.
 				 */
-				$meta_condition = new GF_Query_Condition(
-					new GF_Query_Column( 'meta_key', $on->source, $alias_on ),
-					GF_Query_Condition::EQ,
-					new GF_Query_Literal( $on->field_id )
-				);
-
-				$this->where(
-					GF_Query_Condition::_and( $this->where, $meta_condition )
-				);
+				$conditions[] = $wpdb->prepare( sprintf( '`%s`.`meta_key` = %%s', $alias_on ), $on->field_id );
 			}
 
-			$this->where( GF_Query_Condition::_and(
-				$this->where,
-				new GF_Query_Condition(
-					new GF_Query_Column( 'form_id', $on->source, $alias_on ),
-					GF_Query_Condition::EQ,
-					new GF_Query_Literal( $on->source )
-				)
-			) );
+			$conditions[] = sprintf( '`%s`.`form_id` = %d', $alias_on, $on->source );
 
 			/**
 			 * Join to on an entry table.
@@ -1000,8 +1004,10 @@ class GF_Query {
 				$_joins = array_merge( $this->_join_infer( $meta_condition ), $_joins );
 			}
 
-			$_joins[] = sprintf( '`%s` AS `%s` ON `%s`.`%s` = `%s`.`%s`',
-				$table_on, $alias_on, $alias_on, $column_on, $equals_table, $equals_column );
+			array_unshift( $conditions, sprintf( '`%s`.`%s` = `%s`.`%s`', $alias_on, $column_on, $equals_table, $equals_column ) );
+
+			$_joins[] = sprintf( '`%s` AS `%s` ON %s', $table_on, $alias_on,
+				( count( $conditions ) > 1 ) ? '(' . implode( ' AND ', $conditions ) . ')' : implode( ' AND ', $conditions ) );
 		}
 
 		return $_joins;
@@ -1039,8 +1045,20 @@ class GF_Query {
 		 * Regular WHERE clause JOIN inference.
 		 */
 		foreach ( $condition->columns as $column ) {
-			if ( $column->is_entry_column() || ! $column->field_id )
+			if ( ! $column->field_id )
 				continue;
+
+			if ( $column->is_entry_column() ) {
+				/**
+				 * On meta joins, the joined entry table is missing. It has to be added.
+				 */
+				if ( ! $column->alias && ( $this->_alias( null, $column->source ) !== 't1' ) ) {
+					$this->_inferred_joins []= sprintf( '`%s` AS `%d` ON `%%s`.`id` = `%%s`.`entry_id`', // the rest is filled in during _priming
+						GFFormsModel::get_entry_table_name(), $column->source
+					);
+				}
+				continue;
+			}
 
 			$alias = $column->alias ? $column->alias : $this->_alias( $column->field_id, $column->source, 'm' );
 
@@ -1128,31 +1146,120 @@ class GF_Query {
 
 	/**
 	 * Remove simplified join statements on the same column.
+	 * Used to avoid duplicate/non-unique aliases in joins.
+	 * Merge join conditions on one alias into one statement.
+	 * Also make sure the order of the joins resolves correctly.
+	 * Cleans up incorrectly resolved WHERE inferences when explicit joins exist.
+	 * Corrects bad WHERE resolves to join on an existing joined form.
 	 *
-	 * Used to avoid duplicate/non-unique aliases in joins. We always
-	 *  select the more specific join clause.
+	 * a.k.a. lots of black magic
 	 *
-	 * @param array $joins
+	 * @todo Rewrite the whole joins ordeal, it has to be more explicit to avoid
+	 *       all this backfixing and regular expressions to correct for all
+	 *       the different combinations there are.
+	 *
+	 * @param string[] $explicit_joins Joins added via the join() method.
+	 * @param string[] $where_inference_joins Joins added because of WHERE conditions.
+	 * @param string[] $order_inference_joins Joins added because of ORDER statements.
 	 *
 	 * @return array
 	 */
-	public function _prime_joins( $joins ) {
-		$joins = array_unique( $joins );
+	public function _prime_joins( $explicit_joins, $where_inference_joins, $order_inference_joins ) {
+		$joins = array_unique( $explicit_joins );
 
-		$primed_joins = array();
-		foreach ( $joins as $join ) {
+		$explicit_join_aliases = array();
+		foreach ( $explicit_joins as $join ) {
 			if ( preg_match( '#` AS `([motc]\d+)` ON #', $join, $matches ) ) {
-				$alias = $matches[1];
-				if ( ! empty( $primed_joins[ $alias ] ) ) {
-					if ( strlen( $primed_joins[ $alias ] ) > strlen( $join ) ) {
-						continue;
-					}
+				if ( $key = array_search( $matches[1], $this->aliases, true ) ) {
+					list( $form_id, $field_id ) = explode( '_', $key );
+					$explicit_join_aliases[ $form_id ] = $matches[1];
+				} else {
+					$explicit_join_aliases[] = $matches[1];
 				}
-				$primed_joins[ $alias ] = $join;
 			}
 		}
 
-		return array_values( $primed_joins );
+		$remaining_inference_joins = array();
+		foreach ( array_merge( $where_inference_joins, $order_inference_joins ) as $join ) {
+			if ( preg_match( '#` AS `([motc]\d+)` ON #', $join, $matches ) ) {
+				if ( ! in_array( $matches[1], $explicit_join_aliases ) ) {
+					if ( ( $key = array_search( $matches[1], $this->aliases, true ) ) !== false ) {
+						list( $form_id, $field_id ) = explode( '_', $key );
+						if ( isset( $explicit_join_aliases[ $form_id ] ) && strpos( $explicit_join_aliases[ $form_id ], 't' ) !== 0 ) {
+							list( $table, $on ) = explode( ' ON ', $join );
+							$join = implode( ' ON ', array( $table, sprintf( '`%s`.`entry_id` = `%s`.`entry_id`', $matches[1], $explicit_join_aliases[ $form_id ] ) ) );
+						}
+					}
+					$remaining_inference_joins[] = $join;
+				}
+			} else if ( preg_match( '#` AS `(\d+)` ON `%s`.`id` = `%s`.`entry_id`$#', $join, $matches ) ) {
+				if ( ( $alias = $explicit_join_aliases[ $matches[1] ] ) && 't' !== $alias[0] ) {
+					$join = str_replace( $matches[1], $this->_alias( null, $matches[1] ), $join );
+					$remaining_inference_joins[] = sprintf( $join, $this->_alias( null, $matches[1] ), $alias );
+				}
+			}
+		}
+
+		$joins = array_merge( $explicit_joins, $remaining_inference_joins );
+
+		$unique_joins = array();
+		$ons = array();
+
+		foreach ( $joins as $join ) {
+			if ( preg_match( '#(.*?` AS `([motc]\d+)` ON) \(?(.*?)\)?$#', $join, $matches ) ) {
+				$ons[ $matches[2] ] = $matches[1];
+
+				if ( ! isset( $unique_joins[ $matches[2] ] ) ) {
+					$unique_joins[ $matches[2] ] = array();
+				}
+				$unique_joins[ $matches[2] ] = array_unique(
+					array_merge( $unique_joins[ $matches[2] ], explode( ' AND ', $matches[3] ) )
+				);
+			}
+		}
+
+		$main_table_alias = $this->_alias( null, reset( $this->from ) );
+		$sorted_joins = array();
+
+		$loop = pow( count( $unique_joins ), 2 ); // No more than n^2 protection
+
+		while ( $loop-- && count( $sorted_joins ) < count( $unique_joins ) ) {
+			foreach ( $unique_joins as $alias => $joins ) {
+				foreach ( $joins as $join ) {
+					$resolves = true;
+					if ( preg_match_all( '#`([motc]\d+)`.`#', $join, $matches ) ) {
+						foreach ( $matches[1] as $join_alias ) {
+							if ( $alias !== $join_alias && $main_table_alias !== $join_alias && ! isset( $sorted_joins[ $join_alias ] ) ) {
+								$resolves = false;
+								break;
+							}
+						}
+					} else {
+						$resolves = false;
+					}
+
+					if ( $resolves ) {
+						if ( ! isset( $sorted_joins[ $alias ] ) ) {
+							$sorted_joins[ $alias ] = array();
+						}
+						$sorted_joins[ $alias ][] = $join;
+					}
+				}
+			}
+		}
+
+		foreach ( $sorted_joins as $alias => $joins ) {
+			$joins = array_unique( $joins );
+
+			if ( count( $joins ) > 1 ) {
+				$joins = '(' . implode( ' AND ', $joins ) . ')';
+			} else {
+				$joins = reset( $joins );
+			}
+			$sorted_joins[ $alias ] = sprintf( '%s %s', $ons[ $alias ], $joins );
+		}
+
+		return array_values( $sorted_joins );
 	}
 
 	/**
@@ -1395,6 +1502,8 @@ AND ( meta_key REGEXP '^[0-9|.]+$'
 			$entries[ $meta['entry_id'] ][ $meta['meta_key'] . $meta['item_index'] ] = $meta['meta_value'];
 		}
 
+		$entries_with_encrypted_fields = GFFormsModel::get_openssl_encrypted_fields_by_entries( $ids );
+
 		foreach ( $entryset as $entry ) {
 			if ( isset( $cache['form_meta'][ $entry['form_id'] ] ) ) {
 				$form = $cache['form_meta'][ $entry['form_id'] ];
@@ -1402,7 +1511,7 @@ AND ( meta_key REGEXP '^[0-9|.]+$'
 				$form = $cache['form_meta'][ $entry['form_id'] ] = RGFormsModel::get_form_meta( $entry['form_id'] );
 			}
 
-			$openssl_encrypted_fields = GFFormsModel::get_openssl_encrypted_fields( $entry['id'] );
+			$openssl_encrypted_fields = isset( $entries_with_encrypted_fields[ $entry['id'] ] ) ? $entries_with_encrypted_fields[ $entry['id'] ] : array();
 
 			foreach ( $form['fields'] as $field ) {
 				/* @var GF_Field $field */
@@ -1442,7 +1551,7 @@ AND ( meta_key REGEXP '^[0-9|.]+$'
 				}
 			}
 
-			GFFormsModel::hydrate_repeaters( $entries[ $entry['id'] ], $form );
+			GFFormsModel::hydrate_repeaters( $entries[ $entry['id'] ], $form, true );
 		}
 
 		$results = array();

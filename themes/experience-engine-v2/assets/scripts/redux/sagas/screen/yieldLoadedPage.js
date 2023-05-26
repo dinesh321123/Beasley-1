@@ -2,6 +2,7 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 import NProgress from 'nprogress';
 import {
 	manageScripts,
+	manageInlineScripts,
 	manageBbgiConfig,
 	updateTargeting,
 	renderSendToNews,
@@ -127,6 +128,7 @@ function* yieldLoadedPage(action) {
 	// last step is update history, return early if it's not needed.
 	if (options.suppressHistory) {
 		console.log('***Yield Load Not Updating History');
+		yield call(manageInlineScripts, parsedHtml.inlineScripts);
 		return;
 	}
 
@@ -135,6 +137,8 @@ function* yieldLoadedPage(action) {
 	yield call(renderSendToNews);
 
 	yield call(handleInjectos);
+
+	yield call(manageInlineScripts, parsedHtml.inlineScripts);
 }
 
 /**
