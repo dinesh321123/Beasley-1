@@ -10,13 +10,13 @@ License: GPL2
 */
 
 function enqueue_vimeopreroll_scripts() {
-	$vimeoplayerjsurl = plugins_url( '/vimeo-player-v2-18-0.js', __FILE__ );
+	$vimeoplayerjsurl = plugins_url( '/vimeo-player-v2-19-0.js', __FILE__ );
 	echo "<script type='text/javascript' async src='". $vimeoplayerjsurl ."'></script>";
 
-	$beasleyimajsurl = plugins_url( '/beasley-ima-v1-0-8.js', __FILE__ );
+	$beasleyimajsurl = plugins_url( '/beasley-ima-v1-0-9.js', __FILE__ );
 	echo "<script type='text/javascript' src='". $beasleyimajsurl ."'></script>";
 
-	$vimeoprerolljsurl = plugins_url( '/vimeo-preroll-v1-0-13.js', __FILE__ );
+	$vimeoprerolljsurl = plugins_url( '/vimeo-preroll-v1-0-14.js', __FILE__ );
 	echo "<script type='text/javascript' src='". $vimeoprerolljsurl ."'></script>";
 }
 

@@ -87,11 +87,13 @@ class EmbedVideo extends PureComponent {
 		const { show, html, src, isFallback } = this.state;
 		const { thumbnail, title } = this.props;
 
-		if (show) {
+		if (show || src.toLowerCase().indexOf('vimeo') > -1) {
 			return (
 				<div
 					className="lazy-video"
-					dangerouslySetInnerHTML={{ __html: html }}
+					dangerouslySetInnerHTML={{
+						__html: html.replace('&autoplay=1', '').replace('autoplay;', ''),
+					}}
 				/>
 			);
 		}
