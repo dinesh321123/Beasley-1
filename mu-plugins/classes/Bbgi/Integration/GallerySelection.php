@@ -10,9 +10,6 @@ use Bbgi\Util;
 class GallerySelection extends \Bbgi\Module {
 	use Util;
 
-	// track index of the app
-	private static $total_index = 0;
-
 	/**
 	 * Registers this module.
 	 *
@@ -23,27 +20,11 @@ class GallerySelection extends \Bbgi\Module {
 		add_shortcode( 'select-gallery', $this( 'render_shortcode' ) );
 	}
 
-	private function stringify_selected_gallery($contentVal)
-	{
-		if (is_array($contentVal) || is_object($contentVal)) {
-			if (WP_DEBUG) {
-				error_log('WARNING: GALLERY CONTENT IS AN OBJECT OR ARRAY: ');
-				error_log(print_r($contentVal, true));
-			}
-			if( is_object($contentVal) && isset($contentVal->post_content) ) {
-				return $contentVal->post_content;
-			}
-			return print_r($contentVal, true);
-		} else {
-			return $contentVal;
-		}
-	}
-
 	/**
-	 * Renders ss-promo shortcode.
+	 * Renders select-gallery shortcode.
 	 *
 	 * @access public
-	 * @param array $attributes Array of shortcode arguments.
+	 * @param array $atts Array of shortcode arguments.
 	 * @return string Shortcode markup.
 	 */
 	public function render_shortcode( $atts ) {
@@ -60,27 +41,20 @@ class GallerySelection extends \Bbgi\Module {
 			'description' => ''
 		), $atts, 'select-gallery' );
 
-		$post = get_queried_object();
-		if ( $this->is_future_date($post->post_type) ) {
-			return;
-		}
+		$post_object = get_queried_object();
 
-		if( !empty( $attributes['syndication_name'] ) ) {
-			$listicle_id = $this->check_embedded_id( 'gmr_gallery', $attributes['syndication_name'] );
-		}
-
-		if(empty($gallery_id) && !empty( $attributes['gallery_id'] ) && !empty( get_post( $attributes['gallery_id'] ) ) ) {
-			$gallery_id = $attributes['gallery_id'];
-		}
-
-		if(empty($gallery_id)) {
+		$gallery_id = $this->getObjectId( $post_object->post_type, "gmr_gallery", $attributes['gallery_id'], $attributes['syndication_name'] );
+		if( empty( $gallery_id ) ) {
 			return;
 		}
 
 		$ids = $this->get_attachment_ids_for_post( $gallery_id, $attributes['syndication_name'] );
+		if( empty( $ids ) ) {
+			return;
+		}
 
 		$gallery_object = get_post( $gallery_id );
-		$content = apply_filters( 'bbgi_gallery_content', false, $gallery_object, $ids, $post );
+		$content = apply_filters( 'bbgi_gallery_content', false, $gallery_object, $ids, $post_object );
 		if ( ! empty( $content ) ) {
 			$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>";
 			if( !empty( $attributes['description'] ) &&  ($attributes['description'] == 'yes') ) {
@@ -91,17 +65,17 @@ class GallerySelection extends \Bbgi\Module {
 					$content_updated .= "<div class=\"gallery-embed-description\">".$the_content."</div>";
 				}
 			}
-			$content_updated .= $this->stringify_selected_gallery($content);
+			$content_updated .= $this->stringify_selected_cpt($content, "GALLERY");
 			$cpt_embed_flag[$post_id] = true;
 			return $content_updated;
 		}
 
-		$sponsored_image = get_field( 'sponsored_image', $post );
+		$sponsored_image = get_field( 'sponsored_image', $post_object );
 
 		$image = current( $ids );
 		$content = sprintf(
 			'<div class="gallery__embed"><a href="%s/view/%s/"><div><img src="%s" style="margin: 0 auto"></div>',
-			esc_attr( untrailingslashit( get_permalink( $post ) ) ),
+			esc_attr( untrailingslashit( get_permalink( $post_object ) ) ),
 			esc_attr( get_post_field( 'post_name', $sponsored_image ? $sponsored_image : $image ) ),
 			bbgi_get_image_url( $image, 512, 342, 'crop', true )
 		);
@@ -130,21 +104,23 @@ class GallerySelection extends \Bbgi\Module {
 				$content_updated .= "<div class=\"gallery-embed-description\">".$the_content."</div>";
 			}
 		}
-		$content_updated .= $this->stringify_selected_gallery($content);
+		$content_updated .= $this->stringify_selected_cpt($content, "GALLERY");
 		$cpt_embed_flag[$post_id] = true;
 		return $content_updated;
 	}
 
 	/**
-	 * Gets an array of ids for the attachments in the gallery
-	 * @param $post
-	 * @return Array
+	 * Gets the attachment IDs of a post with a given syndication name.
+	 *
+	 * @param int|\WP_Post 	$post       		The post object or ID.
+	 * @param string       	$syndication_name 	The syndication name of the post.
+	 * @return array|null	An array of attachment IDs, or null if the post does not have any attachments.
 	 */
 	public function get_attachment_ids_for_post( $post, $syndication_name ) {
 		$ids = array();
 
 		$post = get_post( $post );
-		if( $post->post_type !== 'gmr_gallery' || $post->post_name !== $syndication_name ) {
+		if( $post->post_type !== 'gmr_gallery' || $post->post_name !== $syndication_name || $post->post_status !== 'publish' ) {
 			return null;
 		}
 

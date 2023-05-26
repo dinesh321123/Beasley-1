@@ -10,9 +10,6 @@ use Bbgi\Util;
 class ListicleSelection extends \Bbgi\Module {
 	use Util;
 
-	// track index of the app
-	private static $total_index = 0;
-
 	/**
 	 * Registers this module.
 	 *
@@ -23,27 +20,11 @@ class ListicleSelection extends \Bbgi\Module {
 		add_shortcode( 'select-listicle', $this( 'render_shortcode' ) );
 	}
 
-	private function stringify_selected_listicle($contentVal)
-	{
-		if (is_array($contentVal) || is_object($contentVal)) {
-			if (WP_DEBUG) {
-				error_log('WARNING: LISTICLE CONTENT IS AN OBJECT OR ARRAY: ');
-				error_log(print_r($contentVal, true));
-			}
-			if( is_object($contentVal) && isset($contentVal->post_content) ) {
-				return $contentVal->post_content;
-			}
-			return print_r($contentVal, true);
-		} else {
-			return $contentVal;
-		}
-	}
-
 	/**
-	 * Renders ss-promo shortcode.
+	 * Renders select-listicle shortcode.
 	 *
 	 * @access public
-	 * @param array $attributes Array of shortcode arguments.
+	 * @param array $atts Array of shortcode arguments.
 	 * @return string Shortcode markup.
 	 */
 	public function render_shortcode( $atts ) {
@@ -61,40 +42,21 @@ class ListicleSelection extends \Bbgi\Module {
 		), $atts, 'select-listicle' );
 
 		$post_object = get_queried_object();
-		if ( $this->is_future_date($post_object->post_type) ) {
-			return;
-		}
 
-		if( !empty( $attributes['syndication_name'] ) ) {
-			$listicle_id = $this->check_embedded_id( 'listicle_cpt', $attributes['syndication_name'] );
-		}
-
-		if(empty($listicle_id) && !empty( $attributes['listicle_id'] ) && !empty( get_post( $attributes['listicle_id'] ) ) ) {
-			$listicle_id = $attributes['listicle_id'];
-		}
-
+		$listicle_id = $this->getObjectId( $post_object->post_type, "listicle_cpt", $attributes['listicle_id'], $attributes['syndication_name'] );
 		if(empty($listicle_id)) {
 			return;
 		}
 
+		$cpt_post_object = $this->verify_post( $listicle_id, "listicle_cpt", $attributes['syndication_name'] );
+		if( empty($cpt_post_object) ) {
+			return;
+		}
 
-		$cpt_post_object = $this->verify_post( $listicle_id, $attributes['syndication_name'] );
-		$cpt_item_name = $this->get_post_metadata_from_post( 'cpt_item_name', $cpt_post_object );
-		if ( ! is_array( $cpt_item_name ) ) {
-			$cpt_item_name = array();
-		}
-		$cpt_item_description = $this->get_post_metadata_from_post( 'cpt_item_description', $cpt_post_object );
-		if ( ! is_array( $cpt_item_description ) ) {
-			$cpt_item_description = array();
-		}
-		$cpt_item_order = $this->get_post_metadata_from_post( 'cpt_item_order', $cpt_post_object );
-		if ( ! is_array( $cpt_item_order ) ) {
-			$cpt_item_order = array();
-		}
-		$cpt_item_type 	= $this->get_post_metadata_from_post( 'cpt_item_type', $cpt_post_object );
-		if ( ! is_array( $cpt_item_type ) ) :
-			$cpt_item_type = array();
-		endif;
+		$cpt_item_name = (array) $this->get_post_metadata_from_post( 'cpt_item_name', $cpt_post_object );
+		$cpt_item_description = (array) $this->get_post_metadata_from_post( 'cpt_item_description', $cpt_post_object );
+		$cpt_item_order = (array) $this->get_post_metadata_from_post( 'cpt_item_order', $cpt_post_object );
+		$cpt_item_type 	= (array) $this->get_post_metadata_from_post( 'cpt_item_type', $cpt_post_object );
 
 		remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 		$content = apply_filters( 'bbgi_listicle_content', $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $post_object );
@@ -110,7 +72,7 @@ class ListicleSelection extends \Bbgi\Module {
 				}
 			}
 
-			$content_updated .= $this->stringify_selected_listicle($content);
+			$content_updated .= $this->stringify_selected_cpt( $content, "LISTICLE" );
 			$cpt_embed_flag[$post_id] = true;
 			return $content_updated;
 		}
@@ -118,37 +80,4 @@ class ListicleSelection extends \Bbgi\Module {
 		return $content;
 	}
 
-	/**
-	 * Gets an array of meta data for the Affiliate Marketing
-	 * @param $post
-	 * @return Array
-	 */
-	function get_post_metadata_from_post( $value, $post ) {
-		$field = get_post_meta( $post->ID, $value, true );
-
-		if ( ! empty( $field ) ) {
-            return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
-        } else {
-            return false;
-        }
-	}
-
-	/**
-	 * Verify post is valid or not
-	 * @param $post
-	 * @return Array
-	 */
-	public function verify_post( $post, $syndication_name ) {
-		$ids = array();
-
-		$post = get_post( $post );
-		if( $post->post_type !== 'listicle_cpt' || $post->post_name !== $syndication_name ) {
-			return null;
-		}
-
-		if ( !empty( $post ) ) {
-			return $post;
-		}
-		return null;
-	}
 }
