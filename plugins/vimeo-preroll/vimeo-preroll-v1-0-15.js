@@ -58,7 +58,7 @@
 		}
 	}
 
-	const renderHTML = (iFrameElement) => {
+	const renderPrerollHTML = (iFrameElement) => {
 		const oldVimeoPrerollWrapper = document.getElementById(VIMEOPREROLLWRAPPER);
 		if (oldVimeoPrerollWrapper) {
 			oldVimeoPrerollWrapper.remove();
@@ -203,7 +203,7 @@
 
 		trickIMAButton.onclick = () => {
 			console.log('DEBUG BUTTON CLICK');
-			renderHTML(newIFrameElement);
+			renderPrerollHTML(newIFrameElement);
 			createIMADisplayContainer();
 			retval.play();
 			trickIMAButton.remove(); // Delete trick button since we already played IMA Ad
@@ -256,7 +256,7 @@
 				console.log('Paused and now Playing Preroll');
 				/* PREROLL CODE HERE */
 				if (! document.getElementById(VIMEOPREROLLWRAPPER)) {
-					renderHTML(vimeoplayer.element);
+					renderPrerollHTML(vimeoplayer.element);
 					createIMADisplayContainer();
 				}
 				await getUrlFromPrebid(vimeoplayer);
