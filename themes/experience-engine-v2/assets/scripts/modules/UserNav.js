@@ -320,6 +320,7 @@ class UserNav extends Component {
 		const containerMobile = document.getElementById('user-nav-mobile');
 		let component = false;
 		let componentMobile = false;
+
 		if (loading) {
 			component = this.renderLoadingState();
 			componentMobile = this.renderLoadingState(user);

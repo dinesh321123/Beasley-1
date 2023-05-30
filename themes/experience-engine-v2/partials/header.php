@@ -70,7 +70,9 @@
 						</button>
 
 					</div>
-					<div id="user-nav" class="user-nav"></div>
+					<?php if ( 'disabled' != get_option( 'ee_login', '' ) ) { ?>
+						<div id="user-nav" class="user-nav"></div>
+					<?php } ?>
 				</div>
 			</div>
 			<div class="primary-sidebar-navigation-new">

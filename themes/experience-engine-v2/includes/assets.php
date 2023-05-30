@@ -277,6 +277,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'prebid_enabled' => function_exists( 'enqueue_prebid_scripts' ),
 			'timezone_string' => get_option( 'timezone_string', 'off' ),
 
+			'ee_login' => get_option( 'ee_login', '' ),
 			/** Live Streaming Intervals */
 			'intervals'  => [
 				'live_streaming' => absint( get_option( 'gmr_live_streaming_interval', 1 ) ),
