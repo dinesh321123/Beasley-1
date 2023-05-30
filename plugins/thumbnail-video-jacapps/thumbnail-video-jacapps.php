@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( "Please don't try to access this file directly." );
 }
 
-define( 'TUMBNAIL_VIDEO_JACAPPS_VERSION', '0.0.4' );
+define( 'TUMBNAIL_VIDEO_JACAPPS_VERSION', '0.0.2' );
 define( 'TUMBNAIL_VIDEO_JACAPPS_URL', plugin_dir_url( __FILE__ ) );
 
 include __DIR__ . '/includes/show-thumbnail-jacapps.php';

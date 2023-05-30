@@ -179,9 +179,8 @@ function onAdEvent(adEvent) {
 		case window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED:
 			// This event indicates that ALL Ads have finished.
 			// This event was seen emitted from a Google example ad upon pressing a "Skip Ad" button.
-			const vimeoControlHolderClosure = vimeoControlHolder;
+			vimeoControlHolder.prerollCallback();
 			beasleyIMACleanup();
-			vimeoControlHolderClosure.prerollCallback();
 			break;
 		default:
 			console.log(`Unhandled IMA Event - '${adEvent.type}'`);
@@ -218,9 +217,7 @@ function beasleyIMACleanup() {
 }
 
 function onContentPauseRequested() {
-	// Safari Is Autopausing after Preroll
-	//videoContent.pause();
-
+	videoContent.pause();
 	// This function is where you should setup UI for showing ads (e.g.
 	// display ad timer countdown, disable seeking etc.)
 	// setupUIForAds();

@@ -24,7 +24,7 @@
                 const iframe = fragment.querySelector('iframe');
                 if (iframe) {
                     const parts = iframe.src.split('?');
-                    src = `${parts[0]}?${parts[1] || ''}&rel=0&showinfo=0`;
+                    src = `${parts[0]}?${parts[1] || ''}&rel=0&showinfo=0&autoplay=1`;
                     iframe.src = src;
                     html = iframe.outerHTML;
                 }
@@ -57,9 +57,6 @@ function tvj_onThumbnailStartClick(event, ele) {
 	}
 	if(html) {
 		$lazyVideo.html(html);
-		if (window.loadVimeoPlayers) {
-			window.loadVimeoPlayers(true);
-		}
 	}
 }
 
@@ -95,14 +92,6 @@ async function tvj_checkImg(url) {
 
 function renderVideoThumbnailMobile($el, data, vti = 0) {
     let { src, html, title, thumbnail, isFallback } = data;
-
-	// If A Vimeo Video, Show Vimeo Player and exit
-	if (src.toLowerCase().indexOf('vimeo') > -1) {
-		$el.html(`<div className="vimeo responsive-media beasley-vimeo beasley">
-			${html.replace('&autoplay=1', '').replace('autoplay;', '')}
-		</div>`);
-		return;
-	}
 
     let webp = false;
     if(thumbnail) {
