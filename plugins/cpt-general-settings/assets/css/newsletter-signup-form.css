@@ -129,21 +129,27 @@
 .nsf-spinner {
     z-index: 9999;
     display: none;
-  }
+}
   
-  /* The following styles are optional and can be customized */
-  .spinner {
+/* The following styles are optional and can be customized */
+.spinner {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     border: 4px solid #ccc;
     border-top-color: #888;
     animation: spinner-rotate 0.8s linear infinite;
-  }
+}
   
-  @keyframes spinner-rotate {
+@keyframes spinner-rotate {
     to { transform: rotate(360deg); }
-  }
+}
+
+.nsf-checkbox-container{
+    padding-top: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
 
 @media (max-width:767px) {
     .nsf-container {
@@ -166,6 +172,11 @@
     .nsf-container form#nsf-form .nsf-input-container {
         text-align: left;
     }
+   
+    p.nsf-checkbox-container{
+        text-align: left;
+    }
+
 }
 @media (max-width:575px) {
     .nsf-container form#nsf-form {
@@ -176,5 +187,19 @@
         width: 100%;
         text-align: left;
         margin: 0 0 10px 0;
+    }
+    .nsf-action-container{
+        margin-top: 75px;
+    }
+
+    p.nsf-checkbox-container{
+        position: absolute;
+        bottom: 100px;
+        text-align: left;
+    }
+}
+@media (max-width:575px) {
+    .nsf-action-container{
+        margin-top: 95px;
     }
 }

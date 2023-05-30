@@ -63,6 +63,7 @@ class NewsletterSignupForm {
 			$nsf_mailing_list_name			= get_option('nsf_mailing_list_name');
 			$nsf_mailing_list_description	= get_option('nsf_mailing_list_description');
 			$nsf_template_token				= get_option('nsf_template_token');
+			$nsf_checkbox_content			= get_option('nsf_checkbox_content') ? get_option('nsf_checkbox_content') : 'By clicking "Subscribe" I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.';
 			$siteid 						= (get_option( 'ee_publisher') != '') ? get_option( 'ee_publisher') : '';
 			$domain 						= get_site_url();
 			$page_path 						= get_permalink();
@@ -85,23 +86,25 @@ class NewsletterSignupForm {
 					$html .= '<h2 class="nsf-subheader">'.$nsf_description.'</h2>';
 					$html .= '<form id="nsf-form" class="nsf-form" name="nsf_form" action="#" method="POST">';
 						$html .= $hidden_fields;
-						$html .= '<div class="nsf-input-container">';
-							$html .= '<div class="input-label"><label>First Name</label><span> *</span></div>';
-							$html .= '<div class="input-field"><input type="text" name="nsf_first_name" class="nsf-first-name" /></div>';
-						$html .= '</div>';
-						$html .= '<div class="nsf-input-container">';
-							$html .= '<div class="input-label"><label>Last Name</label><span> *</span></div>';
-							$html .= '<div class="input-field"><input type="text" name="nsf_last_name" id="nsf-last-name" class="nsf-last-name" /></div>';
-						$html .= '</div>';
-						$html .= '<div class="nsf-input-container">';
-							$html .= '<div class="input-label"><label>Email</label><span> *</span></div>';
-							$html .= '<div class="input-field"><input type="text" name="nsf_email" class="nsf-email" /><span class="nsf-email-error-msg"></span></div>';
-						$html .= '</div>';
+							$html .= '<div class="nsf-input-container">';
+								$html .= '<div class="input-label"><label>First Name</label><span> *</span></div>';
+								$html .= '<div class="input-field"><input type="text" name="nsf_first_name" class="nsf-first-name" /></div>';
+							$html .= '</div>';
+							$html .= '<div class="nsf-input-container">';
+								$html .= '<div class="input-label"><label>Last Name</label></div>';
+								$html .= '<div class="input-field"><input type="text" name="nsf_last_name" id="nsf-last-name" class="nsf-last-name" /></div>';
+							$html .= '</div>';
+							$html .= '<div class="nsf-input-container">';
+								$html .= '<div class="input-label"><label>Email</label><span> *</span></div>';
+								$html .= '<div class="input-field"><input type="text" name="nsf_email" class="nsf-email" /><span class="nsf-email-error-msg"></span></div>';
+							$html .= '</div>';
 						$html .= '<div class="nsf-action-container">';
 							$html .= '<button class="nsf-form-submit" type="submit">Subscribe</button>';
 						$html .= '</div>';
 					$html .= '</form>';
-					$html .= '<div class="nsf-spinner"><div class="spinner"></div></div><p class="response-error-container" style="font-size:14px;"></p>';
+					$html .= '<p class="nsf-checkbox-container"><input type="checkbox" class="nsf-checkbox-content" id="nsf-checkbox-content" name="nsf_checkbox_content"> '.$nsf_checkbox_content.'</p>';
+					$html .= '<div class="nsf-spinner"><div class="spinner"></div></div>';
+					$html .= '<p class="response-error-container" style="font-size:14px;"></p>';
 				$html .= '</div>';
 			$html .= '</div>';
 			$nsf_output_hide = true;
@@ -112,8 +115,8 @@ class NewsletterSignupForm {
 
 	public function ee_the_subheader_logo_html( $mobile_or_desktop, $base_w = 150, $base_h = 150 ) {
 	    $html = '';
-		$field_name = 'ee_subheader_' . $mobile_or_desktop . '_logo';
-	    $atag_class_name = $mobile_or_desktop . '-subheader-logo-link';
+		$field_name = get_option('ee_newsletter_logo') ? 'ee_newsletter_logo' : 'gmr_site_logo';
+	    $atag_class_name = $mobile_or_desktop . '-mewsletter-logo-link';
 		$site_logo_id = get_option( $field_name, 0 );
 		if ( $site_logo_id ) {
 			$site_logo = bbgi_get_image_url( $site_logo_id, $base_w, $base_h, false );
@@ -131,6 +134,7 @@ class NewsletterSignupForm {
 	public function nsf_register_settings( $group, $page ) {
 		$section_id = 'beasley_newsletter_signup_form';
 
+		add_settings_field( 'ee_newsletter_logo', 'Logo', 'bbgi_image_field', $page, $section_id, 'name=ee_newsletter_logo' );
 		add_settings_section( $section_id, 'Newsletter signup forms', '__return_false', $page );
 		add_settings_field('nsf_label', 'Label', 'bbgi_input_field', $page, $section_id, 'name=nsf_label');
 		add_settings_field('nsf_description', 'Description', 'bbgi_input_field', $page, $section_id, 'name=nsf_description');
@@ -139,7 +143,9 @@ class NewsletterSignupForm {
 		add_settings_field('nsf_mailing_list_name', 'Mailing list name', 'bbgi_input_field', $page, $section_id, 'name=nsf_mailing_list_name');
 		add_settings_field('nsf_mailing_list_description', 'Mailing list description', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_mailing_list_description');
 		add_settings_field('nsf_template_token', 'Template token', 'bbgi_input_field', $page, $section_id, 'name=nsf_template_token');
+		add_settings_field('nsf_checkbox_content', 'Terms of Service and Privacy Policy Content', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_checkbox_content');
 
+		register_setting( $group, 'ee_newsletter_logo', 'intval' );
 		register_setting( $group, 'nsf_label', 'sanitize_text_field' );
 		register_setting( $group, 'nsf_description', 'sanitize_text_field' );
 		register_setting( $group, 'nsf_subscription_attributes', 'sanitize_text_field' );
@@ -147,6 +153,8 @@ class NewsletterSignupForm {
 		register_setting( $group, 'nsf_mailing_list_name', 'sanitize_text_field' );
 		register_setting( $group, 'nsf_mailing_list_description', 'sanitize_text_field' );
 		register_setting( $group, 'nsf_template_token', 'sanitize_text_field' );
+		register_setting( $group, 'nsf_checkbox_content', 'sanitize_text_field' );
+
 	}
 
 	public function newsletter_signup_form_data_submit_action () {

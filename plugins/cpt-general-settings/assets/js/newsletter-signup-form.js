@@ -2,6 +2,21 @@
 	var $nsf_document = $(document);
 	$nsf_document.ready(function () {
 
+        if ($("#nsf-checkbox-content").is(":checked")) {
+            $("#nsf-form .nsf-form-submit").prop("disabled", false).css('opacity', 1).css('cursor', 'pointer');          
+        } else {
+            $("#nsf-form .nsf-form-submit").prop("disabled", true).css('opacity', 0.5).css('cursor', 'not-allowed');
+            $("#nsf-form .nsf-form-submit").off("click");
+        }
+ 
+        $nsf_document.on('change', '#nsf-checkbox-content', function(event) {
+            if ($(this).is(":checked")) {
+                $("#nsf-form .nsf-form-submit").prop("disabled", false).css('opacity', 1).css('cursor', 'pointer');
+            } else {
+                $("#nsf-form .nsf-form-submit").prop("disabled", true).css('opacity', 0.5).css('cursor', 'not-allowed');
+            }
+        });
+
         $nsf_document.on('click', '.nsf-container #nsf-form .nsf-form-submit', function(event) {
 
             event.preventDefault();
@@ -23,11 +38,6 @@
                 return false;
             }
 
-            if (nsf_last_name == "") {
-                $("#nsf-last-name").focus();
-                return false;
-            }
-
             if (email != "") {
                 var pattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
                 if (!pattern.test(email)) {
@@ -39,6 +49,11 @@
                 }
             }else{
                 $(".nsf-email").focus();
+                return false;
+            }
+
+            if (!$("#nsf-checkbox-content").is(":checked")) {
+                $("#nsf-checkbox-content").focus();
                 return false;
             }
 
@@ -85,6 +100,8 @@
                     $(".nsf-first-name").val('');
                     $(".nsf-email").val('');
                     $("#nsf-last-name").val('');
+                    $("#nsf-checkbox-content").prop("checked", false);
+                    $("#nsf-form .nsf-form-submit").prop("disabled", true).css('opacity', 0.5).css('cursor', 'not-allowed');
                     $('.nsf-spinner').css('display','none');
                 }
 			});
