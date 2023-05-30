@@ -143,14 +143,18 @@
 	margin-bottom: 2rem;
 }
 
-.post-thumbnail-caption, .jacapps .featured-media div, .whiz .featured-media div {
+.whiz .featured-media div {
+	color: var(--global-font-secondary);
+	font-size: .875rem;
+	margin: 0;
+}
+
+.post-thumbnail-caption, .jacapps .featured-media div, .featured-media div {
 	color: var(--global-font-secondary);
 	font-size: .875rem;
 	margin: .5rem 0 0 0;
-	& .whiz {
-	  margin: 0;
-    }
 }
+
 
 .jacapps .entry-content, .whiz .entry-content {
 	@media (--min-xlarge-viewport) {
