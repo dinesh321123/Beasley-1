@@ -4,12 +4,14 @@
     z-index: 999;
     top:35px;
 }
+
 .sticky_publish div#submitdiv.closed {
     min-width: 277px;
 }
-#acf-author_settings{
-    z-index: 1;
-}
-span.select2-dropdown.select2-dropdown--below {
+
+#acf-author_settings,
+span.select2-dropdown.select2-dropdown--below,
+.ef_editorial_meta.ef_editorial_meta_date input,
+.xdsoft_datetimepicker.xdsoft_.xdsoft_noselect{
     z-index: 1;
 }
