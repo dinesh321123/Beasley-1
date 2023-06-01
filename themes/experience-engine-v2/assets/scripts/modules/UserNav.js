@@ -37,7 +37,14 @@ class UserNav extends Component {
 	}
 
 	componentDidMount() {
-		const { firebase: config } = window.bbgiconfig;
+		const { firebase: config, ee_login } = window.bbgiconfig;
+
+		if (ee_login === 'disabled') {
+			if (firebaseAuth) {
+				firebaseAuth.signOut();
+			}
+		}
+
 		if (config.projectId) {
 			firebaseAuth.onAuthStateChanged(this.didAuthStateChange);
 			firebaseAuth
@@ -151,6 +158,8 @@ class UserNav extends Component {
 		firebaseAuth.signOut();
 		if (UserNav.isHomepage()) {
 			window.location.reload();
+		} else {
+			window.location.href = '/';
 		}
 	}
 

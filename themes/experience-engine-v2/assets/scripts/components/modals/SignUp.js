@@ -125,6 +125,11 @@ class SignUp extends PureComponent {
 			return false;
 		}
 
+		if (password === '') {
+			this.setState({ error: 'Please enter a password.' });
+			return false;
+		}
+
 		if (validateZipcode(zip) === false) {
 			this.setState({ error: 'Please enter a valid US Zipcode.' });
 			return false;
@@ -276,6 +281,7 @@ class SignUp extends PureComponent {
 								name="bday"
 								value={bday}
 								onChange={this.onFieldChange}
+								pattern="\d{2}/\d{2}/\d{4}"
 								placeholder="mm/dd/yyyy"
 							/>
 						</div>

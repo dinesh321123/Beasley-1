@@ -96,6 +96,7 @@ class SignIn extends PureComponent {
 									value={email}
 									onChange={this.onFieldChange}
 									placeholder="your@emailaddress.com"
+									required
 								/>
 							</div>
 							<div className="modal-form-group">
@@ -110,6 +111,7 @@ class SignIn extends PureComponent {
 									value={password}
 									onChange={this.onFieldChange}
 									placeholder="Your password"
+									required
 								/>
 							</div>
 							<div className="modal-form-actions">
