@@ -7,6 +7,8 @@
 	text-align: center;
 	padding: 0px 8px;
 	text-decoration: none;
+	border: 1px solid red;
+	border-radius: 0;
 	display: flex;
 	text-transform: uppercase;
 	font-size: 15px;
@@ -16,9 +18,9 @@
 }
 
 .cancellation:hover {
-	/*background-color: #fff;*/
-	/*color: #000;*/
-	//cursor: pointer;
+	/* background-color: #fff;
+	color: #000; */
+	/* cursor: pointer; */
 }
 
 .prompt {
@@ -28,6 +30,11 @@
 	font-size: 14px;
 }
 
+.prompt-container h3{
+	color: #eee;
+	text-align: center;
+}
+
 .prompt-container button {
 	background-color: var(--brand-primary);
 	color: var(--brand-text-color);
@@ -35,14 +42,14 @@
 	border-radius: 4px;
 	font-weight: bold;
 	font-size: 14px;
-	cursor: pointer;
+    cursor: pointer;
 }
 
-/*.prompt-container button:hover {*/
-/*	background-color: #fff;*/
-/*	color: #000;*/
-/*	cursor: pointer;*/
-/*}*/
+.prompt-container button:hover  {
+	background-color: #fff;
+	color: #000;
+	cursor: pointer;
+}
 
 
 /* The CSS */
@@ -73,9 +80,9 @@
 	margin-top: auto;
 	justify-content: space-between;
 
-	& button {
-	cursor: pointer;
-	}
+    & button {
+    cursor: pointer;
+    }
 }
 
 .confirmation-button, delete-button {
