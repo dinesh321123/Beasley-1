@@ -166,6 +166,9 @@ class CommonSettings {
 	public static function allow_require_feature_img_posttype_list() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'post', 'page', 'listicle_cpt', 'affiliate_marketing' )  );
 	}
+	public static function allow_sticky_posttype_list() {
+		return (array) apply_filters( 'allow-sticky-for-posttypes', array( 'post', 'page', 'tribe_events', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'gmr_album', 'contest', 'show', 'podcast', 'episode', 'content-kit' ) );
+	}
 
 	/**
 	 * Enqueues admin scripts and styles.
@@ -198,6 +201,20 @@ class CommonSettings {
 					)
 			);
 		}
+
+		if ( in_array( $typenow, CommonSettings::allow_sticky_posttype_list() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			
+			wp_register_style('sticky-public-box-css',GENERAL_SETTINGS_CPT_URL . "assets/css/sticky-public-box". $postfix .".css", array(), GENERAL_SETTINGS_CPT_VERSION, 'all');
+			wp_enqueue_style('sticky-public-box-css');
+
+			wp_register_script(
+				'sticky-public-box-js',
+				GENERAL_SETTINGS_CPT_URL . "assets/js/sticky-public-box". $postfix .".js",
+				array( 'jquery' ), '0.1' );
+			wp_enqueue_script( 'sticky-public-box-js' );
+
+		}
+
 	}
 }
 
