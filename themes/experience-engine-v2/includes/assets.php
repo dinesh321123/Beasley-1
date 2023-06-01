@@ -278,6 +278,8 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'timezone_string' => get_option( 'timezone_string', 'off' ),
 
 			'ee_login' => get_option( 'ee_login', '' ),
+			'site_braze_preference_id' =>  get_option( 'braze_preference_id', '' ),
+
 			/** Live Streaming Intervals */
 			'intervals'  => [
 				'live_streaming' => absint( get_option( 'gmr_live_streaming_interval', 1 ) ),

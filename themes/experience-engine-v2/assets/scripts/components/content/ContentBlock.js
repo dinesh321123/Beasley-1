@@ -38,6 +38,8 @@ import DraftkingEmbed from './embeds/DraftkingEmbed';
 import AudienceEmbed from './embeds/Audience';
 import CancelAccount from './embeds/CancelAccount';
 
+import PreferenceCenter from './embeds/PreferenceCenter';
+
 const mapping = {
 	audio: AudioEmbed,
 	countdown: Countdown,
@@ -71,6 +73,7 @@ const mapping = {
 	dimers: Dimers,
 	audience: AudienceEmbed,
 	cancelaccount: CancelAccount,
+	preferencecenter: PreferenceCenter,
 };
 
 /**

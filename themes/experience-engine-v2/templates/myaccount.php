@@ -15,6 +15,8 @@
 
 	<div class="entry-content content-wrap">
 		<div class="description"><?php the_content(); ?>
+            <div class="info_account"></div>
+			<div class="preference-section"></div>
 			<div class="cancel_account">
 				<?php echo do_shortcode('[cancel_account]'); ?>
 			</div>
