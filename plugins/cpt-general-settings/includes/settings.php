@@ -16,47 +16,6 @@ class CommonSettings {
 		add_action( 'init', array( __CLASS__, 'settings_cpt_init' ), 0 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'required_alt_text' ) );	// Script for validate Alt text from Add media button
-		add_action('admin_footer', array( __CLASS__, 'sticky_publish_box' ) );	// Script to sticky/floating publish box
-	}
-
-	/**
-	 * Code to sticky publish box in admin side
-	 */
-	public static function sticky_publish_box() {
-		global $typenow, $pagenow;
-		if ( in_array( $typenow, CommonSettings::allow_sticky_posttype_list() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
-		?>
-		<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			jQuery(window).scroll(function() {
-			    var scroll = jQuery(window).scrollTop();
-			    if (scroll >= 200) {
-			        jQuery("div#side-sortables").addClass("sticky_publish");
-			    }
-			    else{
-			    	jQuery("div#side-sortables").removeClass("sticky_publish");
-			    }
-			}); //missing );
-		});
-		</script>
-		<style type="text/css">
-			.sticky_publish div#submitdiv {
-				position: fixed;
-				min-width: 277px;
-				z-index: 999;
-				top:35px;
-			}
-			.sticky_publish div#submitdiv.closed {
-				min-width: 277px;
-			}
-		</style>
-	<?php } //Close if condition
-	}
-	/**
-	 * Returns array of post type.
-	 */
-	public static function allow_sticky_posttype_list() {
-		return (array) apply_filters( 'allow-sticky-for-posttypes', array( 'post', 'page', 'tribe_events', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'gmr_album', 'contest', 'show', 'podcast', 'episode', 'content-kit' ) );
 	}
 
 	public static function required_alt_text() {
