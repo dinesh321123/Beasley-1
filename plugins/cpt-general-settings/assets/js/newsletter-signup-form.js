@@ -86,7 +86,7 @@
 				success : function( response ) {
 					var res = jQuery.parseJSON(response.body);
                     if(res.code == '200'){
-                        $('.response-error-container').html(res.message).css('color','var(--brand-text-color)');
+                        $('.response-error-container').html('Success! You\'re now subscribed.').css('color','var(--brand-text-color)');
                     }else{
                         $('.response-error-container').html('Error Code '+res.code+' : '+res.message).css('color','red');
                     }
