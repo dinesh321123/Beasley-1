@@ -8,9 +8,14 @@
         border: none;
         padding: 0!important;
         font-family: arial, sans-serif;
-        color: #069;
+        color: var(--brand-primary);
         text-decoration: underline;
         cursor: pointer;
         margin-left: 5px;
     }
+    & span {
+        margin-left: 10px;
+        font-size: 12px;
+        color: red;
+       }
 }

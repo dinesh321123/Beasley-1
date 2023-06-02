@@ -10,6 +10,7 @@ class PreferenceCenter extends Component {
 		super(props);
 		this.state = {
 			isLoggedIn: false,
+			api_error: '',
 		};
 	}
 
@@ -48,6 +49,10 @@ class PreferenceCenter extends Component {
 			.then(result => {
 				if (result.Success) {
 					window.open(result.URL, '_blank');
+				} else if (result?.Error) {
+					this.setState({ api_error: result.Error });
+				} else {
+					this.setState({ api_error: 'Somethings wents wronge!' });
 				}
 			});
 	};
@@ -65,6 +70,7 @@ class PreferenceCenter extends Component {
 						>
 							Preference
 						</button>
+						{this.state.api_error ? <span>{this.state.api_error}</span> : null}
 					</div>
 				) : null}
 			</div>
