@@ -10,6 +10,7 @@ import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
 import { mapAuthErrorCodeToFriendlyMessage } from '../../library/friendly-error-messages';
+import { setMParticleUserAtributes } from '../../library';
 
 import {
 	saveUser,
@@ -184,6 +185,14 @@ class SignUp extends PureComponent {
 				this.props.setDisplayName(userData.displayName);
 			})
 			.then(() => {
+				setMParticleUserAtributes(
+					emailAddress,
+					firstname,
+					lastname,
+					zip,
+					gender,
+					bday,
+				);
 				ensureUserHasCurrentChannel().then(() => {
 					this.props.close();
 					window.location.reload();
