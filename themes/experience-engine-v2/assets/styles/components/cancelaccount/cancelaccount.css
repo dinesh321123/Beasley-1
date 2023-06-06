@@ -57,8 +57,8 @@
 	flex-direction: column;
 	position: fixed;
 	background-color: #2e2e2f;
-	width: 230px;
-	top: 75%;
+	width: auto;
+	top: 55%;
 	left: 50%;
 	transform: translate(-50%, -75%);
 	border-radius: 0.3rem;
@@ -76,13 +76,22 @@
 }
 
 .button-container {
-	display: flex;
+	display: block;
+    text-align: end;
 	margin-top: auto;
 	justify-content: space-between;
 
     & button {
     cursor: pointer;
     }
+
+	@media (--max-medium-viewport) {
+		text-align: center;
+	}
+
+}
+.button-container button{
+	margin-left: 20px;
 }
 
 .confirmation-button, delete-button {

@@ -48,6 +48,9 @@ class CancelAccount extends Component {
 	};
 
 	render() {
+		if (!this.state.isLoggedIn) {
+			window.location.href = '/';
+		}
 		const { user } = this.props;
 		const container = document.querySelectorAll('.info_account')[0];
 		container.innerHTML = `<p><strong>Email ID:</strong> <span className="user-email-id">${user.email}</span></p>`;
