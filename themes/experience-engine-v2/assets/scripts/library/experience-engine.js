@@ -197,13 +197,21 @@ export function searchKeywords(keyword) {
 	).then(response => response.json());
 }
 
+export function validateFutureDate(dateString) {
+	const today = new Date();
+	const parsedDate = new Date(dateString);
+
+	if (parsedDate >= today) {
+		return false;
+	}
+}
+
 export function validateDate(dateString) {
 	// @note: Leaving this is without disabling it.
 	// First check for the pattern
 	if (!/^\d{1,2}\/|-\d{1,2}\/|-\d{4}$/.test(dateString)) {
 		return false;
 	}
-
 	// Parse the date parts to integers
 	let parts;
 
@@ -392,6 +400,7 @@ export default {
 	deleteFeed,
 	searchKeywords,
 	validateDate,
+	validateFutureDate,
 	validateUrl,
 	fetchPublisherInformation,
 	getOffsetEl,

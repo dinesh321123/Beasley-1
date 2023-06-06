@@ -14,6 +14,7 @@ import { mapAuthErrorCodeToFriendlyMessage } from '../../library/friendly-error-
 import {
 	saveUser,
 	validateDate,
+	validateFutureDate,
 	validateEmail,
 	validateZipcode,
 	validateGender,
@@ -64,6 +65,7 @@ class SignUp extends PureComponent {
 			gender: '',
 			bday: '',
 			error: '',
+			showError: false,
 		};
 
 		this.onFieldChange = this.handleFieldChange.bind(this);
@@ -100,6 +102,19 @@ class SignUp extends PureComponent {
 			bday,
 		} = this.state;
 
+		if (
+			firstname === '' ||
+			lastname === '' ||
+			password === '' ||
+			zip === '' ||
+			gender === '' ||
+			bday === ''
+		) {
+			this.setState({
+				showError: true,
+			});
+		}
+
 		const emailAddress = email.trim().toLowerCase();
 		const userData = {
 			displayName: `${firstname} ${lastname}`,
@@ -132,6 +147,14 @@ class SignUp extends PureComponent {
 
 		if (validateZipcode(zip) === false) {
 			this.setState({ error: 'Please enter a valid US Zipcode.' });
+			this.setState({
+				showError: true,
+			});
+			return false;
+		}
+
+		if (validateFutureDate(bday) === false) {
+			this.setState({ error: 'Date cannot be in the future' });
 			return false;
 		}
 
@@ -178,6 +201,7 @@ class SignUp extends PureComponent {
 			gender,
 			bday,
 			error,
+			showError,
 		} = this.state;
 		const { signin } = this.props;
 
@@ -201,7 +225,9 @@ class SignUp extends PureComponent {
 								First Name
 							</label>
 							<input
-								className="modal-form-field"
+								className={`modal-form-field 
+									${showError && firstname === '' ? 'error-field' : ''}
+									`}
 								type="text"
 								id="user-firstname"
 								name="firstname"
@@ -215,7 +241,9 @@ class SignUp extends PureComponent {
 								Last Name
 							</label>
 							<input
-								className="modal-form-field"
+								className={`modal-form-field 
+								${showError && lastname === '' ? 'error-field' : ''}
+								`}
 								type="text"
 								id="user-lastname"
 								name="lastname"
@@ -231,7 +259,9 @@ class SignUp extends PureComponent {
 								Email
 							</label>
 							<input
-								className="modal-form-field"
+								className={`modal-form-field 
+								${showError && email === '' ? 'error-field' : ''}
+								`}
 								type="email"
 								id="user-email"
 								name="email"
@@ -245,7 +275,9 @@ class SignUp extends PureComponent {
 								Password
 							</label>
 							<input
-								className="modal-form-field"
+								className={`modal-form-field 
+								${showError && password === '' ? 'error-field' : ''}
+								`}
 								type="password"
 								id="user-password"
 								name="password"
@@ -261,13 +293,16 @@ class SignUp extends PureComponent {
 								Zip
 							</label>
 							<input
-								className="modal-form-field"
+								className={`modal-form-field 
+								${showError && zip === '' ? 'error-field' : ''}
+								`}
 								type="text"
 								id="user-zip"
 								name="zip"
 								value={zip}
 								onChange={this.onFieldChange}
 								placeholder="90210"
+								pattern="\d{5}"
 							/>
 						</div>
 						<div className="modal-form-group">
@@ -275,7 +310,9 @@ class SignUp extends PureComponent {
 								Birthday
 							</label>
 							<input
-								className="modal-form-field"
+								className={`modal-form-field 
+								${showError && bday === '' ? 'error-field' : ''}
+								`}
 								type="text"
 								id="user-bday"
 								name="bday"
