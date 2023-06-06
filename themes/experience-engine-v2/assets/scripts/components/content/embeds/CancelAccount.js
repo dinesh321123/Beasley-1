@@ -16,6 +16,11 @@ class CancelAccount extends Component {
 	}
 
 	componentDidMount() {
+		firebaseAuth.onAuthStateChanged(function(user) {
+			if (!user) {
+				window.location.href = '/';
+			}
+		});
 		const { firebase: config } = window.bbgiconfig;
 		const { setUser } = this.props;
 		if (config.projectId) {
@@ -48,9 +53,6 @@ class CancelAccount extends Component {
 	};
 
 	render() {
-		if (!this.state.isLoggedIn) {
-			window.location.href = '/';
-		}
 		const { user } = this.props;
 		const container = document.querySelectorAll('.info_account')[0];
 		container.innerHTML = `<p><strong>Email ID:</strong> <span className="user-email-id">${user.email}</span></p>`;

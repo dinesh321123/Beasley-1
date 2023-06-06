@@ -77,9 +77,8 @@
 
 .button-container {
 	display: block;
-    text-align: end;
+    text-align: right;
 	margin-top: auto;
-	justify-content: space-between;
 
     & button {
     cursor: pointer;
