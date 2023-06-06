@@ -137,6 +137,8 @@ class SignUp extends PureComponent {
 
 		if (validateEmail(email) === false) {
 			this.setState({ error: 'Please enter a valid email address.' });
+			const inputElement = document.getElementById('user-email');
+			inputElement.style.borderColor = 'red';
 			return false;
 		}
 
@@ -154,12 +156,14 @@ class SignUp extends PureComponent {
 		}
 
 		if (validateFutureDate(bday) === false) {
-			this.setState({ error: 'Date cannot be in the future' });
+			this.setState({ error: "Date can't be a future date." });
 			return false;
 		}
 
 		if (validateDate(bday) === false) {
 			this.setState({ error: 'Please ensure date is in MM/DD/YYYY format' });
+			const inputElement = document.getElementById('user-bday');
+			inputElement.style.borderColor = 'red';
 			return false;
 		}
 		this.setState({ error: '' });
