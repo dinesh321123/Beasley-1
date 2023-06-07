@@ -241,7 +241,7 @@ class UserNav extends Component {
 
 	renderSignedInStateMobile(user) {
 		const { userDisplayName } = this.props;
-
+		const myAccountLink = 'my-account/';
 		const displayName = user.displayName || userDisplayName || user.email;
 		let photo = user.photoURL;
 		if ((!photo || !photo.length) && user.email) {
@@ -261,9 +261,9 @@ class UserNav extends Component {
 				}
 			>
 				<li data-value="2" className="select-user-list-item">
-					<button type="button" className="user-nav-button">
+					<a type="button" className="user-nav-button" href={myAccountLink}>
 						My Account
-					</button>
+					</a>
 				</li>
 				<li data-value="3" className="select-user-list-item">
 					<button

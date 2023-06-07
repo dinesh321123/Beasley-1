@@ -239,30 +239,35 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 
 	 }
 
-	@media(--max-x2large-viewport) {
-		left: 0;
-		right: auto;
+		@media(--max-x2large-viewport) {
+			left: 0;
+			right: auto;
+		}
 	}
-}
-& .select-user-list-item {
-	  display: block;
-	  list-style-type: none;
-	  padding: 10px 15px;
-	  background: #202020;
-	  border-top: 1px solid rgb(255 255 255 / 7%);
-	  font-size: 14px;
-	  line-height: 1.4;
-	  cursor: pointer;
-	  color: #fff;
-	  transition: all ease-in-out .3s;
-	 & button{
-		font-size:14px;
-		padding:0;
-	   }
-	   & a{
-		font-size:14px;
-		padding:0;
-	   }
- }
-}
-
+	& .select-user-list-item {
+		  display: block;
+		  list-style-type: none;
+		  padding: 10px 15px;
+		  background: #202020;
+		  border-top: 1px solid rgb(255 255 255 / 7%);
+		  font-size: 14px;
+		  line-height: 1.4;
+		  cursor: pointer;
+		  color: #fff;
+		  transition: all ease-in-out .3s;
+		 & button{
+			font-size:14px;
+			padding:0;
+		   }
+		   & a{
+			font-size:14px;
+			padding:0;
+		   }
+	 }
+	}
+	div#user-nav-mobile .select-user-dropdown .select-user-list.active {
+		top: calc(-100% + -30px);
+		box-shadow: 0 0 10px #000000;
+		border-radius: 5px;
+		left: -30px;
+	}

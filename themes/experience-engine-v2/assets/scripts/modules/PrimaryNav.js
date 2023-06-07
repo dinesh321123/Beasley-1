@@ -187,7 +187,7 @@ class PrimaryNav extends PureComponent {
 	handleSubMenuSize() {
 		this.handlepaginationFix();
 		this.setTwoColAdTopMargin();
-		if (window.matchMedia('(min-width: 1301px)').matches) {
+		if (window.matchMedia('(min-width: 1376px)').matches) {
 			const adEle = document.getElementById('main-custom-logo');
 			let adEleStyleHeight = '';
 			if (adEle) {

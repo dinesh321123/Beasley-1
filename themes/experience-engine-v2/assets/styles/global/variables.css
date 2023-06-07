@@ -38,8 +38,8 @@
 	--brand-tertiary: blue;
 }
 
-@custom-media --min-x2large-viewport (min-width: 1301px);
-@custom-media --max-x2large-viewport (max-width: 1300px);
+@custom-media --min-x2large-viewport (min-width: 1376px);
+@custom-media --max-x2large-viewport (max-width: 1375px);
 @custom-media --min-xxlarge-viewport (min-width: 1240px);
 @custom-media --min-xlarge-viewport (min-width: 1060px);
 @custom-media --min-large2-viewport (min-width: 992px);
