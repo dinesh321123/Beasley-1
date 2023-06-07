@@ -149,7 +149,7 @@
 	margin: 0;
 }
 
-.post-thumbnail-caption, .jacapps .featured-media div, .featured-media div {
+.post-thumbnail-caption, .jacapps .featured-media div{
 	color: var(--global-font-secondary);
 	font-size: .875rem;
 	margin: .5rem 0 0 0;
