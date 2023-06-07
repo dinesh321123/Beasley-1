@@ -1,5 +1,5 @@
 export default function endMParticleMediaSession() {
-	if (!window.mediaSession?.isStopped) {
+	if (window.mediaSession && !window.mediaSession?.isStopped) {
 		window.mediaSession.isStopped = true;
 
 		window.beasleyanalytics.setMParticlePerEventKeys();
