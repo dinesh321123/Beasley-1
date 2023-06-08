@@ -136,7 +136,10 @@ class SignUp extends PureComponent {
 			return false;
 		}
 
-		if (validateEmail(email) === false) {
+		if (validateEmail(email)) {
+			const inputElement = document.getElementById('user-email');
+			inputElement.style.borderColor = '#000000';
+		} else {
 			this.setState({ error: 'Please enter a valid email address.' });
 			const inputElement = document.getElementById('user-email');
 			inputElement.style.borderColor = 'red';
