@@ -227,7 +227,6 @@ function reducer(state = {}, action = {}) {
 				adPlayback: false,
 				gamAdPlayback: false,
 				gamAdPlaybackStop: true,
-				forceSpinner: false,
 			};
 		}
 
