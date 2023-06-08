@@ -91,10 +91,10 @@
 				success : function( response ) {
 					var res = jQuery.parseJSON(response.body);
                     if(res.code == '200'){
-                        $('.response-error-container').html('Success! You\'re now subscribed.');
+                        $('.response-error-container').html('Success! You\'re now subscribed.').fadeIn();
                         setTimeout(function() {
                             $('.response-error-container').fadeOut();
-                          }, 30000);
+                          }, 20000);
                     }else{
                         $('.response-error-container').html('Error Code '+res.code+' : '+res.message).css('color','red');
                     }
