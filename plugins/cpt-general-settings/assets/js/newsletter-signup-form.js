@@ -35,6 +35,7 @@
 
             if (name == "") {
                 $(".nsf-first-name").focus();
+                $('.nsf-fname-error-msg').text('First name required.');
                 return false;
             }
 
@@ -49,6 +50,7 @@
                 }
             }else{
                 $(".nsf-email").focus();
+                $('.nsf-email-error-msg').text('Email required.');
                 return false;
             }
 
@@ -86,7 +88,10 @@
 				success : function( response ) {
 					var res = jQuery.parseJSON(response.body);
                     if(res.code == '200'){
-                        $('.response-error-container').html('Success! You\'re now subscribed.').css('color','var(--brand-text-color)');
+                        $('.response-error-container').html('Success! You\'re now subscribed.');
+                        setTimeout(function() {
+                            $('.response-error-container').fadeOut();
+                          }, 30000);
                     }else{
                         $('.response-error-container').html('Error Code '+res.code+' : '+res.message).css('color','red');
                     }
@@ -103,6 +108,8 @@
                     $("#nsf-checkbox-content").prop("checked", false);
                     $("#nsf-form .nsf-form-submit").prop("disabled", true).css('opacity', 0.5).css('cursor', 'not-allowed');
                     $('.nsf-spinner').css('display','none');
+                    $('.nsf-email-error-msg').html('');
+                    $('.nsf-fname-error-msg').html('');
                 }
 			});
 

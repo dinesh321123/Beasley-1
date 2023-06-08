@@ -44,6 +44,7 @@ class NewsletterSignupForm {
 			array(
 				'nsf_label' => '',
 				'nsf_description' => '',
+				'nsf_color' => '',
 				'nsf_subscription_attributes' => '',
 				'nsf_subscription_id' => '',
 				'nsf_mailing_list_name' => '',
@@ -58,6 +59,7 @@ class NewsletterSignupForm {
 
 			$nsf_label						= $attr['nsf_label'] != '' ? sanitize_text_field($attr['nsf_label']) : (get_option('nsf_label') != '' ? get_option('nsf_label') : 'Join the Family');
 			$nsf_description				= $attr['nsf_description'] != '' ? sanitize_text_field($attr['nsf_description']) : (get_option('nsf_description') != '' ? get_option('nsf_description') : 'Get Our Latest Articles in Your Inbox');
+			$nsf_color						= $attr['nsf_color'] != '' ? sanitize_text_field($attr['nsf_color']) : (get_option('nsf_color') != '' ? get_option('nsf_color') : '#000000');
 			$nsf_subscription_attributes	= get_option('nsf_subscription_attributes');
 			$nsf_subscription_ID			= get_option('nsf_subscription_ID');
 			$nsf_mailing_list_name			= get_option('nsf_mailing_list_name');
@@ -76,7 +78,17 @@ class NewsletterSignupForm {
 			$hidden_fields .= $attr['nsf_mailing_list_name'] != '' ? '<input type="hidden" name="nsf_mailing_list_name" id="nsf_mailing_list_name" value="'.esc_attr($attr['nsf_mailing_list_name']).'">' : ($nsf_mailing_list_name != '' ? '<input type="hidden" name="nsf_mailing_list_name" id="nsf_mailing_list_name" value="'.$nsf_mailing_list_name.'">' : '');
 			$hidden_fields .= $attr['nsf_mailing_list_description'] != '' ? '<input type="hidden" name="nsf_mailing_list_description" id="nsf_mailing_list_description" value="'.esc_attr($attr['nsf_mailing_list_description']).'">' : ($nsf_mailing_list_description != '' ? '<input type="hidden" name="nsf_mailing_list_description" id="nsf_mailing_list_description" value="'.$nsf_mailing_list_description.'">' : '');
 			$hidden_fields .= $attr['nsf_template_token'] != '' ? '<input type="hidden" name="nsf_template_token" id="nsf_template_token" value="'.esc_attr($attr['nsf_template_token']).'">' : ($nsf_template_token != '' ? '<input type="hidden" name="nsf_template_token" id="nsf_template_token" value="'.$nsf_template_token.'">' : '');
-
+			
+			$html .= '<style>
+						.nsf-container label,
+						.nsf-container h2.nsf-subheader,
+						.nsf-container .input-label,
+						.nsf-container span.nsf-name-error,
+						.nsf-container span.nsf-email-error,
+						.nsf-container button.nsf-form-submit,
+						.nsf-container .response-error-container,
+						.nsf-container .nsf-checkbox-container { color : '.$nsf_color.'; }
+					</style>';
 			$html .= '<div class="nsf-container" id="root">';
 				$html .= '<div class="nsf-image-container" >';
 					$html .= $this->ee_the_subheader_logo_html('desktop', 154, 88);
@@ -88,7 +100,7 @@ class NewsletterSignupForm {
 						$html .= $hidden_fields;
 							$html .= '<div class="nsf-input-container">';
 								$html .= '<div class="input-label"><label>First Name</label><span> *</span></div>';
-								$html .= '<div class="input-field"><input type="text" name="nsf_first_name" class="nsf-first-name" /></div>';
+								$html .= '<div class="input-field"><input type="text" name="nsf_first_name" class="nsf-first-name" /><span class="nsf-fname-error-msg"></span></div>';
 							$html .= '</div>';
 							$html .= '<div class="nsf-input-container">';
 								$html .= '<div class="input-label"><label>Last Name</label></div>';
@@ -136,18 +148,20 @@ class NewsletterSignupForm {
 
 		add_settings_field( 'ee_newsletter_logo', 'Logo', 'bbgi_image_field', $page, $section_id, 'name=ee_newsletter_logo' );
 		add_settings_section( $section_id, 'Newsletter signup forms', '__return_false', $page );
-		add_settings_field('nsf_label', 'Label', 'bbgi_input_field', $page, $section_id, 'name=nsf_label');
-		add_settings_field('nsf_description', 'Description', 'bbgi_input_field', $page, $section_id, 'name=nsf_description');
+		add_settings_field('nsf_label', 'Label', 'bbgi_input_field', $page, $section_id, 'name=nsf_label&default=Join the Family');
+		add_settings_field('nsf_description', 'Description', 'bbgi_input_field', $page, $section_id, 'name=nsf_description&default=Get Our Latest Articles in Your Inbox');
+		add_settings_field('nsf_color', 'Text-Color', 'bbgi_input_field', $page, $section_id, 'name=nsf_color&default=#000000');
 		add_settings_field('nsf_subscription_attributes', 'Subscription Attributes', 'bbgi_input_field', $page, $section_id, 'name=nsf_subscription_attributes');
 		add_settings_field('nsf_subscription_ID', 'Subscription ID', 'bbgi_input_field', $page, $section_id, 'name=nsf_subscription_ID');
 		add_settings_field('nsf_mailing_list_name', 'Mailing list name', 'bbgi_input_field', $page, $section_id, 'name=nsf_mailing_list_name');
 		add_settings_field('nsf_mailing_list_description', 'Mailing list description', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_mailing_list_description');
 		add_settings_field('nsf_template_token', 'Template token', 'bbgi_input_field', $page, $section_id, 'name=nsf_template_token');
-		add_settings_field('nsf_checkbox_content', 'Terms of Service and Privacy Policy Content', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_checkbox_content');
+		add_settings_field('nsf_checkbox_content', 'Terms of Service and Privacy Policy Content', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_checkbox_content&default= By clicking "Subscribe" I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.');
 
 		register_setting( $group, 'ee_newsletter_logo', 'intval' );
 		register_setting( $group, 'nsf_label', 'sanitize_text_field' );
 		register_setting( $group, 'nsf_description', 'sanitize_text_field' );
+		register_setting( $group, 'nsf_color', 'sanitize_text_field' );
 		register_setting( $group, 'nsf_subscription_attributes', 'sanitize_text_field' );
 		register_setting( $group, 'nsf_subscription_ID', 'sanitize_text_field' );
 		register_setting( $group, 'nsf_mailing_list_name', 'sanitize_text_field' );

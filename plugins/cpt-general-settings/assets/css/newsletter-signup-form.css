@@ -105,7 +105,8 @@
     position: relative;
 }
 
-.nsf-container form#nsf-form .nsf-input-container span.nsf-email-error-msg {
+.nsf-container form#nsf-form .nsf-input-container span.nsf-email-error-msg,
+.nsf-container form#nsf-form .nsf-input-container span.nsf-fname-error-msg {
     position: absolute;
     font-size: 12px;
     text-transform: capitalize;
@@ -117,7 +118,8 @@
     line-height: 18px;
 }
 
-.nsf-email-error-msg{
+.nsf-email-error-msg,
+.nsf-fname-error-msg{
     color: red;
 }
 
