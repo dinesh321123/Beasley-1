@@ -21,6 +21,9 @@
 
             event.preventDefault();
 
+            $('.nsf-email-error-msg').html('');
+            $('.nsf-fname-error-msg').html('');
+
             var name 						= $(".nsf-first-name").val();
             var email 						= $(".nsf-email").val();
             var nsf_last_name 				= $("#nsf-last-name").val();
