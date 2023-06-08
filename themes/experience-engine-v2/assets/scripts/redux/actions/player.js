@@ -372,16 +372,11 @@ export function initTdPlayer(station) {
 				 * that we do not introduce unforeseen issues we return the original
 				 * ACTION_AD_PLAYBACK_ERROR type.
 				 * */
-				console.log('ad-playback-error EVENT from Triton');
-				if (window.beforeStreamStart) {
-					window.beforeStreamStart(() =>
-						dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
-					);
-				} else {
-					console.log('Dispatching GAM Preroll Start');
-					const nowDate = new Date();
-					dispatch(gamAdPlaybackStart(nowDate.getTime()));
-				}
+				console.log(
+					'ad-playback-error EVENT from Triton - Dispatching GAM Preroll Start',
+				);
+				const nowDate = new Date();
+				dispatch(gamAdPlaybackStart(nowDate.getTime()));
 			});
 
 			window.tdplayer.addEventListener('player-ready', () =>
@@ -555,13 +550,8 @@ export const playAudio = (
  */
 export const playStation = station => dispatch => {
 	console.log(`playStation() - ${station}`);
-
-	// Load Triton If We Have Not Done So Yet
-	if (!window.tdplayer) {
-		initTdPlayer(station)(dispatch);
-	} else {
-		play('tdplayer', station)(dispatch);
-	}
+	initTdPlayer(station)(dispatch); // Station Will Dispatch Play When Play Is In 'player-ready' State
+	// play('tdplayer', station)(dispatch);
 };
 /**
  * Action Creator for playing an audio file using the omnyplayer.

@@ -227,12 +227,13 @@ function reducer(state = {}, action = {}) {
 				adPlayback: false,
 				gamAdPlayback: false,
 				gamAdPlaybackStop: true,
+				forceSpinner: false,
 			};
 		}
 
 		case ACTION_AD_PLAYBACK_COMPLETE:
 		case ACTION_GAM_AD_PLAYBACK_COMPLETE: {
-			console.log('Successful Preroll complete - updating time stamp ');
+			console.log('Preroll complete - updating time stamp ');
 			const nowDate = new Date();
 			return {
 				...state,
