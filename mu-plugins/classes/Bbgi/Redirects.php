@@ -35,6 +35,23 @@ class Redirects extends \Bbgi\Module {
 	}
 
 	/**
+	 * Apply whitelisted host to allowed_redirect_hosts filter
+	 *
+	 * @since 1.8
+	 * @param array $hosts Array of hosts
+	 * @return array
+	 */
+	public function filter_allowed_redirect_hosts( $hosts ) {
+		$without_www = preg_replace( '/^www\./i', '', $this->whitelist_host );
+		$with_www    = 'www.' . $without_www;
+
+		$hosts[] = $without_www;
+		$hosts[] = $with_www;
+
+		return array_unique( $hosts );
+	}
+
+	/**
 	 * Tries to match a url for a redirect.
 	 * This method was created from the maybe_redirect method in the SRM plugin.
 	 *

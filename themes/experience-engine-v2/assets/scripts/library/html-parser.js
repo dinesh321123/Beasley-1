@@ -80,6 +80,7 @@ function getDatasetParams(...list) {
 function getLoadMoreParams(element) {
 	return {
 		link: element.getAttribute('href'),
+		autoload: element.getAttribute('autoload'),
 	};
 }
 
@@ -249,7 +250,11 @@ function processEmbeds(container, type, selector, callback) {
 	return embeds;
 }
 
-export function getStateFromContent(container, pageURL) {
+export function getStateFromContent(
+	container,
+	pageURL,
+	isExecutingMParticleScripts = false,
+) {
 	// Determine whether there are any Vimeo Videos. If so, we will not display STN.
 	const iframeElementNodelist = container.querySelectorAll('iframe');
 	const vimeoIFrameElementArray = [...iframeElementNodelist].filter(
@@ -260,6 +265,7 @@ export function getStateFromContent(container, pageURL) {
 
 	const state = {
 		scripts: {},
+		inlineScripts: [],
 		embeds: [],
 		content: '',
 	};
@@ -477,6 +483,12 @@ export function getStateFromContent(container, pageURL) {
 			const element = scripts[i];
 			if (element.src) {
 				state.scripts[element.src] = element.outerHTML;
+			} else if (
+				isExecutingMParticleScripts &&
+				element.classList.contains('mparticle_implementation')
+			) {
+				// eslint-disable-next-line no-eval
+				state.inlineScripts.push(element.innerHTML);
 			}
 		}
 
@@ -491,13 +503,22 @@ export function getStateFromContent(container, pageURL) {
 	return state;
 }
 
-export function parseHtml(pageURL, html, selector = '#content') {
+export function parseHtml(
+	pageURL,
+	html,
+	selector = '#content',
+	isExecutingMParticleScripts = false,
+) {
 	const parser = new DOMParser();
 
 	const pageDocument = parser.parseFromString(html, 'text/html');
 	const content = pageDocument.querySelector(selector);
 
-	const state = getStateFromContent(content, pageURL);
+	const state = getStateFromContent(
+		content,
+		pageURL,
+		isExecutingMParticleScripts,
+	);
 	state.document = pageDocument;
 
 	return state;

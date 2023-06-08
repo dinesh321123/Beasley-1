@@ -25,10 +25,18 @@ function bbgi_input_field( $args = array() ) {
 }
 
 function bbgi_checkbox_field( $args = array() ) {
+	bbgi_checkbox_field_with_default(false, $args);
+}
+
+function true_defaulted_bbgi_checkbox_field( $args = array() ) {
+	bbgi_checkbox_field_with_default(true, $args);
+}
+
+function bbgi_checkbox_field_with_default( $default, $args = array() ) {
 	$args = wp_parse_args( $args, array(
 		'type'    => 'checkbox',
 		'name'    => '',
-		'default' => false,
+		'default' => $default,
 		'class'   => 'regular-text',
 		'desc'    => '',
 	) );

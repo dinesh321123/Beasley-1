@@ -26,7 +26,7 @@ class BBGI_Public_Post_Preview {
 	/**
 	 * Registers BBGI Public Post Preview settings.
 	 */
-	public function ppp_register_settings( $group, $page ) {
+	public static function ppp_register_settings( $group, $page ) {
 		$section_id = 'beasley_ppp';
 
 		add_settings_section( $section_id, 'Public Post Preview', '__return_false', $page );
@@ -468,7 +468,7 @@ class BBGI_Public_Post_Preview {
 		wp_safe_redirect( get_permalink( $post_id ), 301 );
 		exit;
 	}
-	public function configured_nounce_life( $nonce_life ) {
+	public static function configured_nounce_life( $nonce_life ) {
 		$expiration_hours = (int) get_option( 'bbgi_ppp_hours' );
 		if ( $expiration_hours && $expiration_hours > 0 ) {
 			return 60 * 60 * $expiration_hours;

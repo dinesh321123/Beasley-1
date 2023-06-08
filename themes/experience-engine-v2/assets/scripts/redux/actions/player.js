@@ -7,6 +7,7 @@ export const ACTION_CUEPOINT_CHANGE = 'PLAYER_CUEPOINT_CHANGE';
 export const ACTION_SET_VOLUME = 'PLAYER_SET_VOLUME';
 export const ACTION_PLAY = 'PLAYER_PLAY';
 export const ACTION_PLAY_OMNY = 'PLAYER_PLAY_OMNY';
+export const ACTION_LOAD_VIMEO = 'PLAYER_LOAD_VIMEO';
 export const ACTION_PAUSE = 'PLAYER_PAUSE';
 export const ACTION_RESUME = 'PLAYER_RESUME';
 export const ACTION_DURATION_CHANGE = 'PLAYER_DURATION_CHANGE';
@@ -418,7 +419,6 @@ function setUpAudioPlayer(dispatch, src) {
 	window.audioplayer.addEventListener('ended', () => {
 		dispatch(statusUpdate(STATUSES.LIVE_STOP));
 	});
-	window.audioplayer.addEventListener('play', () => dispatch(start()));
 	window.audioplayer.addEventListener('pause', () => dispatch(end()));
 	window.audioplayer.addEventListener('abort', () => dispatch(end()));
 	window.audioplayer.addEventListener('loadedmetadata', () =>
@@ -446,6 +446,23 @@ function setUpOmnyPlayer(source) {
 	document.body.appendChild(iframe);
 
 	window.omnyplayer = new playerjs.Player(iframe);
+}
+
+function getDispatchPlayParams(
+	source = '',
+	cueTitle = '',
+	artistName = '',
+	trackType = '',
+) {
+	return {
+		type: ACTION_PLAY,
+		payload: {
+			source,
+			cueTitle,
+			artistName,
+			trackType,
+		},
+	};
 }
 
 /**
@@ -476,12 +493,7 @@ const play = (
 		dispatch(setPlayer(window.tdplayer, 'tdplayer'));
 		// play.
 		console.log('Dispatching action_play');
-		dispatch({
-			type: ACTION_PLAY,
-			payload: {
-				source,
-			},
-		});
+		dispatch(getDispatchPlayParams(source, cueTitle, artistName, trackType));
 	} else if (playerType === 'mp3player') {
 		if (typeof window.audioplayer === 'undefined') {
 			setUpAudioPlayer(dispatch, source);
@@ -489,13 +501,7 @@ const play = (
 			window.audioplayer.src = source;
 		}
 		dispatch(setPlayer(window.audioplayer, 'mp3player'));
-		dispatch({
-			type: ACTION_PLAY,
-			payload: {
-				source,
-				trackType,
-			},
-		});
+		dispatch(getDispatchPlayParams(source, cueTitle, artistName, trackType));
 		dispatch(cuePoint({ type: 'track', cueTitle, artistName }));
 	} else if (playerType === 'omnyplayer') {
 		if (typeof window.audioplayer === 'undefined') {
@@ -506,13 +512,7 @@ const play = (
 
 		// all events are removed when stopping the omny player so we need to recreate them.
 		window.omnyplayer.on('ready', () => {
-			dispatch({
-				type: ACTION_PLAY,
-				payload: {
-					source,
-					trackType,
-				},
-			});
+			dispatch(getDispatchPlayParams(source, cueTitle, artistName, trackType));
 			dispatch(cuePoint({ type: 'track', cueTitle, artistName }));
 			dispatch(statusUpdate(STATUSES.LIVE_BUFFERING));
 		});
@@ -579,12 +579,22 @@ export const playOmny = (
 ) => dispatch =>
 	play('omnyplayer', src, cueTitle, artistName, trackType)(dispatch);
 
+export function loadVimeo(shouldKeepPriorVimeoPlayers) {
+	return {
+		type: ACTION_LOAD_VIMEO,
+		payload: {
+			shouldKeepPriorVimeoPlayers,
+		},
+	};
+}
+
 export default {
 	setPlayer,
 	pause,
 	playAudio,
 	playOmny,
 	playStation,
+	loadVimeo,
 	resume,
 	seekPosition,
 	setVolume,

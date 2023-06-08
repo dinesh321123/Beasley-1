@@ -55,7 +55,10 @@ class Syndication_Detach_Post {
 				</div>
 				<?php
 			} else {
-				$blog_details = get_blog_details( $old_data['blog_id'] );
+				$blog_details = get_blog_details();
+				if( isset($old_data['blog_id']) && $old_data['blog_id'] != '' ) {
+					$blog_details = get_blog_details( $old_data['blog_id'] );
+				}
 				?>
 				<div class="misc-pub-section syndication-detached misc-pub-syndication-detached">
 					<i class="dashicons dashicons-rss"></i>

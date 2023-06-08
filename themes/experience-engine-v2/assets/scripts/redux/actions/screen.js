@@ -132,7 +132,7 @@ export const fetchPage = (url, options = {}) => async dispatch => {
 			dispatch({ type: ACTION_LOAD_ERROR });
 			return;
 		}
-		const parsedHtml = parseHtml(url, response.html);
+		const parsedHtml = parseHtml(url, response.html, '#content', true);
 
 		dispatch({
 			type: ACTION_LOADED_PAGE,

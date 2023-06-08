@@ -29,6 +29,8 @@ class SecondStreetSignup extends \Bbgi\Module {
 			'design_id' => ''
 		), $atts, 'ss-signup' );
 
+		return;	// RID of Second Street Signup from Must have (Affiliate Marketing) including ?Whiz
+
 		if ( empty( $attributes['design_id'] ) ) {
 			return '';
 		}

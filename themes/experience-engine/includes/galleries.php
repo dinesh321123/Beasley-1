@@ -1,6 +1,6 @@
 <?php
 
-add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 3 );
+add_filter( 'bbgi_gallery_content', 'ee_update_incontent_gallery', 10, 3 );
 
 if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 	function ee_setup_gallery_view_metadata() {
@@ -169,7 +169,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 		// Add segment navigation before start display the list
 		if(get_field( 'display_segmentation', $gallery->ID )) {
 			$segmentation_ordering_type = get_field( 'segmentation_ordering', $gallery->ID );
-			
+
 			$total_segment = ceil( count($images) / 10 );
 			$is_desc = ($segmentation_ordering_type != '' && $segmentation_ordering_type == 'desc') ? 1 : 0;
 			$start_index = $is_desc ? $total_segment : 1;
@@ -183,7 +183,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 
 					$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
 					$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
-	
+
 					echo '<button onclick=" scrollToSegmentation(\''.$id_pretext. '\', ' . ( $scroll_to + 1 ) . '); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
 					$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
 				}

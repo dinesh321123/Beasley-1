@@ -29,7 +29,7 @@ class ListicleCPTFrontRendering {
 	 * @param $post
 	 * @return Array
 	 */
-	function get_post_metadata_from_post( $value, $post ) {
+	public static function get_post_metadata_from_post( $value, $post ) {
 		$field = get_post_meta( $post->ID, $value, true );
 		
 		if ( ! empty( $field ) ) {

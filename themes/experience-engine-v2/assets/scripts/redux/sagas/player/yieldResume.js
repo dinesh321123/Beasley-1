@@ -1,6 +1,7 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
 import { lyticsTrack } from '../../utilities';
 import { ACTION_RESUME } from '../../actions/player';
+import sendMParticlePlayMediaEvent from '../../utilities/player/sendMParticlePlayMediaEvent';
 
 /**
  * @function yieldResume
@@ -32,6 +33,8 @@ function* yieldResume() {
 	) {
 		yield call(lyticsTrack, 'play', cuePoint);
 	}
+
+	yield call(sendMParticlePlayMediaEvent);
 }
 
 /**

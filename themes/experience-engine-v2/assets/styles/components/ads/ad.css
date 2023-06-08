@@ -47,6 +47,16 @@
 			padding-bottom: 4.111rem;
 		}
 	}
+
+	&.-mobile-only-ad {
+		@media(--min-medium-viewport) {
+			display: none;
+		}
+		@media(--max-medium-viewport) {
+			padding-top: 1.775rem;
+			padding-bottom: 0 !important;
+		}
+	}
 }
 
 .placeholder-dfp,

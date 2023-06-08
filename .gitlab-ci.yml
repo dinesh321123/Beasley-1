@@ -1,4 +1,4 @@
-image: docker.10up.com/10up-build/deploy-container:php-7.4
+image: docker.10up.com/10up-build/deploy-container:latest
 
 stages:
   - test-and-build
@@ -68,12 +68,36 @@ deploy_preprod:
   only:
     - preprod
 
-notify_slack:
-  stage: test-and-build
+sync_db_to_preprod:
+  stage: deploy
+  environment:
+    name: preprod
+    url: https://preprod.bbgistage.com/
   script:
-    - curl -X POST --data "{\"username\":\"Gitlab Pipeline\", \"text\":\"Gitlab pipeline is about to run the Production Deployment..\"}" $SLACK_WEBHOOK
+    - bash ./deploy-scripts/import-db-preprod.sh
   only:
-    - master
+    - preprod
+  when: manual
+  allow_failure: false
+
+reset_preprod_branch:
+  stage: deploy
+  variables:
+    GIT_SSH_COMMAND: "ssh -i /tmp/.git-sshkey -F /dev/null -o StrictHostKeyChecking=no"
+  script:
+   - |
+     set +x
+     echo "${TENUP_BEASLEY_PRIVATE_KEY}" > /tmp/.git-sshkey
+     chmod 400 /tmp/.git-sshkey
+     git config --global user.name "beasley10up"
+     git config --global user.email "megatron+beasley@10up.com"
+     git clone -b ${CI_COMMIT_BRANCH} git@gitlab.10up.com:${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}.git /tmp/gitlab-repo
+     cd /tmp/gitlab-repo
+     git reset --hard origin/master
+     git push origin ${CI_COMMIT_BRANCH} -f
+  only:
+    - preprod
+  when: manual
 
 deploy_prod:
   stage: deploy
@@ -81,6 +105,7 @@ deploy_prod:
     name: Production
     url: https://sites.greatermedia.com/
   script:
+    - curl -X POST --data "{\"username\":\"Gitlab Pipeline\", \"text\":\"Gitlab pipeline is about to run the Production Deployment..\"}" $SLACK_WEBHOOK
     - bash ./deploy-scripts/deploy-prod.sh
     - bash ./deploy-scripts/sync-jobs-to-web.sh # Sync all code first, before updating version timestamp to avoid cache issues
     - ssh beanstalk@52.0.13.41 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
@@ -119,3 +144,4 @@ cloudflare_purge_mobile:
     - master
   when: manual
   allow_failure: false
+
