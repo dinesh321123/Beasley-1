@@ -14,6 +14,34 @@ class GeneralSettingsFrontRendering {
 		add_filter( 'body_class', array( __CLASS__, 'category_archive_class' )  );
 		add_action('wp_head',  array( __CLASS__,'pushly_notification_script' ) );
 		add_filter( 'after_set_parsely_page', array( __CLASS__,'filter_parsely_metadata' ), 10, 3 );
+
+		// Register the AJAX action for logged-in and non-logged-in users
+		add_action('wp_ajax_get_image_attribution', array( __CLASS__, 'get_image_attribution_callback' ) );
+		add_action('wp_ajax_nopriv_get_image_attribution', array( __CLASS__, 'get_image_attribution_callback' ) );
+	}
+
+	/**
+	 * Callback function for handling the AJAX request
+	 */
+	public static function get_image_attribution_callback() {
+		// Retrieve the post ID from the AJAX request
+		$post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+	  
+		// Perform necessary checks and validations on the post ID
+		if ($post_id <= 0 || !is_numeric($post_id) || !get_post($post_id)) {
+		  wp_send_json(array('attribution' => ''));
+		}
+
+		// Retrieve the desired post meta using get_post_meta
+		$attribution = get_post_meta($post_id, 'gmr_image_attribution', true);
+	  
+		// Prepare the response
+		$response = array(
+		  'attribution' => $attribution
+		);
+	  
+		// Return the response as JSON
+		wp_send_json($response);
 	}
 
 	public static function category_archive_class( $classes ) {
@@ -89,6 +117,10 @@ class GeneralSettingsFrontRendering {
 		}
 		wp_enqueue_script( 'additional-front-script', GENERAL_SETTINGS_CPT_URL . "assets/js/front_script{$min}.js", array( 'jquery' ), GENERAL_SETTINGS_CPT_VERSION, true );
 
+		// Localize the AJAX URL
+		wp_localize_script( 'additional-front-script', 'my_ajax_object', array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' )
+		));
 
 
 	}

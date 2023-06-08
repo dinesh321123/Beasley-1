@@ -131,3 +131,34 @@
 		width: 100%;
 	}
 }
+
+.media-image-with-attr-container {
+	position: relative;
+	width: fit-content;
+	& .media-image-attr {
+		background-color: rgba(0, 0, 0, .4);
+		border-radius: 3px;
+		bottom: .75rem;
+		color: var(--global-white);
+		display: none;
+		font-size: .9rem;
+		padding: .15rem .5rem;
+		position: absolute;
+		right: .75rem;
+		display: inline-block;
+		margin-left: 0.5rem;
+		margin-right: 0;
+		max-height: 3.2em;
+		overflow: hidden;
+	}
+}
+.whiz {
+	.media-image-with-attr-container {
+		& .media-image-attr {
+			right: unset;
+			left: .75em;
+			margin-left: 0;
+			margin-right: 0.5rem;
+		}
+	}
+}
