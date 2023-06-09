@@ -70,7 +70,7 @@
 						</button>
 
 					</div>
-					<?php if ( 'disabled' != get_option( 'ee_login', '' ) ) { ?>
+					<?php if ( 'enabled' == get_option( 'ee_login', '' ) ) { ?>
 						<div id="user-nav" class="user-nav"></div>
 					<?php } ?>
 				</div>

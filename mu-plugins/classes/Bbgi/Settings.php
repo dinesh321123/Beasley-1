@@ -112,8 +112,9 @@ class Settings extends \Bbgi\Module {
 
 		$ee_login_disabled_args = array(
 			'name'     => 'ee_login',
-			'selected' => 'disabled' === get_option( 'ee_login', '' ),
-		);
+			'selected' => get_option( 'ee_login'),
+			'default' => 'disabled',
+		);	
 
 		$feature_video_provider_disabled_args = array(
 				'name'     => 'feature_video_provider',
@@ -468,10 +469,11 @@ class Settings extends \Bbgi\Module {
 	public function render_ee_login( $args ) {
 
 		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
-			<option value="">Login Enabled</option>
+			<option value="enabled" <?php selected( $args['selected'], 'enabled' ); ?>>Login Enabled</option>
 			<option
 					value="disabled"
-					<?php selected( $args['selected'], true ); ?>>
+					<?php selected( $args['selected'], 'disabled' ); ?>
+					<?php selected( $args['selected'], '' ); ?>>
 					Login Disabled
 			</option>
 		</select><?php

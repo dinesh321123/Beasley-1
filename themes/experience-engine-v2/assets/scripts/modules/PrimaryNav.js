@@ -274,7 +274,7 @@ class PrimaryNav extends PureComponent {
 			const newLoginEl = document.createElement('li');
 			newLoginEl.classList.add('mega-menu-item');
 			const ifUserNavExist = document.getElementsByClassName('user-nav-mobile');
-			if (config.ee_login === '') {
+			if (config.ee_login === 'enabled') {
 				if (ifUserNavExist.length === 0) {
 					newLoginEl.innerHTML = `<div id="user-nav-mobile" class="user-nav-mobile"></div>`;
 					menuUL.appendChild(newLoginEl);
