@@ -89,6 +89,13 @@ use Bbgi\Integration\Google;
 <!doctype html>
 <html lang="en">
 	<head <?php language_attributes(); ?>>
+		<!-- OneTrust Cookies Consent Notice start for wmmr.bbgistage.com -->
+		<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="1c169c70-919a-4cf6-9821-c279c1865b62-test" ></script>
+		<script type="text/javascript">
+		function OptanonWrapper() { }
+		</script>
+		<!-- OneTrust Cookies Consent Notice end for wmmr.bbgistage.com -->
+
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1"><?php
 
