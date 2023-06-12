@@ -179,8 +179,14 @@
         text-align: left;
     }
 
+    .nsf-container .desktop-mewsletter-logo-link img{
+        max-width: 150px;
+        width: 100%;
+    }
+
 }
 @media (max-width:575px) {
+
     .nsf-container form#nsf-form {
         flex-wrap: wrap;
     }
@@ -195,10 +201,14 @@
     }
 
     p.nsf-checkbox-container{
-        position: absolute;
+        position: unset;
         bottom: 100px;
         text-align: left;
     }
+
+    .nsf-form-container { position: relative; padding-bottom: 50px; }
+    .nsf-action-container { position: absolute;	margin-top: 0; bottom: 0; }
+
 }
 @media (max-width:575px) {
     .nsf-action-container{
