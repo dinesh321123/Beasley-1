@@ -30,6 +30,7 @@ class NewsletterSignupForm {
             array(
                 'url' => admin_url( 'admin-ajax.php' ),
                 'nonce'    => $nsf_ajax_nonce,
+                'page_path' => get_permalink(),
                 )
         );
 
@@ -45,11 +46,6 @@ class NewsletterSignupForm {
                 'label' => '',
                 'description' => '',
                 'color' => '',
-                'subscription_attributes' => '',
-                'subscription_id' => '',
-                'mailing_list_name' => '',
-                'mailing_list_description' => '',
-                'template_token' => '',
                 'checkbox_content' => '',
             ), $attr );
 
@@ -57,29 +53,11 @@ class NewsletterSignupForm {
 
             $html = '';
             $hidden_fields = '';
-
-            $nsf_label                         = $attr['label'] != '' ? sanitize_text_field($attr['label']) : (get_option('nsf_label') != '' ? get_option('nsf_label') : 'Join the Family');
-            $nsf_description                = $attr['description'] != '' ? sanitize_text_field($attr['description']) : (get_option('nsf_description') != '' ? get_option('nsf_description') : 'Get Our Latest Articles in Your Inbox');
-            $nsf_color                     = $attr['color'] != '' ? sanitize_text_field($attr['color']) : (get_option('nsf_color') != '' ? get_option('nsf_color') : '#000000');
-            $nsf_subscription_attributes    = get_option('nsf_subscription_attributes');
-            $nsf_subscription_ID            = get_option('nsf_subscription_ID');
-            $nsf_mailing_list_name          = get_option('nsf_mailing_list_name');
-            $nsf_mailing_list_description    = get_option('nsf_mailing_list_description');
-            $nsf_template_token                = get_option('nsf_template_token');
-            $nsf_checkbox_content			= $attr['checkbox_content'] != '' ? sanitize_text_field($attr['checkbox_content']) : (get_option('nsf_checkbox_content') != '' ? get_option('nsf_checkbox_content') : 'By clicking "Subscribe" I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.');
-            $siteid                         = (get_option( 'ee_publisher') != '') ? get_option( 'ee_publisher') : '';
-            $domain                         = get_site_url();
-            $page_path                      = get_permalink();
-
-            $hidden_fields .= $siteid != '' ? '<input type="hidden" name="nsf_siteid" id="nsf_siteid" value="'.esc_attr($siteid).'">' : '';
-            $hidden_fields .= $domain != '' ? '<input type="hidden" name="nsf_domain" id="nsf_domain" value="'.esc_attr($domain).'">' : '';
-            $hidden_fields .= $page_path != '' ? '<input type="hidden" name="nsf_page_path" id="nsf_page_path" value="'.esc_attr($page_path).'">' : '';
-            $hidden_fields .= $attr['subscription_attributes'] != '' ? '<input type="hidden" name="nsf_subscription_attributes" id="nsf_subscription_attributes" value="'.esc_attr($attr['subscription_attributes']).'">' : ($nsf_subscription_attributes != '' ? '<input type="hidden" name="nsf_subscription_attributes" id="nsf_subscription_attributes" value="'.$nsf_subscription_attributes.'">' : '');
-            $hidden_fields .= $attr['subscription_id'] != '' ? '<input type="hidden" name="nsf_subscription_ID" id="nsf_subscription_ID" value="'.esc_attr($attr['subscription_id']).'">' : ($nsf_subscription_ID != '' ? '<input type="hidden" name="nsf_subscription_ID" id="nsf_subscription_ID" value="'.$nsf_subscription_ID.'">' : '');
-            $hidden_fields .= $attr['mailing_list_name'] != '' ? '<input type="hidden" name="nsf_mailing_list_name" id="nsf_mailing_list_name" value="'.esc_attr($attr['mailing_list_name']).'">' : ($nsf_mailing_list_name != '' ? '<input type="hidden" name="nsf_mailing_list_name" id="nsf_mailing_list_name" value="'.$nsf_mailing_list_name.'">' : '');
-            $hidden_fields .= $attr['mailing_list_description'] != '' ? '<input type="hidden" name="nsf_mailing_list_description" id="nsf_mailing_list_description" value="'.esc_attr($attr['mailing_list_description']).'">' : ($nsf_mailing_list_description != '' ? '<input type="hidden" name="nsf_mailing_list_description" id="nsf_mailing_list_description" value="'.$nsf_mailing_list_description.'">' : '');
-            $hidden_fields .= $attr['template_token'] != '' ? '<input type="hidden" name="nsf_template_token" id="nsf_template_token" value="'.esc_attr($attr['template_token']).'">' : ($nsf_template_token != '' ? '<input type="hidden" name="nsf_template_token" id="nsf_template_token" value="'.$nsf_template_token.'">' : '');
-
+            $nsf_label              = $attr['label'] != '' ? sanitize_text_field($attr['label']) : (get_option('nsf_label') != '' ? get_option('nsf_label') : 'Join the Family');
+            $nsf_description        = $attr['description'] != '' ? sanitize_text_field($attr['description']) : (get_option('nsf_description') != '' ? get_option('nsf_description') : 'Get Our Latest Articles in Your Inbox');
+            $nsf_color              = $attr['color'] != '' ? sanitize_text_field($attr['color']) : (get_option('nsf_color') != '' ? get_option('nsf_color') : '#000000');
+            $nsf_checkbox_content	= $attr['checkbox_content'] != '' ? sanitize_text_field($attr['checkbox_content']) : (get_option('nsf_checkbox_content') != '' ? get_option('nsf_checkbox_content') : 'By clicking "Subscribe" I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.');
+        
             $html .= '<style>
                         .nsf-container label,
                         .nsf-container h2.nsf-subheader,
@@ -98,7 +76,6 @@ class NewsletterSignupForm {
                     $html .= '<h1 class="nsf-header">'.$nsf_label.'</h1>';
                     $html .= '<h2 class="nsf-subheader">'.$nsf_description.'</h2>';
                     $html .= '<form id="nsf-form" class="nsf-form" name="nsf_form" action="#" method="POST">';
-                        $html .= $hidden_fields;
                             $html .= '<div class="nsf-input-container">';
                                 $html .= '<div class="input-label"><label>First Name</label><span> *</span></div>';
                                 $html .= '<div class="input-field"><input type="text" name="nsf_first_name" class="nsf-first-name" /><span class="nsf-fname-error-msg"></span></div>';
@@ -178,18 +155,26 @@ class NewsletterSignupForm {
             wp_send_json_error( 'Invalid Nonce.' );
         }
 
+        $siteid                         = (get_option( 'ee_publisher') != '') ? get_option( 'ee_publisher') : '';
+        $domain                         = get_site_url();
+        $nsf_subscription_attributes    = get_option('nsf_subscription_attributes') ? get_option('nsf_subscription_attributes') : '' ;
+        $nsf_subscription_ID            = get_option('nsf_subscription_ID') ? get_option('nsf_subscription_ID') : '' ;
+        $nsf_mailing_list_name          = get_option('nsf_mailing_list_name') ? get_option('nsf_mailing_list_name') : '' ;
+        $nsf_mailing_list_description   = get_option('nsf_mailing_list_description') ? get_option('nsf_mailing_list_description') : '' ;
+        $nsf_template_token             = get_option('nsf_template_token') ? get_option('nsf_template_token') : '' ;
+    
         $data_array = array(
-            'nsf_name'                         => sanitize_text_field($_POST['name']),
+            'nsf_name'                      => sanitize_text_field($_POST['name']),
             'nsf_email'                     => sanitize_email($_POST['email']),
             'nsf_last_name'                 =>sanitize_text_field($_POST['nsf_last_name']),
-            'nsf_subscription_attributes'     => sanitize_text_field($_POST['nsf_subscription_attributes']),
-            'nsf_subscription_ID'             => sanitize_text_field($_POST['nsf_subscription_ID']),
-            'nsf_mailing_list_name'         => sanitize_text_field($_POST['nsf_mailing_list_name']),
-            'nsf_mailing_list_description'     => sanitize_text_field($_POST['nsf_mailing_list_description']),
-            'nsf_template_token'             => sanitize_text_field($_POST['nsf_template_token']),
-            'domain'                        => esc_url($_POST['nsf_domain']),
-            'siteid'                        => sanitize_text_field($_POST['nsf_siteid']),
-            'pagepath'                        => esc_url($_POST['nsf_page_path']),
+            'nsf_subscription_attributes'   => sanitize_text_field($nsf_subscription_attributes),
+            'nsf_subscription_ID'           => sanitize_text_field($nsf_subscription_ID),
+            'nsf_mailing_list_name'         => sanitize_text_field($nsf_mailing_list_name),
+            'nsf_mailing_list_description'  => sanitize_text_field($nsf_mailing_list_description),
+            'nsf_template_token'            => sanitize_text_field($nsf_template_token),
+            'domain'                        => esc_url($domain),
+            'siteid'                        => $siteid,
+            'pagepath'                      => esc_url($_POST['nsf_page_path']),
         );
 
         // Make an HTTP POST request using wp_remote_post()
