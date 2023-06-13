@@ -17,12 +17,6 @@
 	font-weight: 700;
 }
 
-.cancellation:hover {
-	/* background-color: #fff;
-	color: #000; */
-	/* cursor: pointer; */
-}
-
 .prompt {
 	background-color: #eee;
 	padding: 20px;
