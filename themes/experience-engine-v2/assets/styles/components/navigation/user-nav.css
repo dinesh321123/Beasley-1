@@ -156,27 +156,6 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 	}
 }
 
-/* Show/hide functionality when the user-nav is disabled */
-/*
-.hidden-user-nav {
-	& .user-nav {
-		border-top: none;
-		visibility: hidden;
-	}
-
-	& .placeholder-discovery {
-		display: none;
-	}
-
-	& .menu-item-discovery {
-		display: none;
-	}
-
-	& .placeholder-favorites {
-		display: none;
-	}
-} */
-
 .user-nav-container {
 	display: flex;
 	flex-flow: row wrap;
