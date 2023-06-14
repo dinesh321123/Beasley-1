@@ -5,7 +5,7 @@ window.mParticleSchema = {
 	"activated_environment": "development",
 	"created_on": "2023-05-11T17:09:53.597",
 	"created_by": "mike.persico@bbgi.com",
-	"last_modified_on": "2023-06-13T15:16:59.027",
+	"last_modified_on": "2023-06-14T14:55:23.073",
 	"last_modified_by": "mike.persico@bbgi.com",
 	"version_document": {
 		"data_points": [
@@ -3190,6 +3190,63 @@ window.mParticleSchema = {
 										"additionalProperties": false,
 										"description": "",
 										"properties": {
+											"beasley_event_id": {
+												"description": "",
+												"type": [
+													"string",
+													"null"
+												]
+											},
+											"daypart": {
+												"description": "",
+												"type": [
+													"string",
+													"null"
+												]
+											},
+											"call_letters": {
+												"description": "",
+												"type": [
+													"string",
+													"null"
+												]
+											},
+											"station_id": {
+												"description": "",
+												"type": [
+													"string",
+													"null"
+												]
+											},
+											"station_location": {
+												"description": "",
+												"type": [
+													"string",
+													"null"
+												]
+											},
+											"station_formats": {
+												"description": "",
+												"type": [
+													"string",
+													"null"
+												]
+											},
+											"is_app": {
+												"description": "",
+												"type": [
+													"boolean",
+													"null"
+												]
+											},
+											"domain": {
+												"description": "",
+												"format": "hostname",
+												"type": [
+													"string",
+													"null"
+												]
+											},
 											"error_code_number": {
 												"description": "",
 												"type": "number"
@@ -3221,5 +3278,3 @@ window.mParticleSchema = {
 		]
 	}
 };
-
-
