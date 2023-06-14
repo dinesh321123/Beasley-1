@@ -162,6 +162,10 @@ class Settings extends \Bbgi\Module {
 				'selected' => get_option( 'ad_rotation_enabled', 'on' ),
 		);
 
+		$onetrust_cookie_consent_script_args = [
+			'name' => 'onetrust_cookie_consent_script',
+		];
+
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_header_colors', 'Header Colors', '__return_false', $this->_settings_page_hook );
@@ -259,6 +263,9 @@ class Settings extends \Bbgi\Module {
 
 		add_settings_section( 'cloud_flare_section', 'CloudFlare Settings', '__return_false', $this->_settings_page_hook );
         add_settings_field('cloud_flare_zoneid', 'Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'cloud_flare_section', 'name=cloud_flare_zoneid');
+		
+		add_settings_section( 'onetrust_cookie_consent_section', 'Onetrust Cookie Consent Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field( 'onetrust_cookie_consent_script', 'Onetrust Cookie Consent Script', 'bbgi_textarea_field', $this->_settings_page_hook, 'onetrust_cookie_consent_section', $onetrust_cookie_consent_script_args );
 
 		add_settings_section( 'pushly_section', 'Pushly Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_field('pushly_domain_key', 'Domain Key', 'bbgi_input_field', $this->_settings_page_hook, 'pushly_section', 'name=pushly_domain_key');
@@ -334,6 +341,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'related_article_title', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'cloud_flare_zoneid', 'sanitize_text_field');
+		register_setting(self::option_group, 'onetrust_cookie_consent_script' );
 		register_setting(self::option_group, 'pushly_domain_key', 'sanitize_text_field');
 
 		/**
