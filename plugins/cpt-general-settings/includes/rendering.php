@@ -9,6 +9,7 @@ class GeneralSettingsFrontRendering {
 		// Register scripts
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
+		add_action( 'wp_head', array( __CLASS__, 'output_cookie_consent_script' ), 1 );
 
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 		add_filter( 'body_class', array( __CLASS__, 'category_archive_class' )  );
@@ -158,7 +159,25 @@ class GeneralSettingsFrontRendering {
 		}
 	}
 
+	/**
+	 * Outputs the cookie consent script to the browser.
+	 *
+	 * @return void
+	 */
+	public static function output_cookie_consent_script() {
+		// Retrieve the cookie consent script from the WordPress option.
+		$cookie_consent_script = get_option( 'onetrust_cookie_consent_script' );
 
+		// Check if the script is available.
+		if ( $cookie_consent_script ) {
+			// Escape and decode the script for safe output.
+			$encoded_script = esc_html( $cookie_consent_script );
+			$decoded_script = html_entity_decode( $encoded_script );
+
+			// Output the decoded script to the browser.
+			echo $decoded_script;
+		}
+	}
 }
 
 GeneralSettingsFrontRendering::init();
