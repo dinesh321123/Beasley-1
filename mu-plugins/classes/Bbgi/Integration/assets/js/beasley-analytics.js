@@ -685,6 +685,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 			objectToSend.embedded_content_is_nested = ( objectToSend.embedded_content_id === objectToSend.post_id );
 		}
 
+		console.log(`CATEGORIES STRINGIFIED -> ${objectToSend.categories_stringified}`);
 		window.mParticle.logPageView(
 			'Page View',
 			objectToSend,
