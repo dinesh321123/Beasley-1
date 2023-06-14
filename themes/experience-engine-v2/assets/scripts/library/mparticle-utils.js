@@ -21,7 +21,9 @@ export const setMParticleUserAtributes = (
 		currentUser.setUserAttribute('$firstname', firstname);
 		currentUser.setUserAttribute('$lastname', lastname);
 		currentUser.setUserAttribute('$zip', zip);
-		currentUser.setUserAttribute('$gender', gender);
+		const formattedGender =
+			gender && gender.length > 0 ? gender.toUpperCase()[0] : 'P';
+		currentUser.setUserAttribute('$gender', formattedGender);
 		const formattedDob = bday
 			.replace(/(\d\d)\/(\d\d)\/(\d{4})/, '$3-$1-$2')
 			.split('/')
