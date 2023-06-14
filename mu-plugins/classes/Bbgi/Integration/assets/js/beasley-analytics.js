@@ -254,6 +254,15 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		mediaContentEnd: 'Media Content End',
 		mediaSessionEnd: 'Media Session End',
 		mediaSessionSummary: 'Media Session Summary',
+		error: 'Error',
+	};
+
+	static mparticleErrorClasses = {
+		General: 'General',
+		mParticle: 'mParticle',
+	}
+	static mparticleErrorCodes = {
+		ImproperJSONStringifiedArray: { number: 101, name:'Improper JSON Stringified Array' },
 	};
 
 	queuedArgs = [];
@@ -605,6 +614,14 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		return this.mediaSpecificKeyValuePairs;
 	}
 
+	sendErrorEvent(errorClass, errorNumber, errorName, message) {
+		this.setAnalytics('error_class', errorClass);
+		this.setAnalytics('error_code_number', errorNumber);
+		this.setAnalytics('error_code_name', errorName);
+		this.setAnalytics('error_message', message);
+		this.sendEventByName(mparticleEventNames.error);
+	}
+
 	sendEventByName(eventName) {
 		super.sendEvent.apply(this, arguments);
 
@@ -614,6 +631,40 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		}
 
 		this.doSendEventByName(eventName);
+	}
+
+	isValidStringifiedJSONArray(str) {
+		try {
+			const stringifiedJSONArrayRegex =  /^\s*\[\s*"(?:[^"\\]|\\.)*"(?:\s*,\s*"(?:[^"\\]|\\.)*")*\s*\]\s*$/; // Regex pattern for stringified JSON array
+			const trimmedStr = str.trim(); // Remove leading/trailing whitespace
+
+			if (!stringifiedJSONArrayRegex.test(trimmedStr)) {
+				return false; // String does not match the pattern
+			}
+
+			JSON.parse(trimmedStr); // Try parsing the stringified JSON array
+
+			return true; // Parsing successful, valid stringified JSON array
+		} catch (error) {
+			return false; // Parsing failed, not a valid stringified JSON array
+		}
+	}
+
+	validateStringFieldsWithSquareBracesAsValidStringifiedJSONArray(objectToValidate) {
+		for(const key in objectToValidate){
+			const val = objectToValidate[key];
+			if ((typeof val === 'string' || val instanceof String) && val.indexOf('[') > -1 && val.indexOf(']') > -1) {
+				if ( ! this.isValidStringifiedJSONArray(val) ) {
+					const message = `Invalid JSON on Beasley Event '${objectToValidate.beasley_event_id}' field name: '${key}' field value: '${val}'`;
+					this.sendErrorEvent(
+						BeasleyAnalyticsMParticleProvider.mparticleErrorClasses.mParticle,
+						BeasleyAnalyticsMParticleProvider.mparticleErrorCodes.ImproperJSONStringifiedArray.number,
+						BeasleyAnalyticsMParticleProvider.mparticleErrorCodes.ImproperJSONStringifiedArray.name,
+						message
+					);
+				}
+			}
+		}
 	}
 
 	// doSendPageEvent interrogates the DOM and must be called only after entire page is loaded
@@ -626,6 +677,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.setAnalytics('ad_tags_enabled', adTagsEnabled);
 
 		const objectToSend = this.getEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
+
+		this.validateStringFieldsWithSquareBracesAsValidStringifiedJSONArray(objectToSend);
 
 		// Set embedded_content_is_nested
 		if ( objectToSend.view_type === 'embedded_content' ) {
