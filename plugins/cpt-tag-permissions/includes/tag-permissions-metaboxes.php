@@ -8,6 +8,7 @@ class TagPermissionsMetaboxes {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
+		add_action( 'init', array( __CLASS__, 'tags_register_custom_cap' ) );
 			add_action( 'admin_menu', array( __CLASS__, 'tags_meta_box_remove' ) );
 
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
@@ -19,6 +20,18 @@ class TagPermissionsMetaboxes {
 			add_action( 'wp_ajax_nopriv_get_tags_from_database', array( __CLASS__, 'get_tags_from_database_action' ) );
 			add_action( 'wp_ajax_get_tags_from_database', array( __CLASS__, 'get_tags_from_database_action' ) );
 		}
+	/**
+	 * Register custom capability for admin.
+	 *
+	 * @return void
+	 */
+	public static function tags_register_custom_cap() {
+		$role_obj = get_role('administrator');
+		if (is_a($role_obj, \WP_Role::class)) {
+			$role_obj->add_cap('manage_tags_metabox', false);
+		}
+	}
+
 	public static function get_tags_from_database_action(){
 		$output = array();
 		$tags = get_tags();

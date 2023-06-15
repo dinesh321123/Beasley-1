@@ -107,7 +107,6 @@ class CommonSettings {
 			if (is_a($role_obj, \WP_Role::class)) {
 				$role_obj->add_cap('manage_draft_kings_onoff_setting', false);
 				$role_obj->add_cap('manage_max_mega_menu', false);
-				$role_obj->add_cap('manage_tags_metabox', false);
 			}
 		}
 
