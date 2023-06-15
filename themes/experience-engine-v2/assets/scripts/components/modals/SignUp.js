@@ -161,10 +161,15 @@ class SignUp extends PureComponent {
 
 		if (validateFutureDate(bday) === false) {
 			this.setState({ error: "Date can't be a future date." });
+			const inputElement = document.getElementById('user-bday');
+			inputElement.style.borderColor = 'red';
 			return false;
 		}
 
-		if (validateDate(bday) === false) {
+		if (validateDate(bday)) {
+			const inputElement = document.getElementById('user-bday');
+			inputElement.style.borderColor = '#000000';
+		} else {
 			this.setState({ error: 'Please ensure date is in MM/DD/YYYY format' });
 			const inputElement = document.getElementById('user-bday');
 			inputElement.style.borderColor = 'red';
