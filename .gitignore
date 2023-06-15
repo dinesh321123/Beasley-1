@@ -52,6 +52,7 @@ mu-plugins/post-finder/
 !/plugins/vimeovideoselector
 !/plugins/affiliate-marketing-selection
 !/plugins/miniorange-saml-20-single-sign-on
+!/plugins/cpt-user-account-configuration
 
 themes/index.php
 themes/twentyfourteen
