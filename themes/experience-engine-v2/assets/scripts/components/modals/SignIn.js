@@ -96,6 +96,8 @@ class SignIn extends PureComponent {
 									value={email}
 									onChange={this.onFieldChange}
 									placeholder="your@emailaddress.com"
+									required
+									pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
 								/>
 							</div>
 							<div className="modal-form-group">
@@ -110,6 +112,7 @@ class SignIn extends PureComponent {
 									value={password}
 									onChange={this.onFieldChange}
 									placeholder="Your password"
+									required
 								/>
 							</div>
 							<div className="modal-form-actions">

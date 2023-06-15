@@ -187,7 +187,7 @@ class PrimaryNav extends PureComponent {
 	handleSubMenuSize() {
 		this.handlepaginationFix();
 		this.setTwoColAdTopMargin();
-		if (window.matchMedia('(min-width: 1301px)').matches) {
+		if (window.matchMedia('(min-width: 1376px)').matches) {
 			const adEle = document.getElementById('main-custom-logo');
 			let adEleStyleHeight = '';
 			if (adEle) {
@@ -270,6 +270,15 @@ class PrimaryNav extends PureComponent {
 						</button>
 					</form>`;
 				menuUL.insertBefore(newFormEl, menuUL.firstChild);
+			}
+			const newLoginEl = document.createElement('li');
+			newLoginEl.classList.add('mega-menu-item');
+			const ifUserNavExist = document.getElementsByClassName('user-nav-mobile');
+			if (config.ee_login === 'enabled') {
+				if (ifUserNavExist.length === 0) {
+					newLoginEl.innerHTML = `<div id="user-nav-mobile" class="user-nav-mobile"></div>`;
+					menuUL.appendChild(newLoginEl);
+				}
 			}
 		}
 	}

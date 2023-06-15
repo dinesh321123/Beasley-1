@@ -415,3 +415,11 @@
 		}
 	}
 }
+
+.signin-modal, .signup-modal{
+	z-index: 10000;
+}
+
+.modal .modal-form-field.error-field{
+	border-color: red;
+}
