@@ -4,7 +4,7 @@
  */
 ?>
 <?php get_header(); ?>
-<?php 
+<?php
 if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 
 	global $wp_query;
@@ -14,7 +14,7 @@ if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 	exit;
 
 } else {
-	
+
 	the_post(); ?>
 
 	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -24,6 +24,8 @@ if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 
 		<div class="entry-content content-wrap">
 			<div class="description"><?php the_content(); ?>
+				<div class="info_account"></div>
+				<div class="preference-section"></div>
 				<div class="cancel_account">
 					<?php echo do_shortcode('[cancel_account]'); ?>
 				</div>
@@ -35,5 +37,5 @@ if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 	</div>
 
 	<?php
-} 
+}
 get_footer(); ?>

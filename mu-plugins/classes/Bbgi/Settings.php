@@ -264,6 +264,9 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'pushly_section', 'Pushly Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_field('pushly_domain_key', 'Domain Key', 'bbgi_input_field', $this->_settings_page_hook, 'pushly_section', 'name=pushly_domain_key');
 
+		add_settings_section( 'braze_preference_section', 'Braze Preference Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field('braze_preference_id', 'Braze Preference ID', 'bbgi_input_field', $this->_settings_page_hook, 'braze_preference_section', 'name=braze_preference_id');
+
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_subheader_mobile_logo', 'intval' );
 		register_setting( self::option_group, 'ee_subheader_desktop_logo', 'intval' );
@@ -336,7 +339,7 @@ class Settings extends \Bbgi\Module {
 
 		register_setting(self::option_group, 'cloud_flare_zoneid', 'sanitize_text_field');
 		register_setting(self::option_group, 'pushly_domain_key', 'sanitize_text_field');
-
+		register_setting(self::option_group, 'braze_preference_id', 'sanitize_text_field');
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
 		 */
