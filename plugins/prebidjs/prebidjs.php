@@ -18,6 +18,11 @@ function enqueue_prebid_scripts() {
 	// wp_script_add_data( 'prebidjs_plugin', 'async', true );
 
 	echo "<script type='text/javascript' async src='". $prebidjsurl ."'></script>";
+	$amazon_uam_pubid = get_option( 'amazon_uam_pubid', '' );
+	if ($amazon_uam_pubid != '') {
+		$amazonuamurl = plugins_url( '/beasleyAmazonUAM1.0.1.js', __FILE__ );
+		echo "<script type='text/javascript' async src='". $amazonuamurl ."'></script>";
+	}
 }
 
 function enqueue_reset_digital_pixel() {

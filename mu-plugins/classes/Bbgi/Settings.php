@@ -238,6 +238,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('ad_confiant_enabled', 'Confiant Enabled', array($this, 'render_ad_confiant_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_confiant_enabled_args);
 
 		add_settings_section( 'prebid_settings_section', 'Prebid Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field('amazon_uam_pubid', 'Amazon UAM PubID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=amazon_uam_pubid');
 		add_settings_field('ad_rubicon_zoneid_setting', 'Rubicon Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_rubicon_zoneid_setting');
 		add_settings_field('ad_appnexus_placementid_setting', 'AppNexus Placement ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_appnexus_placementid_setting');
 		add_settings_field('ad_ix_siteid_setting', 'Index Exchange Site ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_ix_siteid_setting');
@@ -330,6 +331,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ad_rotation_refresh_sec_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_vid_rotation_refresh_sec_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'vid_ad_html_tag_csv_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'amazon_uam_pubid', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rubicon_zoneid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_appnexus_placementid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_ix_siteid_setting', 'sanitize_text_field');
