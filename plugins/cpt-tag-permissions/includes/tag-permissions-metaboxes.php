@@ -28,7 +28,7 @@ class TagPermissionsMetaboxes {
 	public static function tags_register_custom_cap() {
 		$role_obj = get_role('administrator');
 		if (is_a($role_obj, \WP_Role::class)) {
-			$role_obj->add_cap('manage_tags_metabox', false);
+			$role_obj->add_cap('add_tags', false);
 		}
 	}
 
@@ -54,7 +54,7 @@ class TagPermissionsMetaboxes {
 	public static function enqueue_scripts() {
 		global $typenow, $pagenow;
 		$post_types = self::tag_permissions_posttype_list();
-		if ( ! current_user_can( 'manage_tags_metabox' ) ) {
+		if ( ! current_user_can( 'add_tags' ) ) {
 			if ( in_array( $typenow, $post_types ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 	       		wp_register_style('tag-permissions-admin', TAG_PERMISSIONS_URL . "assets/css/tp_admin.css", array(), TAG_PERMISSIONS_VERSION, 'all');
 				wp_enqueue_style('tag-permissions-admin');
@@ -74,7 +74,7 @@ class TagPermissionsMetaboxes {
 	}
 
 	public static function tags_meta_box_remove() {
-		if ( ! current_user_can( 'manage_tags_metabox' ) ) {
+		if ( ! current_user_can( 'add_tags' ) ) {
 			$id = 'tagsdiv-post_tag';
 			$post_type = self::tag_permissions_posttype_list();
 			$position = 'side';
@@ -88,7 +88,7 @@ class TagPermissionsMetaboxes {
 	 * @param $post_type
 	 */
 	public static function add_meta_box( $post_type ) {
-		if ( ! current_user_can( 'manage_tags_metabox' ) ) {
+		if ( ! current_user_can( 'add_tags' ) ) {
 			$post_types = self::tag_permissions_posttype_list();
 			if ( in_array( $post_type, $post_types ) ) {
 				add_meta_box( 'tag-permissions-post_tag', 'Tags', array( __CLASS__, 'render_tags_metabox' ), $post_type, 'side', 'core' );
