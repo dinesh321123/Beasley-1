@@ -147,6 +147,7 @@ const getAmazonUAMSlots = unitIdList => {
 				sizes: s.getSizes().map(size => [size.width, size.height]),
 			};
 		});
+	console.log(`Amazon UAM Slots: ${JSON.stringify(retval)}`);
 	return retval;
 };
 
