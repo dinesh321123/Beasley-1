@@ -134,23 +134,6 @@ const bidsBackHandler = (unitIdList, slotList) => {
 	}
 };
 
-const getAmazonUAMSlots = unitIdList => {
-	const { googletag } = window;
-
-	const allSlots = googletag.pubads().getSlots();
-	const retval = allSlots
-		.filter(s => unitIdList.indexOf(s.getSlotElementId()) > -1)
-		.map(s => {
-			return {
-				slotID: s.getSlotElementId(),
-				slotName: s.getAdUnitPath(),
-				sizes: s.getSizes().map(size => [size.width, size.height]),
-			};
-		});
-	console.log(`Amazon UAM Slots: ${JSON.stringify(retval)}`);
-	return retval;
-};
-
 export const requestHeaderBids = (unitIdList, slotList) => {
 	headerBidFlags.gamRequestWasSent = false;
 
@@ -160,7 +143,7 @@ export const requestHeaderBids = (unitIdList, slotList) => {
 		window.initializeAPS();
 		window.apstag.fetchBids(
 			{
-				slots: getAmazonUAMSlots(unitIdList),
+				slots: window.getAmazonUAMSlots(unitIdList),
 				timeout: HEADER_BID_TIMEOUT,
 			},
 			function(bids) {
