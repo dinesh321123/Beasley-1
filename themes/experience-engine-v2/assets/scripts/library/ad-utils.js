@@ -106,24 +106,86 @@ export const logPrebidTargeting = unitId => {
 	return retval;
 };
 
-const bidsBackHandler = (unitIdList, slotList) => {
-	const { googletag } = window;
-	// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
-	window.pbjs.setTargetingForGPTAsync(unitIdList);
-	unitIdList.map(uid => logPrebidTargeting(uid));
-	googletag.pubads().refresh(slotList, { changeCorrelator: false });
+const HEADER_BID_TIMEOUT = 2000;
+const headerBidFlags = {
+	amazonUAMAccountedFor: false,
+	prebidAccountedFor: false,
+	gamRequestWasSent: false,
 };
 
-export const pushPrebidRefreshBidsIntoGoogleTag = (unitIdList, slotList) => {
+const sendGAMRequest = (unitIdList, slotList) => {
+	if (!headerBidFlags.gamRequestWasSent) {
+		headerBidFlags.gamRequestWasSent = true;
+
+		const { googletag } = window;
+		// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
+		window.pbjs.setTargetingForGPTAsync(unitIdList);
+		unitIdList.map(uid => logPrebidTargeting(uid));
+		googletag.pubads().refresh(slotList, { changeCorrelator: false });
+	}
+};
+
+const bidsBackHandler = (unitIdList, slotList) => {
+	if (
+		headerBidFlags.amazonUAMAccountedFor &&
+		headerBidFlags.prebidAccountedFor
+	) {
+		sendGAMRequest(unitIdList, slotList);
+	}
+};
+
+const getAmazonUAMSlots = unitIdList => {
+	const { googletag } = window;
+
+	const allSlots = googletag.pubads().getSlots();
+	const retval = allSlots
+		.filter(s => unitIdList.indexOf(s.getSlotElementId()) > -1)
+		.map(s => {
+			return {
+				slotID: s.getSlotElementId(),
+				slotName: s.getAdUnitPath(),
+				sizes: s.getSizes().map(size => [size.width, size.height]),
+			};
+		});
+	return retval;
+};
+
+export const requestHeaderBids = (unitIdList, slotList) => {
+	headerBidFlags.gamRequestWasSent = false;
+
+	// Request Amazon UAM bids if enabled
+	if (window.initializeAPS) {
+		headerBidFlags.amazonUAMAccountedFor = false;
+		window.initializeAPS();
+		window.apstag.fetchBids(
+			{
+				slots: getAmazonUAMSlots(unitIdList),
+				timeout: HEADER_BID_TIMEOUT,
+			},
+			function(bids) {
+				window.apstag.setDisplayBids();
+				headerBidFlags.amazonUAMAccountedFor = true;
+				bidsBackHandler(unitIdList, slotList);
+			},
+		);
+	} else {
+		headerBidFlags.amazonUAMAccountedFor = true;
+	}
+
+	headerBidFlags.prebidAccountedFor = false;
 	window.pbjs.que = window.pbjs.que || [];
 	window.pbjs.que.push(() => {
-		const PREBID_TIMEOUT = 2000;
 		window.pbjs.requestBids({
-			timeout: PREBID_TIMEOUT,
+			timeout: HEADER_BID_TIMEOUT,
 			adUnitCodes: unitIdList,
 			bidsBackHandler: bidsBackHandler(unitIdList, slotList),
 		});
 	});
+
+	// Attempt to Refresh GAM 100ms after timeout just in case prebid calls failed
+	window.setTimeout(() => {
+		sendGAMRequest(unitIdList, slotList);
+	}, HEADER_BID_TIMEOUT + 100);
 };
 
 export const doPubadsRefreshForAllRegisteredAds = googletag => {
@@ -146,7 +208,7 @@ export const doPubadsRefreshForAllRegisteredAds = googletag => {
 				// const slotsToRefreshArray = [...slotList.values()];
 				googletag.cmd.push(() => {
 					if (prebid_enabled) {
-						pushPrebidRefreshBidsIntoGoogleTag(placeholdersToRefresh, slotList);
+						requestHeaderBids(placeholdersToRefresh, slotList);
 					} else {
 						googletag.pubads().refresh(slotList);
 					}
