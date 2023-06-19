@@ -78,7 +78,8 @@
 					removeTag();
 				}
 				if( response.not_available_tag_string && response.not_available_tag_string.length > 0 ) {
-					$( '#error_msg' ).append( '<div id="errormsg"> You dont have rights to add tag '+  response.not_available_tag_string +'</div>' );
+					$( '#error_msg' ).html('');
+					$( '#error_msg' ).append( '<div id="errormsg"> You don\'t have rights to add tag '+  response.not_available_tag_string +'</div>' );
 					removeErrorAfterSomeTime();
 				}
 			},
