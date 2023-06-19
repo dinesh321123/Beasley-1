@@ -40,8 +40,8 @@
 
 	& .user-nav-image {
 		align-self: center;
-		  position: relative;
-		  display: inline-block;
+			position: relative;
+			display: inline-block;
 		& img {
 			border-radius: 50%;
 			max-width: 30px;
@@ -216,7 +216,7 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 		 pointer-events: auto;
 		 transform: scale(1,1);
 
-	 }
+		}
 
 		@media(--max-x2large-viewport) {
 			left: 0;
