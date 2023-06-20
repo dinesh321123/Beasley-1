@@ -193,7 +193,7 @@ export const doPubadsRefreshForAllRegisteredAds = googletag => {
 				// const slotsToRefreshArray = [...slotList.values()];
 				googletag.cmd.push(() => {
 					if (prebid_enabled) {
-						requestHeaderBids(placeholdersToRefresh, slotList);
+						requestHeaderBids(slotList);
 					} else {
 						googletag.pubads().refresh(slotList);
 					}
