@@ -15,11 +15,8 @@
 		}
 	};
 
-	window.getAmazonUAMSlots = unitIdList => {
-		const { googletag } = window;
-		const allSlots = googletag.pubads().getSlots();
-		const retval = allSlots
-			.filter(s => unitIdList.indexOf(s.getSlotElementId()) > -1)
+	window.getAmazonUAMSlots = slotList => {
+		const retval = slotList
 			.map(s => {
 				return {
 					slotID: s.getSlotElementId(),

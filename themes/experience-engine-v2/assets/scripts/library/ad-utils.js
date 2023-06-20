@@ -113,11 +113,12 @@ const headerBidFlags = {
 	gamRequestWasSent: false,
 };
 
-const sendGAMRequest = (unitIdList, slotList) => {
+const sendGAMRequest = slotList => {
 	if (!headerBidFlags.gamRequestWasSent) {
 		headerBidFlags.gamRequestWasSent = true;
 
 		const { googletag } = window;
+		const unitIdList = slotList.map(s => s.getAdUnitPath());
 		// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
 		window.pbjs.setTargetingForGPTAsync(unitIdList);
 		unitIdList.map(uid => logPrebidTargeting(uid));
@@ -125,16 +126,16 @@ const sendGAMRequest = (unitIdList, slotList) => {
 	}
 };
 
-const bidsBackHandler = (unitIdList, slotList) => {
+const bidsBackHandler = slotList => {
 	if (
 		headerBidFlags.amazonUAMAccountedFor &&
 		headerBidFlags.prebidAccountedFor
 	) {
-		sendGAMRequest(unitIdList, slotList);
+		sendGAMRequest(slotList);
 	}
 };
 
-export const requestHeaderBids = (unitIdList, slotList) => {
+export const requestHeaderBids = slotList => {
 	headerBidFlags.gamRequestWasSent = false;
 
 	// Request Amazon UAM bids if enabled
@@ -143,13 +144,13 @@ export const requestHeaderBids = (unitIdList, slotList) => {
 		window.initializeAPS();
 		window.apstag.fetchBids(
 			{
-				slots: window.getAmazonUAMSlots(unitIdList),
+				slots: window.getAmazonUAMSlots(slotList),
 				timeout: HEADER_BID_TIMEOUT,
 			},
 			function(bids) {
 				window.apstag.setDisplayBids();
 				headerBidFlags.amazonUAMAccountedFor = true;
-				bidsBackHandler(unitIdList, slotList);
+				bidsBackHandler(slotList);
 			},
 		);
 	} else {
@@ -161,14 +162,14 @@ export const requestHeaderBids = (unitIdList, slotList) => {
 	window.pbjs.que.push(() => {
 		window.pbjs.requestBids({
 			timeout: HEADER_BID_TIMEOUT,
-			adUnitCodes: unitIdList,
-			bidsBackHandler: bidsBackHandler(unitIdList, slotList),
+			adUnitCodes: slotList.map(s => s.getAdUnitPath()),
+			bidsBackHandler: bidsBackHandler(slotList),
 		});
 	});
 
 	// Attempt to Refresh GAM 100ms after timeout just in case prebid calls failed
 	window.setTimeout(() => {
-		sendGAMRequest(unitIdList, slotList);
+		sendGAMRequest(slotList);
 	}, HEADER_BID_TIMEOUT + 100);
 };
 

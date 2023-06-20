@@ -890,13 +890,13 @@ class Dfp extends PureComponent {
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { slot, prebidEnabled, adjustedUnitId } = this.state;
+		const { slot, prebidEnabled } = this.state;
 
 		if (slot) {
 			googletag.cmd.push(() => {
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
 				if (prebidEnabled) {
-					requestHeaderBids([adjustedUnitId], [slot]);
+					requestHeaderBids([slot]);
 				} else {
 					googletag.pubads().refresh([slot]);
 				}
