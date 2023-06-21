@@ -124,6 +124,13 @@ class BeasleyAnalytics {
 		}
 	}
 
+	sendMParticleErrorEvent(errorClass, errorNumber, errorName, message) {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			provider.sendErrorEvent.apply(provider, arguments);
+		}
+	}
+
 	sendMParticleLinkClickEvent(event) {
 		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
@@ -263,6 +270,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 	static mparticleErrorCodes = {
 		ImproperJSONStringifiedArray: { number: 101, name:'Improper JSON Stringified Array' },
+		UnableToSendPageViewEvent: { number: 102, name:'Unable To Send Page View Event' },
 	};
 
 	queuedArgs = [];
@@ -619,7 +627,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.setAnalytics('error_code_number', errorNumber);
 		this.setAnalytics('error_code_name', errorName);
 		this.setAnalytics('error_message', message);
-		this.sendEventByName(mparticleEventNames.error);
+		this.sendEventByName(BeasleyAnalyticsMParticleProvider.mparticleEventNames.error);
 	}
 
 	sendEventByName(eventName) {
