@@ -78,6 +78,14 @@ if ( ! function_exists( 'ee_update_api_bbgiconfig' ) ) :
 		$config['streams'] = array();
 		$feeds = $ee->get_publisher_feeds_with_content();
 		$channels = wp_list_filter( $feeds, array( 'type' => 'stream' ) );
+
+		/**
+		 * This code block retrieves and processes the second stream configuration for each channel, if enabled.
+		 * It checks if the second stream is enabled (using the 'ad_second_stream_enabled' option) and if so, it retrieves the
+		 * enabled days for the second stream (using the 'ss_enabled_days' option). It then loops through all channels and
+		 * populates the $config['streams'] array with stream data. If the second stream is enabled and there is more than one
+		 * channel, it also adds the enabled days and status of the second stream to the corresponding channel's stream data.
+		 */
 		$isSecondStreamOn = get_option('ad_second_stream_enabled');
 		$enabledData = get_option('ss_enabled_days');
 		$enabledData = (array)json_decode($enabledData);

@@ -1,3 +1,9 @@
+/**
+ * @file This is the Stations React component.
+ * It handles the rendering of other available stations for the user.
+ * Additionally, it filters and handles the click functionality to play the selected station.
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -16,10 +22,20 @@ class Stations extends Component {
 		this.stationModalRef = React.createRef();
 	}
 
+	/**
+	 * Handles the play button click, dispatches the play action with given station.
+	 * @param {Object} station The station to play.
+	 */
 	handlePlayClick(station) {
 		this.props.play(station);
 	}
 
+	/**
+	 * Determines whether the stations should be rendered given their stream and streams.
+	 * @param {Object} stream The current stream.
+	 * @param {Array} streams The list of available streams.
+	 * @return {boolean} True if stations should be rendered, false otherwise.
+	 */
 	shouldRender(stream, streams) {
 		if (!stream) {
 			return true;
@@ -32,6 +48,10 @@ class Stations extends Component {
 		return false;
 	}
 
+	/**
+	 * Checks and returns the timezone from the config.
+	 * @return {string|boolean} The timezone if it exists, false otherwise.
+	 */
 	checkTimeZone() {
 		const tz = config.timezone_string;
 		if (!Intl || !Intl.DateTimeFormat().resolvedOptions().timeZone) {
@@ -46,6 +66,12 @@ class Stations extends Component {
 		}
 	}
 
+	/**
+	 * Renders the list of stations, filtering by the time if their availability is conditional.
+	 * @param {Object} stream The current stream.
+	 * @param {Array} streams The list of available streams.
+	 * @return {Array} An array of rendered station buttons.
+	 */
 	renderStations(stream, streams) {
 		const stations = [];
 		const days = [
@@ -67,55 +93,67 @@ class Stations extends Component {
 		const dayName = days[dayjs.tz().day()].toLowerCase();
 		const dayTime = dayjs.tz();
 
+		// this code block is to handle the case where there are multiple streams
 		/* eslint-disable camelcase */
-		streams
-			.filter(s => s !== stream)
-			.forEach(({ title, stream_call_letters, picture, secondStreamTime }) => {
-				const { large, original } = picture || {};
-				const { url } = large || original || {};
+		const secondaryStreams = streams.filter(s => s !== stream);
+		for (let i = 0; i < secondaryStreams.length; i++) {
+			const {
+				title, // title of the stream
+				stream_call_letters, // call letters of the stream
+				picture, // logo of the stream
+				secondStreamTime, // availability of the stream
+			} = secondaryStreams[i]; // stream object
+			const { large, original } = picture || {};
+			const { url } = large || original || {};
 
-				let logo = false;
-				if (url) {
-					logo = <img src={url} alt={title} />;
-				}
-				if (secondStreamTime) {
-					let { startTime, endTime } = '';
-					if (!(dayName in secondStreamTime)) {
-						return;
-					}
-					if (secondStreamTime[dayName].startTime) {
-						const temp = secondStreamTime[dayName].startTime.split(':');
-						startTime = dayjs
-							.tz()
-							.set('hour', temp[0])
-							.set('minute', temp[1]);
-					}
+			let logo = false;
+			if (url) {
+				logo = <img src={url} alt={title} />;
+			}
 
-					if (secondStreamTime[dayName].endTime) {
-						const temp = secondStreamTime[dayName].endTime.split(':');
-						endTime = dayjs
-							.tz()
-							.set('hour', temp[0])
-							.set('minute', temp[1]);
-					}
-					if (dayTime < startTime || dayTime > endTime) {
-						return;
-					}
+			// if the stream is conditional, check if it is available
+			if (secondStreamTime) {
+				let { startTime, endTime } = '';
+
+				// if the stream is not available on the current day, skip it
+				if (!(dayName in secondStreamTime)) {
+					continue;
 				}
 
-				stations.push(
-					<div key={stream_call_letters}>
-						<button
-							type="button"
-							className="control-station-button"
-							onClick={this.handlePlayClick.bind(this, stream_call_letters)}
-						>
-							{logo}
-							<span>{title}</span>
-						</button>
-					</div>,
-				);
-			});
+				if (secondStreamTime[dayName].startTime) {
+					const temp = secondStreamTime[dayName].startTime.split(':');
+					startTime = dayjs
+						.tz()
+						.set('hour', temp[0])
+						.set('minute', temp[1]);
+				}
+
+				if (secondStreamTime[dayName].endTime) {
+					const temp = secondStreamTime[dayName].endTime.split(':');
+					endTime = dayjs
+						.tz()
+						.set('hour', temp[0])
+						.set('minute', temp[1]);
+				}
+				// if the stream is not available at the current time, skip it
+				if (dayTime < startTime || dayTime > endTime) {
+					continue;
+				}
+			}
+
+			stations.push(
+				<div key={stream_call_letters}>
+					<button
+						type="button"
+						className="control-station-button"
+						onClick={this.handlePlayClick.bind(this, stream_call_letters)}
+					>
+						{logo}
+						<span>{title}</span>
+					</button>
+				</div>,
+			);
+		}
 		/* eslint-enable */
 
 		return stations;

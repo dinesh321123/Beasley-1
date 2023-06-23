@@ -23,29 +23,61 @@ function bbgi_input_field( $args = array() ) {
 		printf( '<p class="description">%s</p>', esc_html( $args['desc'] ) );
 	}
 }
+
+/***
+ * description of
+ *
+ * @param $args
+ * @return void
+ */
+/**
+ * Generates a hidden input field with an optional description.
+ *
+ * This function accepts an array of arguments, merges them with the defaults and outputs
+ * a hidden input field with an optional description field according to the provided settings.
+ * The input field value is populated with the saved option for the provided 'name' attribute
+ * or it falls back to the 'default' value.
+ *
+ * @since 1.0.0
+ *
+ * @param array $args {
+ *     Optional. An array of arguments for creating the hidden input field.
+ *
+ *     @type string $type    The input field type. Default 'hidden'.
+ *     @type string $name    The input field 'name' attribute. Default ''.
+ *     @type string $default The input field default value. Default ''.
+ *     @type string $class   The input field 'class' attribute. Default 'regular-text'.
+ *     @type string $desc    The optional description text. Default ''.
+ * }
+ */
 function bbgi_hidden_field( $args = array() ) {
+	// Merge the provided $args array with the default settings.
 	$args = wp_parse_args( $args, array(
-			'type'    => 'hidden',
-			'name'    => '',
-			'default' => '',
-			'class'   => 'regular-text',
-			'desc'    => '',
+		'type'    => 'hidden',
+		'name'    => '',
+		'default' => '',
+		'class'   => 'regular-text',
+		'desc'    => '',
 	) );
 
+	// Get the value of the 'name' attribute from options, if it exists, or use the 'default' value.
 	$value = get_option( $args['name'], $args['default'] );
 
+	// Output the formatted hidden input field.
 	printf(
-			'<input type="%s" name="%s" class="%s" value="%s">',
-			esc_attr( $args['type'] ),
-			esc_attr( $args['name'] ),
-			esc_attr( $args['class'] ),
-			esc_attr( $value )
+		'<input type="%s" name="%s" class="%s" value="%s">',
+		esc_attr( $args['type'] ),
+		esc_attr( $args['name'] ),
+		esc_attr( $args['class'] ),
+		esc_attr( $value )
 	);
 
+	// If the 'desc' value is not empty, output an optional description.
 	if ( ! empty( $args['desc'] ) ) {
 		printf( '<p class="description">%s</p>', esc_html( $args['desc'] ) );
 	}
 }
+
 function bbgi_checkbox_field( $args = array() ) {
 	bbgi_checkbox_field_with_default(false, $args);
 }

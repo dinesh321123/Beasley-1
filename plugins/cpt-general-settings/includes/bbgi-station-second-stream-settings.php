@@ -1,9 +1,18 @@
 <?php
-
+/**
+ * BbgiStationSettings Class
+ *
+ * This class is responsible for rendering the "Second Stream Settings" options page in the WordPress admin area.
+ * It allows the site administrator to manage settings related to the Second Stream functionality,
+ * such as enabling/disabling the feature, and setting the available days and time range when the Second Stream is active.
+ *
+ * @package BbgiStationSettings
+ * @author  WordPress PHP Developer
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	die( "Please don't try to access this file directly." );
 }
-class BbgiStationSettings {
+class BbgiStationSecondStreamSettings {
 
 	const bbgi_option_group = 'bbgi_site_options';
 	/**
@@ -14,6 +23,10 @@ class BbgiStationSettings {
 	 */
 	protected $_bbgi_settings_page_hook;
 
+	/**
+	 * Constructor method.
+	 * Initializes the class and hooks the needed actions.
+	 */
 	function __construct()
 	{
 		add_action( 'init', array( __CLASS__, 'bbgi_settings_page_init' ), 0 );
@@ -21,6 +34,10 @@ class BbgiStationSettings {
 		add_action( 'admin_init', array( $this, 'bbgi_register_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
+
+	/**
+	 * Adds the 'manage_bbgi_station_settings' capability to the administrator role.
+	 */
 	public static function bbgi_settings_page_init() {
 		// Register custom capability for Draft Kings On/Off Setting and Max mega menu
 		$roles = [ 'administrator' ];
@@ -33,10 +50,17 @@ class BbgiStationSettings {
 			}
 		}
 	}
+
+	/**
+	 * Adds the "Second Stream Settings" page under the "Settings" menu.
+	 */
 	public function add_bbgi_settings_page() {
 		$this->_bbgi_settings_page_hook = add_options_page( 'Second Stream Settings', 'Second Stream', 'manage_bbgi_station_settings', 'second-stream-settings', array( $this, 'render_bbgi_settings_page') );
 	}
 
+	/**
+	 * Renders the "Second Stream Settings" options page.
+	 */
 	public function render_bbgi_settings_page() {
 		echo '<form action="options.php" id="station-setting-form" method="post" style="max-width:750px;">';
 		settings_fields( self::bbgi_option_group );
@@ -44,6 +68,10 @@ class BbgiStationSettings {
 		submit_button( 'Submit' );
 		echo '</form>';
 	}
+
+	/**
+	 * Registers the settings fields.
+	 */
 	public function bbgi_register_settings() {
 		$ad_second_stream_enabled_args = array(
 			'name'     => 'ad_second_stream_enabled',
@@ -59,6 +87,11 @@ class BbgiStationSettings {
 
 	}
 
+	/**
+	 * Renders the "Enable Second Stream" field.
+	 *
+	 * @param array $args Field arguments.
+	 */
 	public function render_ad_second_stream_enabled( $args ) {
 		?><select onchange="changeStream(jQuery)" name="<?php echo esc_attr( $args['name'] ); ?>">
 		<option value="on"
@@ -71,6 +104,22 @@ class BbgiStationSettings {
 		</select><?php
 	}
 
+	/**
+	 * Renders the "Days and Time range" field for the Second Stream.
+	 *
+	 * This function is responsible for rendering the interactive field where the site administrator
+	 * can define on which days and during which time range the Second Stream should be active.
+	 * It creates a table with checkboxes for each day of the week and two corresponding input fields for
+	 * the start and end time of the active time range.
+	 *
+	 * This function uses a hidden input field to store the enabled days and their time ranges as a JSON object.
+	 * A JavaScript/jQuery script is used to update the hidden field's value when any changes are made to
+	 * the visible HTML elements (checkboxes and time inputs).
+	 *
+	 * On form submission, the JSON object in the hidden field is saved as one option in the WordPress database.
+	 *
+	 * @param array $args Field arguments.
+	 */
 	public 	function render_ss_days_enabled( $args = array() ) {
 		$args = wp_parse_args( $args, array(
 			'type'    => 'hidden',
@@ -86,6 +135,8 @@ class BbgiStationSettings {
 		if($OnOption == 'off'){
 			$style = 'display: none;';
 		}
+
+		// Render the hidden input field that contains the JSON object which represents the enabled days and their time ranges.
 		printf(
 			'<input type="%s" name="%s" class="%s" value="%s">',
 			esc_attr( $args['type'] ),
@@ -94,10 +145,12 @@ class BbgiStationSettings {
 			esc_attr( $value )
 		);
 
+		// Render the description for the field if one was provided.
 		if ( ! empty( $args['desc'] ) ) {
 			printf( '<p class="description">%s</p>', esc_html( $args['desc'] ) );
 		}
 
+		//an array of days which we want to show in the table
 		$days = ['monday'=> ['name'=>'monday','desc'=>'Monday','start_time'=>'','end_time'=>''],
 			'tuesday'=> ['name'=>'tuesday','desc'=>'Tuesday','start_time'=>'','end_time'=>''],
 				'wednesday'=> ['name'=>'wednesday','desc'=>'Wednesday','start_time'=>'','end_time'=>''],
@@ -106,9 +159,20 @@ class BbgiStationSettings {
 				'saturday'=> ['name'=>'saturday','desc'=>'Saturday','start_time'=>'','end_time'=>''],
 				'sunday'=> ['name'=>'sunday','desc'=>'Sunday','start_time'=>'','end_time'=>''],];
 
+		// output the days table
 		echo '<table  cellspacing="0" align="center" class="ss_days_class" style="'. $style. '">';
 		echo '<tr><td>Days</td><td>Start Time</td><td>End Time</td></tr>';
 		foreach ($days as $daysargs){
+
+			/*
+			 * parses the arguments for the days table and sets the default values.
+			 *  these arguments include:
+			 *   		type: the type of input field to be rendered
+			 *   		name: the name of the input field
+			 * 			default: the default value of the input field
+			 * 			class: the class of the input field
+			 * 			desc: the description of the input field
+			 */
 			$daysargs = wp_parse_args( $daysargs, array(
 				'type'    => 'checkbox',
 				'name'    => '',
@@ -116,9 +180,13 @@ class BbgiStationSettings {
 				'class'   => 'regular-text',
 				'desc'    => '',
 			) );
+
+			// initializes the value, start time, and end time of the day
 			$value = '';
 			$startTime= '';
 			$endTime= '';
+
+			// if the day is enabled, set the value to checked and set the start and end time
 			if(array_key_exists($daysargs['name'],$daysData)){
 				$value = 'checked';
 				$dayArray = (array)$daysData[$daysargs['name']];
@@ -126,12 +194,18 @@ class BbgiStationSettings {
 				$endTime = $dayArray['endTime'];
 			}
 
+
+			// $checked is used to determine if the checkbox should be checked or not. $value will contain the
+			// value 'checked' if the day is enabled and an empty string if the day is disabled.
 			$checked = $value ? 'checked' : '';
+
 			echo '<tr class="ss_tr_'.$daysargs['name'].'">';
 			echo '<td>';
 			if ( ! empty( $daysargs['desc'] ) ) {
 				printf( '<span class="description">%s</span>', esc_html( $daysargs['desc'] ) );
 			}
+
+			// renders the checkbox for the day utilizing the $daysargs array defined above
 			printf(
 				'<input type="%s" name="%s" style="margin-left: 8px;" onclick="checkFluency(jQuery)" class="%s" %s></td>',
 				esc_attr( $daysargs['type'] ),
@@ -140,6 +214,7 @@ class BbgiStationSettings {
 				esc_attr( $checked )
 			);
 
+			// renders the start and end time inputs for the day
 			echo '<td><input type="text" style="max-width: 50%;" name="starttime" value="'.$startTime.'"  onchange="checkFluency(jQuery)" ></td><td><input type="text" style="max-width: 50%;" name="endtime" value="'.$endTime.'" onchange="checkFluency(jQuery)" ></td></td>';
 			echo '</tr>';
 		}
@@ -147,7 +222,7 @@ class BbgiStationSettings {
 
 	}
 	/**
-	 * Enqueues admin scripts and styles.
+	 * Enqueues scripts and styles for the admin page
 	 *
 	 * @global string $typenow The current type.
 	 * @global string $pagenow The current page.
@@ -156,4 +231,6 @@ class BbgiStationSettings {
 		wp_enqueue_script( 'station_setting_script', GENERAL_SETTINGS_CPT_URL . "assets/js/station-setting.js", array('jquery'), GENERAL_SETTINGS_CPT_VERSION, true );
 	}
 }
-new BbgiStationSettings();
+
+// Initialize the class
+new BbgiStationSecondStreamSettings();

@@ -1,4 +1,15 @@
-var daysData = '';
+/**
+ * This file contains JavaScript functions used to manage and validate
+ * different settings related to streaming and scheduling in a WordPress
+ * based radio station website.
+ *
+ * Functions:
+ * 1. changeStream($) - Toggles display of streaming days UI based on stream setting.
+ * 2. checkFluency($) - Validates and prepares streaming schedule data before submitting the form.
+ * 3. validateHhMm(inputField) - Validates time format.
+ */
+
+// Toggles display of streaming days UI based on stream setting
 function changeStream($) {
 	if($('select[name="ad_second_stream_enabled"]').val() == 'off'){
 		$('.ss_days_class').hide();
@@ -7,17 +18,23 @@ function changeStream($) {
 	}
 }
 
+// Validates and prepares streaming schedule data before submitting the form
 function checkFluency($) {
-	jsonObj = {};
-	var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday","sunday"]
+	const jsonObj = {};
+	const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday","sunday"]
 
-	for(var k = 0; k < days.length; k++){
-		if($( ".ss_tr_"+days[k]+" input[name="+days[k]+"]").length){
+	// this loop validates the time format and checks if start time is smaller than end time
+	for(let k = 0; k < days.length; k++){
+		let dayCheckboxSelector = ".ss_tr_"+days[k]+" input[name="+days[k]+"]";
+
+		if($( dayCheckboxSelector).length){
 			let startTime = $( ".ss_tr_"+days[k]+" input[name=starttime]");
 			let endTime = $( ".ss_tr_"+days[k]+" input[name=endtime]");
-			var temp;
-			var timeTo = new Date();
-			var timeFrom = new Date();
+			let temp;
+			const timeTo = new Date();
+			const timeFrom = new Date();
+
+			// check if start time and end time are not empty
 			if($.trim(startTime.val()) !== '') {
 				if(!validateHhMm(startTime.val())) {
 					startTime.val('');
@@ -39,6 +56,7 @@ function checkFluency($) {
 				}
 			}
 
+			// check if start time is smaller than end time
 			if($.trim(startTime.val()) !== '' && $.trim(endTime.val()) !== ''){
 				if (timeTo < timeFrom){
 					endTime.val('');
@@ -47,7 +65,8 @@ function checkFluency($) {
 				}
 			}
 
-			if($( ".ss_tr_"+days[k]+" input[name="+days[k]+"]").is(':checked')){
+			// checks in the day is checked and then add the data to json object
+			if($( dayCheckboxSelector).is(':checked')){
 				item =  {};
 				item['day'] = days[k];
 				item['startTime'] = startTime.val();
@@ -58,31 +77,30 @@ function checkFluency($) {
 
 	}
 
-	if(jsonObj){
+	let daysData;
+	if (jsonObj) {
 		daysData = JSON.stringify(jsonObj);
 		$("input[name=ss_enabled_days]").val(daysData);
 	}
 }
-function validateHhMm(inputField) {
-	var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField);
-	if (isValid) {
-		return true;
-	} else {
-		return false;
-	}
 
+// Validates time format
+function validateHhMm(inputField) {
+	// validates that a time is in the correct format of HH:MM between 00:00 and 24:00
+	return /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField);
 }
+
+// Initialize event listeners for form submission and streaming setting change
 (function ($) {
-	var $document = $(document);
+	const $document = $(document);
 	$document.ready(function () {
 		$document.on('submit', '#station-setting-form', function (e) {
 			checkFluency($);
 		});
 
+		// check if second stream enabled status is changed
 		$document.on('change', ' input[name="ad_second_stream_enabled"]', function (e) {
 			alert('in');
-
-
 		});
 	});
 })(jQuery);
