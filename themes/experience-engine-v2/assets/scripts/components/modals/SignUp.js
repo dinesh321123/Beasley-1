@@ -246,7 +246,7 @@ class SignUp extends PureComponent {
 								First Name
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 									${showError && firstname === '' ? 'error-field' : ''}
 									`}
 								type="text"
@@ -262,7 +262,7 @@ class SignUp extends PureComponent {
 								Last Name
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && lastname === '' ? 'error-field' : ''}
 								`}
 								type="text"
@@ -280,7 +280,7 @@ class SignUp extends PureComponent {
 								Email
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && email === '' ? 'error-field' : ''}
 								`}
 								type="email"
@@ -296,7 +296,7 @@ class SignUp extends PureComponent {
 								Password
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && password === '' ? 'error-field' : ''}
 								`}
 								type="password"
@@ -314,7 +314,7 @@ class SignUp extends PureComponent {
 								Zip
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && zip === '' ? 'error-field' : ''}
 								`}
 								type="text"
@@ -331,7 +331,7 @@ class SignUp extends PureComponent {
 								Birthday
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && bday === '' ? 'error-field' : ''}
 								`}
 								type="text"

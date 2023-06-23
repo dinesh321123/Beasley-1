@@ -1,37 +1,37 @@
 import amplitudeKit from '@mparticle/web-amplitude-kit';
 import mParticle from '@mparticle/web-sdk';
 
-// 2023-06-23 Disable mParticle Identify For Initial Prod Release
-// export const setMParticleUserAtributes = (
-// 	email,
-// 	firstname,
-// 	lastname,
-// 	zip,
-// 	gender,
-// 	bday,
-// ) => {
-// 	console.log(
-// 		`Setting mParticle Params: ${email}, ${firstname}, ${lastname}, ${zip}, ${gender}, ${bday}`,
-// 	);
-//
-// 	if (window.firebase?.User) {
-// 		logFirebaseUserIntoMParticle(window.firebase.User);
-//
-// 		const currentUser = mParticle.Identity.getCurrentUser();
-// 		currentUser.setUserAttribute('email', email);
-// 		currentUser.setUserAttribute('$firstname', firstname);
-// 		currentUser.setUserAttribute('$lastname', lastname);
-// 		currentUser.setUserAttribute('$zip', zip);
-// 		const formattedGender =
-// 			gender && gender.length > 0 ? gender.toUpperCase()[0] : 'P';
-// 		currentUser.setUserAttribute('$gender', formattedGender);
-// 		const formattedDob = bday
-// 			.replace(/(\d\d)\/(\d\d)\/(\d{4})/, '$3-$1-$2')
-// 			.split('/')
-// 			.join('-');
-// 		currentUser.setUserAttribute('dob', formattedDob);
-// 	}
-// };
+export const setMParticleUserAtributes = (
+	email,
+	firstname,
+	lastname,
+	zip,
+	gender,
+	bday,
+) => {
+	console.log(
+		`Setting mParticle Params: ${email}, ${firstname}, ${lastname}, ${zip}, ${gender}, ${bday}`,
+	);
+
+	// 2023-06-23 Disable mParticle Identify For Initial Prod Release
+	// if (window.firebase?.User) {
+	// 	logFirebaseUserIntoMParticle(window.firebase.User);
+	//
+	// 	const currentUser = mParticle.Identity.getCurrentUser();
+	// 	currentUser.setUserAttribute('email', email);
+	// 	currentUser.setUserAttribute('$firstname', firstname);
+	// 	currentUser.setUserAttribute('$lastname', lastname);
+	// 	currentUser.setUserAttribute('$zip', zip);
+	// 	const formattedGender =
+	// 		gender && gender.length > 0 ? gender.toUpperCase()[0] : 'P';
+	// 	currentUser.setUserAttribute('$gender', formattedGender);
+	// 	const formattedDob = bday
+	// 		.replace(/(\d\d)\/(\d\d)\/(\d{4})/, '$3-$1-$2')
+	// 		.split('/')
+	// 		.join('-');
+	// 	currentUser.setUserAttribute('dob', formattedDob);
+	// }
+};
 
 /**
  * Create MParticle Session if Key is configured and mParticle session has not been created yet
