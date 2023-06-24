@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1ad4063bb619ab67224609c628f5be2",
+    "content-hash": "9b0d8dd84f49ef5d0c75179f4cde7e0f",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -110,6 +110,58 @@
             "time": "2018-11-05T20:41:24+00:00"
         },
         {
+            "name": "10up/wpcli-vulnerability-scanner",
+            "version": "dev-trunk",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/10up/wpcli-vulnerability-scanner.git",
+                "reference": "c8b9416025b882a456ee3a094d71509f4960abdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/10up/wpcli-vulnerability-scanner/zipball/c8b9416025b882a456ee3a094d71509f4960abdb",
+                "reference": "c8b9416025b882a456ee3a094d71509f4960abdb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "behat/behat": "^3.11",
+                "wp-cli/wp-cli-tests": "^3.1"
+            },
+            "type": "wp-cli-package",
+            "autoload": {
+                "files": [
+                    "wpcli-vulnerability-scanner.php"
+                ]
+            },
+            "scripts": {
+                "behat": [
+                    "run-behat-tests"
+                ],
+                "prepare-tests": [
+                    "install-package-tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "10up",
+                    "homepage": "https://10up.com"
+                }
+            ],
+            "description": "Check installed plugins and themes for vulnerabilities",
+            "homepage": "https://github.com/10up/wpcli-vulnerability-scanner",
+            "support": {
+                "source": "https://github.com/10up/wpcli-vulnerability-scanner/tree/1.1.0",
+                "issues": "https://github.com/10up/wpcli-vulnerability-scanner/issues"
+            },
+            "time": "2022-10-26T14:25:58+00:00"
+        },
+        {
             "name": "aws/aws-crt-php",
             "version": "v1.2.1",
             "source": {
@@ -165,16 +217,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.273.4",
+            "version": "3.273.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "36a039d5dfcaa7dc9101b121cf1dfb6ca2abd605"
+                "reference": "1d3e7ae37f31dfe1d4e9d9e361fd8e6702074fbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/36a039d5dfcaa7dc9101b121cf1dfb6ca2abd605",
-                "reference": "36a039d5dfcaa7dc9101b121cf1dfb6ca2abd605",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1d3e7ae37f31dfe1d4e9d9e361fd8e6702074fbe",
+                "reference": "1d3e7ae37f31dfe1d4e9d9e361fd8e6702074fbe",
                 "shasum": ""
             },
             "require": {
@@ -254,9 +306,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.273.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.273.7"
             },
-            "time": "2023-06-20T19:54:39+00:00"
+            "time": "2023-06-23T18:19:24+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -3761,7 +3813,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "10up/wpcli-vulnerability-scanner": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
