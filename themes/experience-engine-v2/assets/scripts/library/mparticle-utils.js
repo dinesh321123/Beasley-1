@@ -43,15 +43,13 @@ export const createMparticleSession = () => {
 	) {
 		console.log('Configuring mparticle in bundle');
 
-		// eslint-disable-next-line no-undef
-		amplitudeKit.register(BeasleyAnalytics.getMParticleConfig());
+		amplitudeKit.register(window.bbgiAnalyticsConfig.mParticleConfig);
 
 		// Configures the SDK. Note the settings below for isDevelopmentMode
 		// and logLevel.
 		mParticle.init(
 			window.bbgiAnalyticsConfig.mparticle_key,
-			// eslint-disable-next-line no-undef
-			BeasleyAnalytics.getMParticleConfig(),
+			window.bbgiAnalyticsConfig.mParticleConfig,
 		);
 		window.mParticle = mParticle;
 		console.log(
