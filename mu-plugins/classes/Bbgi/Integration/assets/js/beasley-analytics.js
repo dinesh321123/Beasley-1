@@ -694,7 +694,11 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	validateStringFieldsWithSquareBracesAsValidStringifiedJSONArray(objectToValidate) {
 		for(const key in objectToValidate){
 			const val = objectToValidate[key];
-			if ((typeof val === 'string' || val instanceof String) && (val.indexOf('[') > -1 || val.indexOf(']') > -1)) {
+			if ((typeof val === 'string' || val instanceof String) &&
+				val.length > 1 &&
+				val.indexOf('[') === 0 &&
+				val.indexOf(']') === val.length - 1
+			) {
 				if ( ! this.isValidStringifiedJSONArray(val) ) {
 					const message = `Invalid JSON on Beasley Event '${objectToValidate.beasley_event_id}' field name: '${key}' field value: '${val}'`;
 					this.sendErrorEvent(
