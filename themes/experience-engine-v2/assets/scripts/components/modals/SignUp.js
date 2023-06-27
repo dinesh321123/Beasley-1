@@ -10,6 +10,7 @@ import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
 import { mapAuthErrorCodeToFriendlyMessage } from '../../library/friendly-error-messages';
+import { setMParticleUserAtributes } from '../../library';
 
 import {
 	saveUser,
@@ -192,6 +193,14 @@ class SignUp extends PureComponent {
 				this.props.setDisplayName(userData.displayName);
 			})
 			.then(() => {
+				setMParticleUserAtributes(
+					emailAddress,
+					firstname,
+					lastname,
+					zip,
+					gender,
+					bday,
+				);
 				ensureUserHasCurrentChannel().then(() => {
 					this.props.close();
 					window.location.reload();
@@ -237,7 +246,7 @@ class SignUp extends PureComponent {
 								First Name
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 									${showError && firstname === '' ? 'error-field' : ''}
 									`}
 								type="text"
@@ -253,7 +262,7 @@ class SignUp extends PureComponent {
 								Last Name
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && lastname === '' ? 'error-field' : ''}
 								`}
 								type="text"
@@ -271,7 +280,7 @@ class SignUp extends PureComponent {
 								Email
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && email === '' ? 'error-field' : ''}
 								`}
 								type="email"
@@ -287,7 +296,7 @@ class SignUp extends PureComponent {
 								Password
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && password === '' ? 'error-field' : ''}
 								`}
 								type="password"
@@ -305,7 +314,7 @@ class SignUp extends PureComponent {
 								Zip
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && zip === '' ? 'error-field' : ''}
 								`}
 								type="text"
@@ -322,7 +331,7 @@ class SignUp extends PureComponent {
 								Birthday
 							</label>
 							<input
-								className={`modal-form-field 
+								className={`modal-form-field
 								${showError && bday === '' ? 'error-field' : ''}
 								`}
 								type="text"

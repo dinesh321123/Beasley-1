@@ -9,3 +9,4 @@ export * from './local-storage';
 export * from './meta-tag';
 export { default as slugify } from './slugify';
 export * from './strings';
+export * from './mparticle-utils';

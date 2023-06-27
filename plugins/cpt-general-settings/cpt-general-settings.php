@@ -10,7 +10,7 @@ Author URI: https://bbgi.com/
 if ( ! defined( 'ABSPATH' ) ) {
 	die( "Please don't try to access this file directly." );
 }
-define( 'GENERAL_SETTINGS_CPT_VERSION', '0.0.1' );
+define( 'GENERAL_SETTINGS_CPT_VERSION', '0.0.2' );
 define( 'GENERAL_SETTINGS_CPT_URL', plugin_dir_url( __FILE__ ) );
 define( 'GENERAL_SETTINGS_CPT_PATH', dirname( __FILE__ ) );
 define( 'GENERAL_SETTINGS_CPT_TEXT_DOMAIN', 'general_settings_textdomain' );
@@ -28,11 +28,10 @@ include __DIR__ . '/includes/rendering.php';
 include __DIR__ . '/includes/footer-description-settings.php';
 include __DIR__ . '/includes/dashboard-activity.php';
 include __DIR__ . '/includes/whiz-changes.php' ;
+include __DIR__ . '/includes/duplicate-listicle.php';
+include __DIR__ . '/includes/newsletter-signup-form.php';
 
 /** This should be removed after we confirm if logging the shutdown hook is successful */
 include __DIR__ . '/includes/shutdown-elasticsearch-log.php';
 
-include __DIR__ . '/includes/newsletter-signup-form.php';
-
-/** this include allows for the management of which days and times the second stream is active */
-include __DIR__ . '/includes/bbgi-station-second-stream-settings.php';
+include __DIR__ . '/includes/bbgi-station-settings.php';

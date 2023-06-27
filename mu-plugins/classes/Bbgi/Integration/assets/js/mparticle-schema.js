@@ -5,7 +5,7 @@ window.mParticleSchema = {
 	"activated_environment": "development",
 	"created_on": "2023-05-11T17:09:53.597",
 	"created_by": "mike.persico@bbgi.com",
-	"last_modified_on": "2023-06-14T14:55:23.073",
+	"last_modified_on": "2023-06-23T17:10:24.19",
 	"last_modified_by": "mike.persico@bbgi.com",
 	"version_document": {
 		"data_points": [
@@ -3190,6 +3190,13 @@ window.mParticleSchema = {
 										"additionalProperties": false,
 										"description": "",
 										"properties": {
+											"error_source": {
+												"description": "",
+												"type": [
+													"string",
+													"null"
+												]
+											},
 											"beasley_event_id": {
 												"description": "",
 												"type": [

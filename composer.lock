@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b0d8dd84f49ef5d0c75179f4cde7e0f",
+    "content-hash": "c1ad4063bb619ab67224609c628f5be2",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -217,16 +217,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.273.7",
+            "version": "3.273.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "1d3e7ae37f31dfe1d4e9d9e361fd8e6702074fbe"
+                "reference": "36a039d5dfcaa7dc9101b121cf1dfb6ca2abd605"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1d3e7ae37f31dfe1d4e9d9e361fd8e6702074fbe",
-                "reference": "1d3e7ae37f31dfe1d4e9d9e361fd8e6702074fbe",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/36a039d5dfcaa7dc9101b121cf1dfb6ca2abd605",
+                "reference": "36a039d5dfcaa7dc9101b121cf1dfb6ca2abd605",
                 "shasum": ""
             },
             "require": {
@@ -306,9 +306,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.273.7"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.273.4"
             },
-            "time": "2023-06-23T18:19:24+00:00"
+            "time": "2023-06-20T19:54:39+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -3702,15 +3702,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "20.3",
+            "version": "20.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/20.3"
+                "reference": "tags/20.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.20.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.20.9.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"

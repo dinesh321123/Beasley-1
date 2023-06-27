@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'md5';
-
 import {
 	ensureUserHasCurrentChannel,
 	userHasProfile,
 	firebaseAuth,
+	logFirebaseUserIntoMParticle,
+	logFirebaseUserOutOfMParticle,
 } from '../library';
 import ErrorBoundary from '../components/ErrorBoundary';
 import * as modalActions from '../redux/actions/modal';
@@ -70,13 +71,11 @@ class UserNav extends Component {
 	 * Else load as if not logged in - load page using logged-out lifecycle
 	 */
 	didAuthStateChange(user) {
-		// 04/23/3021 - Temporarily Short Circuit Login
 		// TODO - when direction we are taking is clear, this class needs to be refactored.
 		//      - In particular loadAsNotLoggedIn() and finishLoading() seem awful similar...
-		this.loadAsNotLoggedIn();
+		// this.loadAsNotLoggedIn();
 		const { didLogin } = this.state;
 		const { resetUser } = this.props;
-
 		if (user) {
 			this.setState({ didLogin: true });
 			this.loadAsLoggedIn(user);
@@ -84,6 +83,7 @@ class UserNav extends Component {
 			this.loadAsNotLoggedIn();
 		} else {
 			resetUser();
+			this.loadAsNotLoggedIn();
 			this.finishLoading();
 		}
 	}
@@ -100,6 +100,7 @@ class UserNav extends Component {
 
 		setUser(user);
 		this.setState({ loading: false });
+		logFirebaseUserIntoMParticle(user);
 
 		if (didRedirect) {
 			userHasProfile()
@@ -131,6 +132,7 @@ class UserNav extends Component {
 		const { hideSplashScreen } = this.props;
 		this.setState({ loading: false });
 		hideSplashScreen();
+		logFirebaseUserOutOfMParticle();
 	}
 
 	/**

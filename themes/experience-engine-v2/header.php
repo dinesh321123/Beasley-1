@@ -33,7 +33,7 @@ use Bbgi\Integration\Google;
 		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
 		$mparticle_pageview_event_data['mParticleContentType'] = 'homepage';
 		$mparticle_pageview_event_data['mParticle_category'] = (object) ['name' => 'Homepage'];
-		$mparticle_pageview_event_data['mParticle_categories'] = `["Homepage"]`;
+		$mparticle_pageview_event_data['mParticle_categories'] = '["Homepage"]';
 	} else if (is_archive()) {
 		$obj = get_queried_object();
 
@@ -177,7 +177,8 @@ use Bbgi\Integration\Google;
 								BeasleyAnalyticsMParticleProvider.mparticleErrorClasses.mParticle,
 								BeasleyAnalyticsMParticleProvider.mparticleErrorCodes.UnableToSendPageViewEvent.number,
 								BeasleyAnalyticsMParticleProvider.mparticleErrorCodes.UnableToSendPageViewEvent.name,
-								`Could Not Send Page View Event For ${window.location.href} - ${e.name}: ${e.message}`
+                                window.location.href,
+								`Could Not Send Page View Event - ${e.name}: ${e.message}`
 							);
 						}
 					</script>',
