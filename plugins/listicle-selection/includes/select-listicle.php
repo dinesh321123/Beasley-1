@@ -22,7 +22,7 @@ class ExistingListicleSelection {
 
 	public static function enqueue_scripts(){
 		global $typenow, $pagenow;
-		$post_types = array( 'post' );
+		$post_types = array( 'post', 'contest' );
 		if ( in_array( $typenow, $post_types ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			wp_register_style('existing-listicle-selection-admin', LISTICLE_SELECTION_URL . "assets/css/listicle_selection.css", array(), LISTICLE_SELECTION_VERSION, 'all');
 			wp_enqueue_style('existing-listicle-selection-admin');

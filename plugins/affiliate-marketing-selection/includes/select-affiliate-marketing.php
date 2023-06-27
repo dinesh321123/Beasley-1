@@ -22,7 +22,7 @@ class ExistingAffiliateMarketingSelection {
 
 	public static function enqueue_scripts() {
 		global $typenow, $pagenow;
-		$post_types = array( 'post' );
+		$post_types = array( 'post', 'contest' );
 		if ( in_array( $typenow, $post_types ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			wp_register_style('existing-am-selection-admin', AFFILIATE_MARKETING_SELECTION_URL . "assets/css/affiliate_marketing_selection.css", array(), AFFILIATE_MARKETING_SELECTION_VERSION, 'all');
 			wp_enqueue_style('existing-am-selection-admin');
