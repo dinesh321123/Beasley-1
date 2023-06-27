@@ -12,11 +12,7 @@
 		{
 			"type": "composer",
 			"url": "https://wpackagist.org"
-		},
-                {
-                         "type": "vcs",
-                         "url": "https://github.com/10up/wpcli-vulnerability-scanner.git"
-                }
+		}
 	],
 	"require": {
 		"composer/composer": "^2.0",
@@ -35,7 +31,6 @@
 		"wpackagist-plugin/wp-crontrol": "1.12.0",
 		"wpackagist-plugin/wordpress-seo": "20.9",
     "wpackagist-plugin/wonderm00ns-simple-facebook-open-graph-tags": "3.1.2",
-		"10up/wpcli-vulnerability-scanner": "dev-trunk",                
 		"wpackagist-plugin/safe-redirect-manager": "1.10.1",
 		"wpackagist-plugin/simple-local-avatars": "2.2.0",
 		"wpackagist-plugin/wp-fail2ban": "4.4.0.3",
@@ -79,8 +74,7 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"cp ./vendor/humanmade/wordpress-pecl-memcached-object-cache/object-cache.php ./object-cache.php",
-			"cp -R ./vendor/10up/wpcli-vulnerability-scanner plugins/wp-vulnerability-scanner"
+			"cp ./vendor/humanmade/wordpress-pecl-memcached-object-cache/object-cache.php ./object-cache.php"
 		]
 	}
 }
