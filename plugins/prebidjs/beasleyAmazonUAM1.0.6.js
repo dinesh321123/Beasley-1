@@ -27,4 +27,9 @@
 		return retval;
 	};
 
+	window.amazonUAMSlotDebug = slot => {
+		console.log(JSON.stringify(slot));
+	}
+
+
 
