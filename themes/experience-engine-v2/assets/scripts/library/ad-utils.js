@@ -144,7 +144,7 @@ export const requestHeaderBids = slotList => {
 		window.initializeAPS();
 		window.apstag.fetchBids(
 			{
-				slots: slotList,
+				slots: window.getAmazonUAMSlots(slotList),
 				timeout: HEADER_BID_TIMEOUT,
 			},
 			function(bids) {

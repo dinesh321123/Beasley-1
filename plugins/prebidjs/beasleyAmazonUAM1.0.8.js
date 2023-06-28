@@ -16,6 +16,16 @@
 		}
 	};
 
-
+	window.getAmazonUAMSlots = slotList => {
+		const retval = slotList
+			.map(s => {
+				return {
+					slotID: s.getSlotElementId(),
+					slotName: s.getAdUnitPath(),
+					sizes: s.getSizes().map(size => [size.width, size.height]),
+				};
+			});
+		return retval;
+	};
 
 
