@@ -135,6 +135,32 @@
 .media-image-with-attr-container {
 	position: relative;
 	width: fit-content;
+
+	&.media-right-align {
+		float: right;
+		& .media-image-attr {
+			margin-left: 1.5rem;
+			margin-bottom: 0.5rem;
+		}
+	}
+	&.media-left-align {
+		float: left;
+		& .media-image-attr {
+			margin-right: 1rem;
+			margin-bottom: 0.5rem;
+		}
+	}
+	&.media-center-align {
+		float: none;
+		margin: 0 auto;
+	}
+	&.media-none-align {
+		float: none;
+		display: inline;
+		& .media-image-attr {
+			margin-bottom: 0.5rem;
+		}
+	}
 	& .media-image-attr {
 		background-color: rgba(0, 0, 0, .4);
 		border-radius: 3px;

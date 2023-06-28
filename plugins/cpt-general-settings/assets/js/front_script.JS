@@ -7,7 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
 	  if (!image.hasAttribute("data-media-image")) {
 		return;
 	  }
-  
+
+	  // Mapping object for class names to float classes
+	  const floatClassMap = {
+		alignright: "media-right-align",
+		alignleft: "media-left-align",
+		aligncenter: "media-center-align",
+		alignnone: "media-none-align"
+	  };
+
+	  // Convert classList to an array
+	  const classList = Array.from(image.classList);
+
+	  // Find the matching float class from the classList
+	  const float = classList.find(className => floatClassMap.hasOwnProperty(className));
+
 	  try {
 		// Create form data with action and post_id
 		let data = new FormData();
@@ -27,6 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		  // Create container div for image and attribution
 		  const containerDiv = document.createElement("div");
 		  containerDiv.className = "media-image-with-attr-container";
+ 
+		  // Add the float class to the containerDiv
+		  // If float is undefined or doesn't have a corresponding float class, add an empty string
+		  containerDiv.classList.add(floatClassMap[float] || '');
   
 		  // Create div for attribution text
 		  const attributionDiv = document.createElement("div");
