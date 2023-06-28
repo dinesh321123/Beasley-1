@@ -2,6 +2,11 @@
 	var $document = $(document);
 	$document.ready(function () {
 		wp_ajaxExecuteToCallTagsRecords();
+		$(".ntdelbutton").click(function() {
+			var tags_data = $(this).val();
+			var prior_tags_data = $( '#tag_permissions_post_tag' ).val();
+			ajaxExecuteToGetTags( tags_data, prior_tags_data, 'remove' );
+		});
 		$(".tag-permissions-add").click(function() {
 			var tags_data = $( '.tag-permissions-value' ).val();
 			var prior_tags_data = $( '#tag_permissions_post_tag' ).val();
