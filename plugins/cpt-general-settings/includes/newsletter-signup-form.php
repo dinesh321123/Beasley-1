@@ -98,11 +98,11 @@ class NewsletterSignupForm {
                 $html .= '</div>';
             $html .= '</div>';
             $nsf_output_hide = true;
-            $nfsenabled = get_option('nsf_enable_disable', 'on' );           
-            if($nfsenabled=='on'){
+            $nfsenabled = get_option('nsf_enable_disable');     
+            if($nfsenabled != 'off' ){
                 return $html;
             }else{
-                return '';
+                return "";
             }           
         }
 
@@ -128,8 +128,17 @@ class NewsletterSignupForm {
 
     public function nsf_register_settings( $group, $page ) {
         $section_id = 'beasley_newsletter_signup_form';
+        $nsf_enable_disable_arg = array(
+            'name'     => 'nsf_enable_disable',
+            'default' => 'on',	
+            'class'		=> '',
+			'options' => array(
+				'on' => 'On',
+				'off'  => 'Off',
+			),
+        );  
 
-        add_settings_field('nsf_enable_disable', 'Enabled', 'true_defaulted_bbgi_checkbox_field',$page, $section_id, 'name=nsf_enable_disable',);
+        add_settings_field('nsf_enable_disable','Enabled','bbgi_select_field',$page, $section_id, $nsf_enable_disable_arg);
         add_settings_field( 'ee_newsletter_logo', 'Logo', 'bbgi_image_field', $page, $section_id, 'name=ee_newsletter_logo' );
         add_settings_section( $section_id, 'Newsletter signup forms', '__return_false', $page );
         add_settings_field('nsf_label', 'Label', 'bbgi_input_field', $page, $section_id, 'name=nsf_label&default=Join the Family');
