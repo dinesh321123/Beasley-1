@@ -487,6 +487,20 @@ export function getStateFromContent(
 				'.preference-section',
 				getDatasetParams(),
 			),
+			...processEmbeds(
+				container,
+				'trendingarticles',
+				'.trending-articles-container',
+				getDatasetParams(
+					'postid',
+					'categories',
+					'posttype',
+					'posttitle',
+					'url',
+					'location',
+					'has_shortcode',
+				),
+			),
 		];
 
 		// extract <script> tags

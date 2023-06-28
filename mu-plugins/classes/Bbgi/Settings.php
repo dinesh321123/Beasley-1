@@ -258,6 +258,9 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'related_article_section', 'Related Articles', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'related_article_title', 'Title Text', 'bbgi_input_field', $this->_settings_page_hook, 'related_article_section', 'name=related_article_title&default=You May Also Like' );
 
+		add_settings_section( 'trending_article_section', 'Trending Articles', '__return_false', $this->_settings_page_hook );
+		add_settings_field( 'trending_article_title', 'Title Text', 'bbgi_input_field', $this->_settings_page_hook, 'trending_article_section', 'name=trending_article_title&default=Trending Articles' );
+
 		add_settings_section( 'cloud_flare_section', 'CloudFlare Settings', '__return_false', $this->_settings_page_hook );
         add_settings_field('cloud_flare_zoneid', 'Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'cloud_flare_section', 'name=cloud_flare_zoneid');
 
@@ -336,6 +339,8 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ee_dont_miss_item_count_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'related_article_title', 'sanitize_text_field');
+
+		register_setting(self::option_group, 'trending_article_title', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'cloud_flare_zoneid', 'sanitize_text_field');
 		register_setting(self::option_group, 'pushly_domain_key', 'sanitize_text_field');

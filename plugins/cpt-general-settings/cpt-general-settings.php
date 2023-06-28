@@ -33,3 +33,6 @@ include __DIR__ . '/includes/whiz-changes.php' ;
 include __DIR__ . '/includes/shutdown-elasticsearch-log.php';
 
 include __DIR__ . '/includes/newsletter-signup-form.php';
+
+/* Include the trending-article.php file for the trending article shortcode functionality. */
+include __DIR__ . '/includes/trending-article.php';
