@@ -444,11 +444,6 @@ export const slotRenderEndedHandler = event => {
 			) {
 				// We ASSUME when an incomplete size was sent through, but we are dealing with Prebid.
 				// Compute Size From hb_size.
-
-				if (slot.getHtml().indexOf('prebid') > -1) {
-					window.amazonUAMSlotDebug(slot);
-				}
-
 				const hbSizeString = slot.getTargeting('hb_size').toString();
 				adSize = getSizeArrayFromString(hbSizeString);
 
