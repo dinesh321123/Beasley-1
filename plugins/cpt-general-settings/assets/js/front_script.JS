@@ -44,7 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
  
 		  // Add the float class to the containerDiv
 		  // If float is undefined or doesn't have a corresponding float class, add an empty string
-		  containerDiv.classList.add(floatClassMap[float] || '');
+		  if(floatClassMap[float]) {
+			containerDiv.classList.add(floatClassMap[float]);
+		  }
   
 		  // Create div for attribution text
 		  const attributionDiv = document.createElement("div");
