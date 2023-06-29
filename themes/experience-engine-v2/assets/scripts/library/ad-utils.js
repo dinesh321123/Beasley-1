@@ -142,6 +142,7 @@ export const requestHeaderBids = slotList => {
 	if (window.initializeAPS) {
 		headerBidFlags.amazonUAMAccountedFor = false;
 		window.initializeAPS();
+		window.lastReturnedAmazonUAMBids = null;
 		window.apstag.fetchBids(
 			{
 				slots: window.getAmazonUAMSlots(slotList),
@@ -469,6 +470,13 @@ export const slotRenderEndedHandler = event => {
 				if (bidForSlot) {
 					adSize = getSizeArrayFromString(bidForSlot.amznsz);
 				}
+				console.log(
+					`Rendering Amazon Bid Size: ${
+						adSize ? JSON.stringify(adSize) : 'NONE'
+					}`,
+				);
+			} else {
+				console.log('UNKNOWN AD TYPE RETURNED');
 			}
 
 			// Adjust Container Div Height
