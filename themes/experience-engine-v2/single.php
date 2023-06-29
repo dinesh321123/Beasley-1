@@ -53,14 +53,17 @@ the_post();
 			<?php endif; ?>
 
 			<?php get_template_part( 'partials/footer/common', 'description' ); ?>
-			<?php if (is_singular("post")): ?>
-				<div class="post-meta">
-					<?php get_template_part("partials/content/articles/meta"); ?>
-				</div>
-			<?php endif; ?>
+			
 			<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
+			<?php if (!is_singular("post")): ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
+			<?php endif; ?>
+			<?php if (is_singular("post")): ?>
+				<div class="post-meta">
+					<?php get_template_part("partials/content/articles/footer-meta"); ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<aside class="ad -sticky">
