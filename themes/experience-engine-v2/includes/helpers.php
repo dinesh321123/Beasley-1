@@ -720,6 +720,21 @@ if ( ! function_exists( 'ee_render_trending_articles' ) ) :
 			$has_shortcode,
 		);
 
+		if($location == 'embed_bottom'){
+			$current_post_object = get_queried_object();
+			$trending_article_after_content = (get_option( 'trending_article_after_content') != '') ? get_option( 'trending_article_after_content') : 'off';
+			$trending_article_after_content_page = get_field('trending_article_after_content_page',$current_post_object);
+
+			if($trending_article_after_content_page === false){
+				return '';
+			}
+
+			if($trending_article_after_content == 'off'){
+				return '';
+			}
+
+		}
+
 		return $html;
 	}
 endif;

@@ -66,7 +66,6 @@ the_post();
 		</div>
 
 		<aside class="ad -sticky">
-			<?php get_template_part("partials/content/articles/trending-articles"); ?>
 			<?php get_template_part("partials/content/articles/ads"); ?>
 		</aside>
 	</div>

@@ -66,8 +66,14 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 
 		$segment_item_index = 0;
 		$segment_header_index = 0;
+		$trendingArticleIndex = 0;
+		$trendingArticleLimit = (get_option( 'trending_article_AM_items') != '') ? get_option( 'trending_article_AM_items') : '5';
 		foreach ( $am_item_name as $index => $am_item_name_data ) {
 			if( isset( $am_item_name_data ) && $am_item_name_data != "" ) {
+				if($trendingArticleIndex == $trendingArticleLimit){
+					echo ee_render_trending_articles('embed_inner_AM');
+					$trendingArticleIndex = 0;
+				}
 				$am_tracking_code = $am_item_imagetype[$index] == 'imagecode' ? $am_item_unique_order[$index] : $am_item_order[$index]+1 ;
 				if( $am_item_type[$index] == 'header' ) {
 					$segment_header_index++;
@@ -196,6 +202,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 					endif; */
 				echo '</li>';
 			}
+			$trendingArticleIndex++;
 		}
 
 		echo '</ul>';

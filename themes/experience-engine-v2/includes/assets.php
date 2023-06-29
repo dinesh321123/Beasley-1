@@ -286,13 +286,15 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			],
 			'isTrendingPostRender' => array(
 				'embed_custom' => false,
-				'embed_sidebar' => false,
 				'embed_listicle' => false,
 				'embed_AM' => false,
 				'embed_gallery' => false,
 				'embed_inner_listicle' => false,
+				'embed_inner_AM' => false,
+				'embed_inner_gallery' => false,
 				'embed_bottom' => false,
 			),
+			'endpointTrandingArticle' => false,
 		);
 
 		$custom_logo_id = get_option( 'gmr_site_logo' );

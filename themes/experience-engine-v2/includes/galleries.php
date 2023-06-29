@@ -230,6 +230,8 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 		echo '<ul class="gallery-listicle">';
 
 		$segment_gallery_item = 0;
+		$trendingArticleIndex = 0;
+		$trendingArticleLimit = (get_option( 'trending_article_gallery_items') != '') ? get_option( 'trending_article_gallery_items') : '5';
 		foreach ( $images as $index => $image ) {
 			$html = ee_get_gallery_image_html(
 				$image,
@@ -241,6 +243,10 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 
 			if ( ! empty( $html ) ) {
 				$segment_gallery_item++;
+				if($trendingArticleIndex == $trendingArticleLimit){
+					echo ee_render_trending_articles('embed_inner_gallery');
+					$trendingArticleIndex = 0;
+				}
 				echo '<li id="', $id_pretext, '-segment-item-', $segment_gallery_item,'" class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
 					echo $html;
 
@@ -249,6 +255,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 					endif;
 				echo '</li>';
 			}
+			$trendingArticleIndex++;
 		}
 
 		echo '</ul>';

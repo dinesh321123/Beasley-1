@@ -165,7 +165,11 @@ const TrendingArticles = ({
 
 		// Render trending articles when shortcode is not present
 		if (bbgiconfig.isTrendingPostRender[location] === false) {
-			bbgiconfig.isTrendingPostRender[location] = true;
+			if (location === 'embed_inner_listicle') {
+				bbgiconfig.isTrendingPostRender[location] = false;
+			} else {
+				bbgiconfig.isTrendingPostRender[location] = true;
+			}
 			return (
 				<div className={`post-trending-articles content-wrap ${location}`}>
 					<h2 className="section-head">
