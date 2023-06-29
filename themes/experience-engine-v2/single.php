@@ -5,47 +5,40 @@ ee_switch_to_article_blog();
 the_post();
 
 ?><div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
-
-	<?php if ( ee_get_current_show() ) : ?>
-		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) ) : ?>
-			<header class="post-info">
-				<?php get_template_part( 'partials/featured-media' ); ?>
-			</header>
-		<?php endif; ?>
-
+	<div class="container">
 		<div class="content-wrap">
-			<?php get_template_part( 'partials/show/header' ); ?>
-		</div>
-	<?php endif; ?>
+			<div class="section-head-container">
+				<h2 class="section-head">
+					<span class="bigger">
+					<?php
+						$primary_category = ee_get_primary_category(get_the_ID());
 
-	<header class="post-info">
-		<?php if ( ee_get_current_show() ) : ?>
-
-			<?php if ( bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
-
-				<?php get_template_part( 'partials/featured-media' ); ?>
-
-			<?php endif; ?>
-
-		<?php elseif ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
-
-			<?php get_template_part( 'partials/featured-media' ); ?>
-
-		<?php endif; ?>
-
-		<h1>
-			<?php the_title(); ?>
-		</h1>
-
-		<?php if( is_singular( 'post' ) ) : ?>
-			<div class="post-meta">
-				<?php get_template_part( 'partials/content/meta' ); ?>
+						if (!empty($primary_category)) {
+							echo $primary_category->name;
+						} else {
+							$categories = get_the_category();
+							if (!empty($categories)) {
+								echo $categories[0]->name;
+							}
+						}
+					?>
+					</span>
+				</h2>
 			</div>
-		<?php endif; ?>
-	</header>
+		</div>
+	</div>
 
 	<div class="entry-content content-wrap">
 		<div class="description">
+
+		<h1> <?php the_title(); ?> </h1>
+
+		<?php if (is_singular("post")): ?>
+			<div class="post-meta">
+				<?php get_template_part("partials/content/articles/meta"); ?>
+			</div>
+		<?php endif; ?>
+
 			<?php if ( bbgi_featured_image_layout_is( null, 'inline' ) ) : ?>
 				<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php endif; ?>
@@ -60,6 +53,11 @@ the_post();
 			<?php endif; ?>
 
 			<?php get_template_part( 'partials/footer/common', 'description' ); ?>
+			<?php if (is_singular("post")): ?>
+				<div class="post-meta">
+					<?php get_template_part("partials/content/articles/meta"); ?>
+				</div>
+			<?php endif; ?>
 			<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
@@ -73,6 +71,102 @@ the_post();
 	<?php get_template_part( 'partials/related-articles' );	?>
 </div>
 <style>
+
+	.img-box img {
+		width: 100%;
+	}
+	.img-box {
+		margin-bottom: 20px;
+	}
+	aside.ad.-sticky ul.article-sidebar-listing li a {
+		color: #000;
+		font-size: 16px;
+		line-height: 18px;
+		display: block;
+		text-decoration: none;
+	}
+	aside.ad.-sticky ul.article-sidebar-listing li,ul.articleiinline-listing li {
+		border-bottom: 1px solid #c1c0c0;
+		padding: 15px 0;
+		list-style-type: none;
+	}
+	aside.ad.-sticky ul.article-sidebar-listing {
+		margin: 0;
+		padding: 0;
+	}
+	ul.articleiinline-listing {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	ul.articleiinline-listing li {
+		width: calc(50% - 30px);
+	}
+	ul.articleiinline-listing .article-img img {
+		width: 100%;
+	}
+	ul.articleiinline-listing .article-img {
+		margin-bottom: 20px;
+	}
+	ul.articleiinline-listing li a {
+		color: #000;
+		font-size: 16px;
+		line-height: 18px;
+		display: block;
+		text-decoration: none;
+	}
+
+	.section-head:after {
+		background-color: #e12e21;
+		height: 2px;
+	}
+	.articles-meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 30px;
+	}
+	p.author-meta-name {
+		margin: 0;
+		font-size: 14px;
+		line-height: 18px !important;
+	}
+	p.author-meta-name strong {
+		font-size: 14px;
+		line-height: 18px;
+	}
+	.author-meta time {
+		font-size: 14px;
+		font-weight: 700;
+		line-height: 18px;
+	}
+	.description p {
+		font-size: 16px;
+		font-weight: 400;
+	}
+	.description p:empty {
+		display: none !important;
+	}
+	ul.articleiinline-listing ul {
+		margin: 0;
+		padding: 0;
+	}
+	ul.articleiinline-listing ul li {
+		width: 100%;
+	}
+	ul.articleiinline-listing > li {
+		margin-right: 30px;
+		border: none;
+	}
+	ul.articleiinline-listing li:last-child {
+		border: none;
+	}
+	ul.articleiinline-listing ul li:last-child {
+		border: none;
+	}
+
 	aside.ad.-sticky ul.article-sidebar-listing {
 		margin-bottom: 30px;
 	}
