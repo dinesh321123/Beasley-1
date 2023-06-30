@@ -67,7 +67,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 		$segment_item_index = 0;
 		$segment_header_index = 0;
 		$trendingArticleIndex = 0;
-		$trendingArticleLimit = (get_option( 'trending_article_AM_items') != '') ? get_option( 'trending_article_AM_items') : '5';
+		$trendingArticleLimit = (get_option( 'trending_article_AM_items') != '') && (get_option( 'trending_article_AM_items') != '0') ? get_option( 'trending_article_AM_items') : '5';
 		foreach ( $am_item_name as $index => $am_item_name_data ) {
 			if( isset( $am_item_name_data ) && $am_item_name_data != "" ) {
 				if($trendingArticleIndex == $trendingArticleLimit){

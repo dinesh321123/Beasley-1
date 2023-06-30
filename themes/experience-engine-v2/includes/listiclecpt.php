@@ -67,7 +67,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 		$segment_item_index = 0;
 		$segment_header_index = 0;
 		$trendingArticleIndex = 0;
-		$trendingArticleLimit = (get_option( 'trending_article_listicle_items') != '') ? get_option( 'trending_article_listicle_items') : '5';
+		$trendingArticleLimit = (get_option( 'trending_article_listicle_items') != '') && (get_option( 'trending_article_listicle_items') != '0') ? get_option( 'trending_article_listicle_items') : '5';
 		foreach ( $cpt_item_name as $index => $cpt_item_name_data ) {
 			if( isset( $cpt_item_name_data ) && $cpt_item_name_data != "" ) {
 				if($trendingArticleIndex == $trendingArticleLimit){

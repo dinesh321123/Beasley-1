@@ -231,7 +231,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 
 		$segment_gallery_item = 0;
 		$trendingArticleIndex = 0;
-		$trendingArticleLimit = (get_option( 'trending_article_gallery_items') != '') ? get_option( 'trending_article_gallery_items') : '5';
+		$trendingArticleLimit = (get_option( 'trending_article_gallery_items') != '') && (get_option( 'trending_article_gallery_items') != '0') ? get_option( 'trending_article_gallery_items') : '5';
 		foreach ( $images as $index => $image ) {
 			$html = ee_get_gallery_image_html(
 				$image,

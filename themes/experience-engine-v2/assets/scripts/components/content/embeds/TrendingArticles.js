@@ -10,16 +10,25 @@ const TrendingPost = ({ id, url, title, primary_image, showImage }) => {
 	return (
 		<div id={`post-${id}`} className={['post-tile post'].join(' ')}>
 			{showImage && (
-				<a href={targetUrl} id={`thumbnail-${id}`}>
-					<img
-						data-crop="false"
-						data-placeholder={`thumbnail-${id}`}
-						src={primary_image}
-						width="100%"
-						className="img-box"
-						alt={title || ''}
-					/>
-				</a>
+				<>
+					<div className="img-container">
+						<a href={targetUrl} id={`thumbnail-${id}`}>
+							<img
+								data-crop="false"
+								data-placeholder={`thumbnail-${id}`}
+								src={primary_image}
+								width="100%"
+								className="img-box"
+								alt={title || ''}
+							/>
+						</a>
+					</div>
+					<div className="post-title post-title-bold">
+						<p>
+							<a href={targetUrl}>{title}</a>
+						</p>
+					</div>
+				</>
 			)}
 			{!showImage && (
 				<div className="post-title">
