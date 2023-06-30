@@ -193,14 +193,7 @@ class SignUp extends PureComponent {
 				this.props.setDisplayName(userData.displayName);
 			})
 			.then(() => {
-				setMParticleUserAtributes(
-					emailAddress,
-					firstname,
-					lastname,
-					zip,
-					gender,
-					bday,
-				);
+				setMParticleUserAtributes(firstname, lastname, zip, gender, bday);
 				ensureUserHasCurrentChannel().then(() => {
 					this.props.close();
 					window.location.reload();

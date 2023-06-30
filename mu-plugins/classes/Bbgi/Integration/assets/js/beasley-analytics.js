@@ -72,17 +72,16 @@ class BeasleyAnalytics {
 
 		const retval = isDevEnvironment ? BeasleyAnalytics.getMParticleDevConfig() : BeasleyAnalytics.getMParticleProdConfig();
 
-		// 2023-06-23 Disable mParticle Identify For Initial Prod Release
-		// If Firebase User Exists, Add mParticle identifyRequest
-		// if (firebase?.auth().currentUser) {
-		// 	console.log(`Augmenting mParticle Configuration with Firebase User: ${firebase.auth().currentUser.email}`);
-		// 	retval.identifyRequest = {
-		// 		userIdentities: {
-		// 			email: firebase.auth().currentUser.email,
-		// 			customerid: firebase.auth().currentUser.email,
-		// 		}
-		// 	};
-		// }
+		// If window.firebase User Exists, Add mParticle identifyRequest
+		if (window.firebase?.auth().currentUser) {
+			console.log(`Augmenting mParticle Configuration with window.firebase User: ${window.firebase.auth().currentUser.email}`);
+			retval.identifyRequest = {
+				userIdentities: {
+					email: window.firebase.auth().currentUser.email,
+					customerid: window.firebase.auth().currentUser.email,
+				}
+			};
+		}
 
 		return retval;
 	}
