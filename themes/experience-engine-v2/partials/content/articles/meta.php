@@ -86,12 +86,20 @@
             } else {
                 // If more than 48 hours, display only the post date
                 $post_date_display = $post_date;
-            }
+            } 
             ?>
-
-            <div class="post-date">
-                <?php echo esc_html($post_date_display); ?>
-            </div>
+            <?php if(in_array('date',$args['show'])){ // check tags argument passed in temeplate for show tags or date  ?>
+                <div class="post-date">
+                    <?php echo esc_html($post_date_display); ?>
+                </div>
+            <?php }?>
+            <?php if(in_array('tags',$args['show'])){ ?>
+                <?php if ( has_tag() ) : ?>
+                    <div class="post-tags">
+                        <?php the_tags( '<div class="post-tag-label">Tags: </div><div class="post-tag-items">', ',', '</div>' ); ?>
+                    </div>
+                <?php endif; ?>   
+            <?php } ?>
         </div>
     </div>
 

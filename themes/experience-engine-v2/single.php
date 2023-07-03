@@ -39,7 +39,7 @@ the_post();
 
 			<?php if (is_singular("post")): ?>
 				<div class="post-meta">
-					<?php get_template_part("partials/content/articles/meta"); ?>
+					<?php get_template_part("partials/content/articles/meta", null,array('show'=>array('date'))); ?>
 				</div>
 			<?php endif; ?>
 
@@ -59,16 +59,11 @@ the_post();
 				<?php get_template_part( 'partials/footer/common', 'description' ); ?>
 				
 				<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
-				<?php get_template_part( 'partials/content/categories' ); ?>
-				<?php if (!is_singular("post")): ?>
-				<?php get_template_part( 'partials/content/tags' ); ?>
-				<?php endif; ?>
-				<?php if (is_singular("post")): ?>
+				<?php get_template_part( 'partials/content/categories' ); ?>				
 					<div class="post-meta footer-post-meta-container">
-						<?php get_template_part("partials/content/articles/footer-meta"); ?>
+						<?php get_template_part("partials/content/articles/meta",null,array('show'=>array('tags'))); ?>
 					</div>
-				<?php endif; ?>
-			</div>
+				 </div>
 
 			<aside class="ad -sticky">
 				<?php //get_template_part("partials/content/articles/ads"); ?>
