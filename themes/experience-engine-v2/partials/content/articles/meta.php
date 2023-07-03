@@ -47,18 +47,26 @@
                         // Display the author names
                         if ($secondary_author_name) {
                             printf(
-                                '<span style="color: %1$s;">%2$s</span> %3$s <span style="color: %1$s;">and</span> %4$s',
+                                '<span style="color: %1$s;">%2$s</span><span style="color: %5$s;" > %3$s</span> <span style="color: %1$s;">and</span><span style="color: %5$s;" > %4$s</span>',
                                 'rgba(68, 68, 68, 0.6)',
                                 esc_html__('By', 'text-domain'),
                                 $primary_author_name,
-                                $secondary_author_name
+                                $secondary_author_name,
+                                '#cc1D23'
                             );
                         } else {
                             // If no secondary author, display the primary author's name
+                            // printf(
+                            //     '%1$s | @%2$s',
+                            //     esc_html__('Author name', 'text-domain'),
+                            //     get_the_author_meta('display_name', $primary_author)
+                            // );
+
                             printf(
-                                '%1$s | @%2$s',
+                                '%1$s | <span style="color: %2$s;">@%3$s</span>',
                                 esc_html__('Author name', 'text-domain'),
-                                get_the_author_meta('display_name', $primary_author)
+                                '#cc1D23',                               
+                                $primary_author_name,
                             );
                         }
                         ?>

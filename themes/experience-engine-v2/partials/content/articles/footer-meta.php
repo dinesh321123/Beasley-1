@@ -47,11 +47,12 @@
                         // Display the author names
                         if ($secondary_author_name) {
                             printf(
-                                '<span style="color: %1$s;">%2$s</span> %3$s <span style="color: %1$s;">and</span> %4$s',
+                                '<span style="color: %1$s;">%2$s</span><span style="color: %5$s;" > %3$s</span> <span style="color: %1$s;">and</span><span style="color: %5$s;" > %4$s</span>',
                                 'rgba(68, 68, 68, 0.6)',
                                 esc_html__('By', 'text-domain'),
                                 $primary_author_name,
-                                $secondary_author_name
+                                $secondary_author_name,
+                                '#cc1D23'
                             );
                         } else {
                             // If no secondary author, display the primary author's name
@@ -70,7 +71,7 @@
              
             <?php if ( has_tag() ) : ?>
                 <div class="post-tags">
-                    <?php the_tags( '<div class="post-tag-label">Tags:</div><div class="post-tag-items">', ',', '</div>' ); ?>
+                    <?php the_tags( '<div class="post-tag-label">Tags: </div><div class="post-tag-items">', ',', '</div>' ); ?>
                 </div>
             <?php endif; ?>         
             
