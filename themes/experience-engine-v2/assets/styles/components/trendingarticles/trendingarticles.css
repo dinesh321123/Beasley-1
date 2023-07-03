@@ -90,10 +90,17 @@ ul {
     }
 }
 .section-head {
+    font-size: 24px;
+
     &:after {
         background-color: #e12e21;
         height: 2px;
     }
+
+    & span{
+        font-size: 24px;
+    }
+
 }
 
 .articles-meta {
@@ -128,6 +135,14 @@ p {
             display: none !important;
         }
     }
+    & .footer-post-meta-container{
+        border-top: 1px solid #bbbdbf;
+        
+        & .footer-meta{
+            display: block;
+        }
+    }
+
 }
 .post-trending-articles {
     .post-tile {
@@ -144,9 +159,21 @@ p {
     }
     .section-head {
         text-align: center;
+    
+        @media (--max-medium-viewport){ 
+            text-align: center;
+            font-size: 16px;
+            
+            & span{
+                font-size: 16px;
+            }
+            
+        }
+
         &:after {
             display: none;
         }
+
     }
     &.content-wrap {
         &.mobile-article {
@@ -247,6 +274,10 @@ p {
         margin: auto 0px;
         vertical-align: middle;
         padding: 15px 0px;
+        text-align: left;
+        @media (--max-medium-viewport){ 
+            text-align: center
+        }
     }
     & .post-title p {       
         margin: 0px;
@@ -288,15 +319,14 @@ p {
 }
 .post-trending-articles{
 
-
-
-
-    & .section-head::after{     
+    & .section-head::after{   
+        display: block;  
         @media (--max-medium-viewport){ 
             display: none;
         }
     }
     & .section-head{
+        text-align: left;
         @media (--max-medium-viewport){ 
             text-align: center;
         }

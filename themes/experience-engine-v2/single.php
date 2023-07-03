@@ -5,6 +5,9 @@ ee_switch_to_article_blog();
 the_post();
 
 ?><div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
+	<div class="ads-image" style="text-align:center; margin-bottom:30px;">
+		<img src="<?php echo get_template_directory_uri().'/assets/images/ad-static-1.jpg'; ?>" alt="" style="width:50%;" />
+	</div>
 	<div class="container">
 		<div class="content-wrap">
 			<div class="section-head-container">
@@ -60,14 +63,17 @@ the_post();
 			<?php get_template_part( 'partials/content/tags' ); ?>
 			<?php endif; ?>
 			<?php if (is_singular("post")): ?>
-				<div class="post-meta">
+				<div class="post-meta footer-post-meta-container">
 					<?php get_template_part("partials/content/articles/footer-meta"); ?>
 				</div>
 			<?php endif; ?>
 		</div>
 
 		<aside class="ad -sticky">
-			<?php get_template_part("partials/content/articles/ads"); ?>
+			<?php //get_template_part("partials/content/articles/ads"); ?>
+			<div class="ads-image" style="text-align:center;">
+				<img src="<?php echo get_template_directory_uri().'/assets/images/ad-static-2.jpg'; ?>" alt="" />
+			</div>
 		</aside>
 	</div>
 
