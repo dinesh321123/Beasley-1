@@ -9,7 +9,7 @@
 
 <div class="articles-meta">
 
-    <div class="post-meta">
+    <div class="post-meta footer-meta">
         <div class="author-meta">
             <?php
             // Check if the current page is a singular contest
