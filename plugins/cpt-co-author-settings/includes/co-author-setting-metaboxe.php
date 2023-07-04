@@ -28,13 +28,13 @@ class CoAuthorSettingMetaboxes {
 		$currnet_author = $currnet_author ? (int)trim($currnet_author) : get_current_user_id();
 		// $current_author_name = get_the_author_meta( 'display_name', $currnet_author ? $currnet_author : get_current_user_id() );
 
-		$args = array( 'blog_id' => 0, 'fields' => array( 'ID', 'display_name' ) );
+		$args = array( 'blog_id' => 0, 'fields' => array( 'ID', 'display_name','user_login' ) );
 
 		$network_users = get_users( $args );
 
 		$user_choise = array();
 		foreach ( $network_users as $user ) {
-			$user_choise[$user->ID] = $user->display_name;
+			$user_choise[$user->ID] = $user->display_name." ( $user->user_login )";
 		}
 
 		foreach ( self::tag_permissions_posttype_list() as $type ) {
