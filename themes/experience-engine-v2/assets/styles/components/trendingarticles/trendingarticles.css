@@ -35,7 +35,7 @@
     & aside {
         &.ad {
             &.-sticky {
-                   
+                   max-width:300px;width:100%;
                    @media(--max-large-ads-viewport){
                     display: block !important;
 
@@ -237,7 +237,9 @@
     }
 
     & .post-tile.post:last-child {
-        border-bottom: none;
+        @media (--max-medium-viewport){ 
+            border-bottom: none;
+        }
     }
     & .post-tile.post{margin: 0px !important; margin-right: 0px !important;}
     & .mobile-article {
@@ -294,7 +296,8 @@
             text-transform: uppercase;
         }
         & .post-tags{
-            justify-content:normal;             
+            justify-content:normal;
+            white-space: break-spaces;         
             @media (--max-medium-viewport){ 
                 justify-content:center;
                 align-items: center;
@@ -338,6 +341,9 @@
                 color: #2c2e35;
                 font-weight: bold;
                 /* font-family: "Myriad Pro"; */
+            }
+            & .sponsor-meta{
+                padding: 0px;
             }
             & .post-title {        
                 margin: auto 0px;

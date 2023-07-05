@@ -92,7 +92,9 @@
                 <div class="post-date">
                     <?php echo esc_html($post_date_display); ?>
                 </div>
+                <?php ee_the_sponsored_by_div(get_the_id(), !$contest_is_singular); ?>
             <?php }?>
+            
             <?php if(in_array('tags',$args['show'])){ ?>
                 <?php if ( has_tag() ) : ?>
                     <div class="post-tags">
@@ -106,6 +108,4 @@
     <div class="share-wrap-icons">
         <?php ee_the_share_buttons(get_permalink(), get_the_title()); ?>
     </div>
-
-    <?php ee_the_sponsored_by_div(get_the_id(), !$contest_is_singular); ?>
 </div>
