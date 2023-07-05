@@ -1,0 +1,21 @@
+.user-account-info-container {
+	width: 100%;
+    margin-bottom: 30px;
+    
+	& .form-group {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 20px;
+		flex-wrap: wrap;
+		padding: 10px 5px;
+		box-sizing: border-box;
+
+		& label {			
+			padding-bottom: 10px;			
+		}
+
+        & .form-field{
+            padding: 10px;
+        }
+    }
+}

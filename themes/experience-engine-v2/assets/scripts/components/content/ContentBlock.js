@@ -39,6 +39,7 @@ import AudienceEmbed from './embeds/Audience';
 import CancelAccount from './embeds/CancelAccount';
 
 import PreferenceCenter from './embeds/PreferenceCenter';
+import EditAccountInfo from './embeds/EditAccountInfo';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -74,6 +75,7 @@ const mapping = {
 	audience: AudienceEmbed,
 	cancelaccount: CancelAccount,
 	preferencecenter: PreferenceCenter,
+	editaccountinfo: EditAccountInfo,
 };
 
 /**

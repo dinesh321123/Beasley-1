@@ -487,6 +487,12 @@ export function getStateFromContent(
 				'.preference-section',
 				getDatasetParams(),
 			),
+			...processEmbeds(
+				container,
+				'editaccountinfo',
+				'.edit_account_info',
+				getDatasetParams(),
+			),
 		];
 
 		// extract <script> tags
