@@ -33,4 +33,7 @@ include __DIR__ . '/includes/newsletter-signup-form.php';
 /** This should be removed after we confirm if logging the shutdown hook is successful */
 include __DIR__ . '/includes/shutdown-elasticsearch-log.php';
 
-include __DIR__ . '/includes/bbgi-station-settings.php';
+include __DIR__ . '/includes/bbgi-station-settings.php';	
+
+/* Include the trending-article.php file for the trending article shortcode functionality. */
+include __DIR__ . '/includes/trending-article.php';
