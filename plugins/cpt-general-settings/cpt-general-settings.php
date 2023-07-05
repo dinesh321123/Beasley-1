@@ -34,4 +34,6 @@ include __DIR__ . '/includes/newsletter-signup-form.php';
 include __DIR__ . '/includes/shutdown-elasticsearch-log.php';
 
 /* this include allows for the management of which days and times the second stream is active */
-include _DIR_ . '/includes/bbgi-station-second-stream-settings.php';
+// include _DIR_ . '/includes/bbgi-station-second-stream-settings.php';
+include __DIR__ . '/includes/bbgi-station-settings.php';
+
