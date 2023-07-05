@@ -17,7 +17,7 @@ class DuplicateListicle {
 	public function listicle_cpt_duplication_enqueue_scripts() {
 		global $typenow, $pagenow;
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		wp_register_script('duplicate-listicle-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/duplicate-listicle'. $postfix .'.js', array('jquery'), '1.0');
+		wp_register_script('duplicate-listicle-script', GFF_URL . 'assets/js/duplicate-listicle'. $postfix .'.js', array('jquery'), '1.0');
 		$data = array(
 			'ajax_url' => admin_url('admin-ajax.php'),
 			'post_type' => $typenow,
