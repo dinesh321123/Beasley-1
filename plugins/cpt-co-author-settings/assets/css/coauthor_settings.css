@@ -28,3 +28,6 @@ body .acf-field-reported-attribution-cpt {
 #acf-field_is_co_author_cpt-true {
 	margin-left: 10px;
 }
+.select2-results .select2-results__option{
+	color: black ;
+}
