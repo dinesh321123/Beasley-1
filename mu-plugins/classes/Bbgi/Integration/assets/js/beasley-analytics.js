@@ -29,7 +29,7 @@ class BeasleyAnalytics {
 		return {
 			isDevelopmentMode: true,
 			logLevel: "verbose",
-			dataPlan: {planId: "beasley_web", "planVersion": 1},
+			dataPlan: {planId: "beasley_web", "planVersion": 2},
 			v1SecureServiceUrl: "mparticle.bbgi.com/webevents/v1/JS/",
 			v2SecureServiceUrl: "mparticle.bbgi.com/webevents/v2/JS/",
 			v3SecureServiceUrl: "mparticle.bbgi.com/webevents/v3/JS/",
@@ -48,7 +48,7 @@ class BeasleyAnalytics {
 		return {
 			isDevelopmentMode: false,
 			logLevel: "verbose",
-			dataPlan: {planId: "beasley_web", "planVersion": 1},
+			dataPlan: {planId: "beasley_web", "planVersion": 2},
 			v1SecureServiceUrl: "mparticle.bbgi.com/webevents/v1/JS/",
 			v2SecureServiceUrl: "mparticle.bbgi.com/webevents/v2/JS/",
 			v3SecureServiceUrl: "mparticle.bbgi.com/webevents/v3/JS/",
