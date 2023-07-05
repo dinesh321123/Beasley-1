@@ -4,12 +4,6 @@ import PropTypes from 'prop-types';
 import { firebaseAuth } from '../../../library';
 import * as authActions from '../../../redux/actions/auth';
 import Alert from '../../modals/elements/Alert';
-import {
-	validateDate,
-	validateFutureDate,
-	validateZipcode,
-	validateGender,
-} from '../../../library/experience-engine';
 
 class EditAccountInfo extends Component {
 	constructor(props) {
@@ -30,65 +24,6 @@ class EditAccountInfo extends Component {
 	handleFieldChange(e) {
 		const { target } = e;
 		this.setState({ [target.name]: target.value });
-	}
-
-	handleFormSubmit(e) {
-		const { firstname, lastname, zip, gender, bday } = this.state;
-
-		if (
-			firstname === '' ||
-			lastname === '' ||
-			zip === '' ||
-			gender === '' ||
-			bday === ''
-		) {
-			this.setState({
-				showError: true,
-			});
-		}
-
-		if (!firstname) {
-			this.setState({ error: 'Please enter your first name.' });
-			return false;
-		}
-
-		if (!lastname) {
-			this.setState({ error: 'Please enter your last name.' });
-			return false;
-		}
-
-		if (validateZipcode(zip) === false) {
-			this.setState({ error: 'Please enter a valid US Zipcode.' });
-			this.setState({
-				showError: true,
-			});
-			return false;
-		}
-
-		if (validateFutureDate(bday) === false) {
-			this.setState({ error: "Date can't be a future date." });
-			const inputElement = document.getElementById('user-bday');
-			inputElement.style.borderColor = 'red';
-			return false;
-		}
-
-		if (validateDate(bday)) {
-			const inputElement = document.getElementById('user-bday');
-			inputElement.style.borderColor = '#000000';
-		} else {
-			this.setState({ error: 'Please ensure date is in MM/DD/YYYY format' });
-			const inputElement = document.getElementById('user-bday');
-			inputElement.style.borderColor = 'red';
-			return false;
-		}
-		this.setState({ error: '' });
-
-		if (validateGender(gender) === false) {
-			this.setState({ error: 'Please select your gender.' });
-			return false;
-		}
-
-		return false;
 	}
 
 	componentDidMount() {
@@ -114,6 +49,7 @@ class EditAccountInfo extends Component {
 	render() {
 		const { user } = this.props;
 		console.log(user);
+		console.log('eeeeeeeeeeee');
 		const {
 			firstname,
 			lastname,
@@ -129,9 +65,9 @@ class EditAccountInfo extends Component {
 				{this.state.isLoggedIn ? (
 					<div className="user-account-info-container">
 						<Alert message={error} />
-						<form className="form -form-sign-up">
-							<div className="form-group-inline">
-								<div className="form-group">
+						<form className="sign_up_form">
+							<div className="input_wrap">
+								<div className="sign_up_single_row">
 									<label className="form-label" htmlFor="user-firstname">
 										First Name:
 									</label>
@@ -145,7 +81,7 @@ class EditAccountInfo extends Component {
 										onChange={this.onFieldChange}
 									/>
 								</div>
-								<div className="form-group">
+								<div className="sign_up_single_row">
 									<label className="form-label" htmlFor="user-lastname">
 										Last Name:
 									</label>
@@ -159,7 +95,9 @@ class EditAccountInfo extends Component {
 										onChange={this.onFieldChange}
 									/>
 								</div>
-								<div className="form-group">
+							</div>
+							<div className="input_wrap">
+								<div className="sign_up_single_row">
 									<label className="form-label" htmlFor="user-zip">
 										Zip:
 									</label>
@@ -173,7 +111,7 @@ class EditAccountInfo extends Component {
 										onChange={this.onFieldChange}
 									/>
 								</div>
-								<div className="form-group">
+								<div className="sign_up_single_row">
 									<label className="form-label" htmlFor="user-bday">
 										Birthday:
 									</label>
@@ -188,7 +126,9 @@ class EditAccountInfo extends Component {
 										placeholder="mm/dd/yyyy"
 									/>
 								</div>
-								<div className="form-group">
+							</div>
+							<div className="input_wrap">
+								<div className="sign_up_single_row">
 									<label className="form-label" htmlFor="user-gender-male">
 										Gender:
 									</label>
@@ -217,7 +157,7 @@ class EditAccountInfo extends Component {
 								</div>
 							</div>
 							<div className="form-actions -signup">
-								<button className="btn -sign-up" type="submit">
+								<button className="btn-sign-up" type="submit">
 									Save
 								</button>
 							</div>

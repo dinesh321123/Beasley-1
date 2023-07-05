@@ -1,4 +1,4 @@
-.user-account-info-container {
+/* .user-account-info-container {
 	width: 100%;
     margin-bottom: 30px;
     
@@ -17,5 +17,54 @@
         & .form-field{
             padding: 10px;
         }
+    }
+} */
+.sign_up_form {
+    & .input_wrap {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    & .sign_up_single_row {
+        width: 48%;
+        margin-bottom: 16px;
+        @media (max-width:768px){
+            width: 100%;
+        }
+    }
+
+    & .form-label {
+        color: #444;
+        display: block;
+        font-size: .875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    & .form-field {
+        border: 1px solid #000;
+        border-radius: 4px;
+        font-size: 1rem;
+        padding: 0.5rem;
+        width: -webkit-fill-available;
+    }
+
+    & .form-radio {
+        display: inline-block;
+        margin-right: 1rem;
+        font-size: 1rem;
+    }
+
+    & .btn-sign-up {
+        background-color: #CC1D23;
+        color: #fff;
+        border: 0px;
+        max-width: 130px;
+        width: 100%;
+        min-height: 45px;
+        text-align: center;
+        border-radius: 25px;
+        font-size: 16px;
     }
 }
