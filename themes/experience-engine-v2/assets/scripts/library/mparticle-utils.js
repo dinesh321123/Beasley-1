@@ -12,8 +12,8 @@ export const setMParticleUserAtributes = (
 		`Setting mParticle Params: ${firstname}, ${lastname}, ${zip}, ${gender}, ${bday}`,
 	);
 
-	if (window.firebase?.User) {
-		logFirebaseUserIntoMParticle(window.firebase.User);
+	if (window.firebase?.auth().currentUser) {
+		logFirebaseUserIntoMParticle(window.firebase.auth().currentUser);
 
 		const currentUser = mParticle.Identity.getCurrentUser();
 		currentUser.setUserAttribute('$firstname', firstname);
@@ -72,9 +72,9 @@ export const logFirebaseUserIntoMParticle = firebaseUser => {
 			console.log(
 				`Logging Firebase User '${firebaseUser.email}' Into Enabled MParticle Session`,
 			);
-			const identityRequest = {
+			const identifyRequest = {
 				userIdentities: {
-					customerid: firebaseUser.email,
+					customerid: firebaseUser.uid,
 					email: firebaseUser.email,
 				},
 			};
@@ -84,7 +84,7 @@ export const logFirebaseUserIntoMParticle = firebaseUser => {
 					console.log('MPARTICLE LOGIN CALLBACK: ', result);
 				}
 			};
-			window.mParticle.Identity.login(identityRequest, identityCallback);
+			window.mParticle.Identity.login(identifyRequest, identityCallback);
 		}
 	}
 };
