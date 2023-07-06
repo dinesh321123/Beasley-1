@@ -18,3 +18,4 @@ define( 'GFF_TEXT_DOMAIN', 'gff_textdomain' );
 include __DIR__ . '/includes/second-street-widget.php';
 /* Clone Listicle post type similarly to Posts */
 include __DIR__ . '/includes/duplicate-listicle.php';
+include __DIR__ . '/includes/editor-toolbar-widgets.php';

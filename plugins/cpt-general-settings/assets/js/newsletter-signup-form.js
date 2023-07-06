@@ -24,9 +24,11 @@
             $('.nsf-email-error-msg').html('');
             $('.nsf-fname-error-msg').html('');
 
-            var name 						= $(".nsf-first-name").val();
-            var email 						= $(".nsf-email").val();
-            var nsf_last_name 				= $("#nsf-last-name").val();
+            var name 				= $(".nsf-first-name").val();
+            var email 				= $(".nsf-email").val();
+            var nsf_last_name 		= $("#nsf-last-name").val();
+            var nsf_subscription_attributes = $("#nsf_subscription_attributes").val();
+            var nsf_subscription_ID = $("#nsf_subscription_ID").val();
 
             if (name == "") {
                 $(".nsf-first-name").focus();
@@ -67,6 +69,8 @@
                     email : email,
                     nsf_last_name : nsf_last_name,
                     nsf_page_path : nsf_ajax_object.page_path,
+                    nsf_subscription_attributes : nsf_subscription_attributes,
+                    nsf_subscription_ID : nsf_subscription_ID,
 				},
                 beforeSend: function() {
                     $('.nsf-container #nsf-form .nsf-form-submit').prop('disabled', true).css('opacity', 0.5).css('cursor', 'not-allowed');
