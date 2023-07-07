@@ -21,8 +21,6 @@ class WhizChanges {
 	 */
 	public static function enqueue_scripts() {
 		$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		wp_register_style('show-trending-articl-style',GENERAL_SETTINGS_CPT_URL . "assets/css/whiz-trending-article". $min .".css", array(), '1.0.0', 'all');
-        wp_enqueue_style('show-trending-articl-style');
         wp_enqueue_script( 'general-whiz-script', GENERAL_SETTINGS_CPT_URL . "assets/js/whiz_script{$min}.js", array('jquery'), GENERAL_SETTINGS_CPT_VERSION, true);
         wp_enqueue_script( 'show-on-device', GENERAL_SETTINGS_CPT_URL . "assets/js/show_on_device_client{$min}.js",[],GENERAL_SETTINGS_CPT_VERSION, true);
         wp_enqueue_script( 'show-trending-articl', GENERAL_SETTINGS_CPT_URL . "assets/js/whiz_show_trending_article{$min}.js",[],GENERAL_SETTINGS_CPT_VERSION, true);
