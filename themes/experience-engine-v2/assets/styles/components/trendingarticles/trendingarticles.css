@@ -380,7 +380,6 @@
                 color: #2c2e35;
                 font-weight:normal;
             } 
-            & .post-title.post-title-bold p > a{font-weight:bold;}
             & .post-categories {       
                
             @media (--max-medium-viewport){ 

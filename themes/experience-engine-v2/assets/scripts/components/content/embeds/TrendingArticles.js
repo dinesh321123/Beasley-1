@@ -162,6 +162,10 @@ const TrendingArticles = ({
 		if (bbgiconfig.isTrendingPostRender[location] === false) {
 			if (location === 'embed_inner_listicle') {
 				bbgiconfig.isTrendingPostRender[location] = false;
+			} else if (location === 'embed_inner_gallery') {
+				bbgiconfig.isTrendingPostRender[location] = false;
+			} else if (location === 'embed_inner_AM') {
+				bbgiconfig.isTrendingPostRender[location] = false;
 			} else {
 				bbgiconfig.isTrendingPostRender[location] = true;
 			}
