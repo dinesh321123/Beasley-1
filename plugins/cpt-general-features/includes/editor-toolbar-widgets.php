@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class NewsLetterSignup {
 
@@ -9,13 +9,27 @@ class NewsLetterSignup {
 	 */
 	function __construct()
 	{
+		add_action( 'wp_loaded', array( $this, 'load_newslettersignup' ), 0 );
 		add_action( 'admin_init', array( $this, 'wp_admin_init' ), 1 );
+	}
+	public function load_newslettersignup(){
+		$roles = [ 'administrator' ];
+
+		foreach ( $roles as $role ) {
+			$role_obj = get_role( $role );
+
+			if ( is_a( $role_obj, \WP_Role::class ) ) {
+				$role_obj->add_cap( 'manage_newsletter_signup_editor_icon', false );
+			}
+		}
 	}
 
 	public function wp_admin_init() {
-		add_action( 'admin_enqueue_scripts',array($this, 'newslettersignup_tinymce_enqueue_scripts' ) );
-		add_filter( 'mce_external_plugins',array($this, 'newslettersignup_add_buttons' ) );
-		add_filter( 'mce_buttons',array($this, 'newslettersignup_register_buttons' ) );		
+		if(current_user_can('manage_newsletter_signup_editor_icon')) {
+			add_action('admin_enqueue_scripts', array($this, 'newslettersignup_tinymce_enqueue_scripts'));
+			add_filter('mce_external_plugins', array($this, 'newslettersignup_add_buttons'));
+			add_filter('mce_buttons', array($this, 'newslettersignup_register_buttons'));
+		}
 	}
 
 	public function newslettersignup_tinymce_enqueue_scripts() {
@@ -44,6 +58,6 @@ class NewsLetterSignup {
         return $buttons;
     }
 
-	
+
 }
 new NewsLetterSignup();
