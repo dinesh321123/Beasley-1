@@ -3,12 +3,12 @@
 	$nsf_document.ready(function () {
 
         if ($("#nsf-checkbox-content").is(":checked")) {
-            $("#nsf-form .nsf-form-submit").prop("disabled", false).css('opacity', 1).css('cursor', 'pointer');          
+            $("#nsf-form .nsf-form-submit").prop("disabled", false).css('opacity', 1).css('cursor', 'pointer');
         } else {
             $("#nsf-form .nsf-form-submit").prop("disabled", true).css('opacity', 0.5).css('cursor', 'not-allowed');
             $("#nsf-form .nsf-form-submit").off("click");
         }
- 
+
         $nsf_document.on('change', '#nsf-checkbox-content', function(event) {
             if ($(this).is(":checked")) {
                 $("#nsf-form .nsf-form-submit").prop("disabled", false).css('opacity', 1).css('cursor', 'pointer');
@@ -84,7 +84,10 @@
                         setTimeout(function() {
                             $('.response-error-container').fadeOut();
                           }, 20000);
-                    }else{
+						window.beasleyanalytics?.setMParticleUserAttribute(email, nsf_subscription_attributes, true);
+						window.beasleyanalytics?.setMParticleUserAttribute(email, '$firstname', name);
+						window.beasleyanalytics?.setMParticleUserAttribute(email, '$lastname', nsf_last_name);
+					}else{
                         $('.response-error-container').html('Error Code '+res.code+' : '+res.message).css('color','red');
                     }
 				},

@@ -148,6 +148,13 @@ class BeasleyAnalytics {
 			.map(provider => provider.sendEvent.apply(provider, arguments));
 	}
 
+	setMParticleUserAttribute(userEmailAddress, attributeName, attributeValue) {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			provider.setUserAttribute.apply(provider, arguments);
+		}
+	}
+
 	sendMParticleEvent(eventName) {
 		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
@@ -864,6 +871,60 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		if (elementList) {
 			Array.from(elementList).forEach(el => this.lazyPageEventObserver.observe(el));
 		}
+	}
+
+	initializeUserAttribute(mParticleUser, attributeName, attributeValue) {
+		const mParticleUserAttributes = mParticleUser?.getAllUserAttributes();
+		if (mParticleUser && attributeName && !mParticleUserAttributes[attributeName]) {
+			mParticleUser.setUserAttribute(attributeName, attributeValue);
+			console.log(`Set ${attributeName} to ${attributeValue} for mParticle user`);
+		} else {
+			console.log(`Not Setting ${attributeName} for mParticle user because it is already set to ${mParticleUserAttributes[attributeName]}`);
+		}
+	}
+
+	setUserAttribute(userEmailAddress, attributeName, attributeValue) {
+		// Get Logged In mParticle User If Exists
+		let mParticleUser;
+		let mParticleUserIdentities;
+
+		if (
+			window.mParticle.Identity &&
+			window.mParticle.Identity.getCurrentUser() &&
+			window.mParticle.Identity.getCurrentUser().isLoggedIn()
+		) {
+			mParticleUser = window.mParticle.Identity.getCurrentUser();
+			mParticleUserIdentities = mParticleUser?.getUserIdentities()?.userIdentities;
+		}
+
+		// if mParticle email already matches desired email for attribute
+		if (mParticleUserIdentities?.email === userEmailAddress) {
+			// Set mParticle Attribute and EXIT
+			this.initializeUserAttribute(mParticleUser, attributeName, attributeValue);
+			return;
+		}
+
+		// Call mParticle Identify For ONLY Email If No mParticle User
+		const identityRequest = mParticleUserIdentities && mParticleUserIdentities.customerid ?
+			{
+				userIdentities: {
+					customerid: mParticleUserIdentities.customerid,
+					email: userEmailAddress,
+				},
+			}
+		:
+			{
+				userIdentities: {
+					email: userEmailAddress,
+				},
+			};
+		const identityCallback = result => {
+			const mParticleUser = result.getUser();
+			if (mParticleUser) {
+				this.initializeUserAttribute(mParticleUser, attributeName, attributeValue);
+			}
+		};
+		window.mParticle.Identity.identify(identityRequest, identityCallback);
 	}
 }
 
