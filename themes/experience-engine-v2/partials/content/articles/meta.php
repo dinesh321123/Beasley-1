@@ -95,6 +95,27 @@
                 <?php ee_the_sponsored_by_div(get_the_id(), !$contest_is_singular); ?>
             <?php }?>
             
+            <?php if(in_array('category',$args['show'])){ ?>
+                <?php if ( has_category() ) : ?>
+                    <div class="meta-category-container">
+                        <?php
+                        $exclude_list	=	array( "must-haves-chr-ac", "stacker", "must-haves-rock", "must-haves-urban", "must-haves-sports", "must-haves-news-talk", "must-haves-country", "must-haves-adult-hits", "must-haves-classic-hits", "must-haves-classic-rock", "must-haves-praise", "must-haves-urban-urban-ac" );
+                        $cate_details	=	get_the_category( $post->ID );
+                        if(count($cate_details) > 0) {
+                            echo '<span> Category: </span><ul class="post-categories">';
+                            foreach ($cate_details as $category) {
+                                if( !in_array( $category->slug, $exclude_list) ) {
+                                    echo "<li><a href = '" . get_category_link($category->term_id) . "' rel='category tag' style='padding-left: 5px; text-transform:capitalize;'>" . $category->cat_name . "</a></li>";
+                                }
+                            }
+                            echo "</ul>";
+                        }
+                        ?>
+                        <?php // the_category(); ?>
+                    </div>
+                <?php endif; ?>
+            <?php } ?>
+
             <?php if(in_array('tags',$args['show'])){ ?>
                 <?php if ( has_tag() ) : ?>
                     <div class="post-tags">

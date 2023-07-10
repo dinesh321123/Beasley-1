@@ -10,25 +10,11 @@ const TrendingPost = ({ id, url, title, primary_image, showImage }) => {
 	return (
 		<div id={`post-${id}`} className={['post-tile post'].join(' ')}>
 			{showImage && (
-				<>
-					<div className="img-container">
-						<a href={targetUrl} id={`thumbnail-${id}`}>
-							<img
-								data-crop="false"
-								data-placeholder={`thumbnail-${id}`}
-								src={primary_image}
-								width="100%"
-								className="img-box"
-								alt={title || ''}
-							/>
-						</a>
-					</div>
-					<div className="post-title post-title-bold">
-						<p>
-							<a href={targetUrl}>{title}</a>
-						</p>
-					</div>
-				</>
+				<div className="post-title post-title-bold">
+					<p>
+						<a href={targetUrl}>{title}</a>
+					</p>
+				</div>
 			)}
 			{!showImage && (
 				<div className="post-title">
@@ -175,6 +161,10 @@ const TrendingArticles = ({
 		// Render trending articles when shortcode is not present
 		if (bbgiconfig.isTrendingPostRender[location] === false) {
 			if (location === 'embed_inner_listicle') {
+				bbgiconfig.isTrendingPostRender[location] = false;
+			} else if (location === 'embed_inner_gallery') {
+				bbgiconfig.isTrendingPostRender[location] = false;
+			} else if (location === 'embed_inner_AM') {
 				bbgiconfig.isTrendingPostRender[location] = false;
 			} else {
 				bbgiconfig.isTrendingPostRender[location] = true;

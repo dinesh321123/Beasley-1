@@ -29,7 +29,6 @@ the_post();
 	</header>
 
 	<div class="article-inner-container">
-		<?php get_template_part("partials/content/articles/category-title"); ?>
 		<div class="entry-content content-wrap">
 			<div class="description">
 				<h1> <?php the_title(); ?> </h1>
@@ -51,7 +50,7 @@ the_post();
 				<?php get_template_part( 'partials/footer/common', 'description' ); ?>
 				<?php get_template_part( 'partials/footer/common', 'secondstreetwidget' ); ?>
 				<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
-				<?php get_template_part( 'partials/content/categories' ); ?>
+				<?php //get_template_part( 'partials/content/categories' ); ?>
 				<div class="post-meta footer-post-meta-container">
 					<?php get_template_part("partials/content/articles/meta",null,array('show'=>array('tags','category'))); ?>
 				</div>

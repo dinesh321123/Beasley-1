@@ -667,29 +667,6 @@ if ( ! function_exists( 'ee_parse_shortcode_atts' ) ) :
 	}
 endif;
 
-/**
- * Retrieves the primary category of a post.
- *
- * @param int $post_id The ID of the post.
- * @return object|null The primary category object if found, or null if no category is found.
- */
-if ( ! function_exists( 'ee_get_primary_category' ) ) :
-	function ee_get_primary_category( $post_id ) {
-		// Get the categories assigned to the post
-		$categories = get_the_category( $post_id );
-
-		$primary_category = null;
-	
-		// Check if categories are retrieved and no error occurred
-		if ( $categories && ! is_wp_error( $categories ) ) {
-			// Assign the first category as the primary category
-			$primary_category = $categories[0];
-		}
-		
-		return $primary_category;
-	}
-endif;
-
 if ( ! function_exists( 'ee_render_trending_articles' ) ) :
 	function ee_render_trending_articles($location='') {
 		global $post;
