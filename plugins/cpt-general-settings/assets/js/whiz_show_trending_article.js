@@ -42,16 +42,7 @@ class TrendingArticleModule {
           });
   
           // Generate the HTML markup for trending posts
-          this.trendingData = `
-            <div class="post-trending-articles content-wrap embed_custom">
-                <h2 class="section-head">
-                    <span>${this.bbgiconfigData.trending_article_title}</span>
-                </h2>
-                <div class="archive-tiles -list">
-                    ${trendingPosts.join('')}
-                </div>
-            </div>
-          `;
+          this.trendingData = `<div class="post-trending-articles content-wrap embed_custom"><h2 class="section-head"><span>${this.bbgiconfigData.trending_article_title}</span></h2><div class="archive-tiles -list">${trendingPosts.join('')}</div></div>`;
   
           // Render the trending posts HTML based on shortcode and location attributes
           if (has_shortcode) {
