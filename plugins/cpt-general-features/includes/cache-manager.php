@@ -82,9 +82,10 @@ class Cache_Manager {
         // Store the referring URL
 		$referrer = wp_get_referer();
 
-        // Add your cache clearing logic here
-        // ...
-
+        // cache clear code 
+        $experienceEngine = new \Bbgi\Integration\ExperienceEngine();   
+        // Call the clearCache function
+        $experienceEngine->clearCache();
         // Set a transient to display the cache cleared message on the dashboard
         set_transient( 'cache_cleared_message', true );
 

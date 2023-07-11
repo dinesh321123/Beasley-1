@@ -475,5 +475,25 @@ class ExperienceEngine extends \Bbgi\Module {
 			error_log( 'Cloudflare error notice query var from is_wp_error function 5' );
 		}
 	}
+	
+	public function clearCache() {
+		// Clear specific page caches
+		if (function_exists('batcache_clear_url') && class_exists('batcache')) {
+			$home = trailingslashit(get_option('home'));
+			batcache_clear_url($home);
+			batcache_clear_url($home . 'feed/');
+		}	
+		// Clear EE Cache
+		update_option('ee_cache_index', time(), 'no');	 	
+		// Clear Cloudflare cache
+		$this->clearCloudFlareHomeCache(); 
+		// Clear specific caches set in this class
+		wp_cache_delete('experience_engine_api-ee_data', 'ee_data');
+		wp_cache_delete('experience_engine_api-1', 'experience_engine_api');
+		error_log( 'memcache cleared on '.date("d-m-Y h:i:sa") );
+		return true; 	
+		// Clear any other specific caches set in this class
+		// wp_cache_delete($cache_key, $cache_group);
+	}
 
 }
