@@ -148,10 +148,17 @@ class BeasleyAnalytics {
 			.map(provider => provider.sendEvent.apply(provider, arguments));
 	}
 
-	setMParticleUserAttribute(userEmailAddress, attributeName, attributeValue) {
+	setNewsletterControlForMParticleAccount(contentElement) {
 		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
-			provider.setUserAttribute.apply(provider, arguments);
+			provider.setNewsletterControlForMParticleAccount.apply(provider, arguments);
+		}
+	}
+
+	setMParticleUserAttributeArray(userEmailAddress, emailIsMaskedMParticleVal, userAttributeArray) {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			provider.setMParticleUserAttributeArray.apply(provider, arguments);
 		}
 	}
 
@@ -873,17 +880,94 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		}
 	}
 
+	maskEmail(email) {
+		// Split the email address into username and domain parts
+		const [username, domain] = email.split("@");
+
+		// Determine the number of asterisks to show in the masked username
+		const numAsterisks = Math.min(5, Math.max(0, username.length - 5));
+
+		// Mask the username with asterisks, leaving only the first and last character visible
+		const maskedUsername =
+			username.length <= 1
+				? username
+				: `${username.charAt(0)}${"*".repeat(numAsterisks)}${username.charAt(username.length - 1)}`;
+
+		// Combine the masked username and the domain to form the masked email address
+		const maskedEmail = `${maskedUsername}@${domain}`;
+
+		return maskedEmail;
+	}
+
+	setNewsletterControlForMParticleAccount(contentElement) {
+		const nsfContainerElementCollection = contentElement.getElementsByClassName('nsf-container');
+		if (!nsfContainerElementCollection || nsfContainerElementCollection.length < 1) {
+			return;
+		}
+
+		// ASSUME ONLY 1 Newsletter Control
+		const nsfContainerElement = nsfContainerElementCollection[0];
+		const newsletterFieldName = nsfContainerElement?.querySelector('#nsf_subscription_attributes')?.value;
+
+		const newsletterFNameElement = nsfContainerElement?.querySelector('input[name="nsf_first_name"]');
+		const newsletterLNameElement = nsfContainerElement?.querySelector('input[name="nsf_last_name"]');
+		const newsletterEmailElement = nsfContainerElement?.querySelector('input[name="nsf_email"]');
+
+		if (newsletterFNameElement) {
+			newsletterFNameElement.disabled = false;
+		}
+		if (newsletterFNameElement) {
+			newsletterLNameElement.disabled = false;
+		}
+		if (newsletterFNameElement) {
+			newsletterEmailElement.disabled = false;
+		}
+
+		if (
+			window.mParticle.Identity &&
+			window.mParticle.Identity.getCurrentUser() &&
+			window.mParticle.Identity.getCurrentUser().isLoggedIn()
+		) {
+			const mParticleUser = window.mParticle.Identity.getCurrentUser();
+			const mParticleUserIdentities = mParticleUser?.getUserIdentities()?.userIdentities;
+			const mParticleUserAttributes = mParticleUser?.getAllUserAttributes();
+
+			// Hide Newsletter Control And Exit If The mParticle User Already Has A Truthy Value For Newsletter
+			if (mParticleUserAttributes && mParticleUserAttributes[newsletterFieldName]) {
+				nsfContainerElement.style.display = "none";
+				return;
+			}
+
+			if (newsletterFNameElement) {
+				newsletterFNameElement.value = mParticleUserAttributes['$firstname'];
+				newsletterFNameElement.disabled = true;
+			}
+			if (newsletterFNameElement) {
+				newsletterLNameElement.value = mParticleUserAttributes['$lastname'];
+				newsletterLNameElement.disabled = true;
+			}
+			if (newsletterFNameElement) {
+				newsletterEmailElement.value = this.maskEmail(mParticleUserIdentities['email']);
+				newsletterEmailElement.disabled = true;
+			}
+		}
+	}
+
 	initializeUserAttribute(mParticleUser, attributeName, attributeValue) {
 		const mParticleUserAttributes = mParticleUser?.getAllUserAttributes();
 		if (mParticleUser && attributeName && !mParticleUserAttributes[attributeName]) {
 			mParticleUser.setUserAttribute(attributeName, attributeValue);
 			console.log(`Set ${attributeName} to ${attributeValue} for mParticle user`);
 		} else {
-			console.log(`Not Setting ${attributeName} for mParticle user because it is already set to ${mParticleUserAttributes[attributeName]}`);
+			console.log(`Not Setting ${attributeName} to ${attributeValue} for mParticle user because it is already set to ${mParticleUserAttributes[attributeName]}`);
 		}
 	}
 
-	setUserAttribute(userEmailAddress, attributeName, attributeValue) {
+	initializeUserAttributes(mParticleUser, userAttributeArray) {
+		userAttributeArray.forEach(attr =>  this.initializeUserAttribute(mParticleUser, attr.attributeName, attr.attributeValue));
+	}
+
+	setMParticleUserAttributeArray(userEmailAddress, emailIsMaskedMParticleVal, userAttributeArray) {
 		// Get Logged In mParticle User If Exists
 		let mParticleUser;
 		let mParticleUserIdentities;
@@ -898,21 +982,18 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		}
 
 		// if mParticle email already matches desired email for attribute
-		if (mParticleUserIdentities?.email === userEmailAddress) {
+		if (mParticleUserIdentities?.email &&
+			(mParticleUserIdentities.email === userEmailAddress ||
+				(emailIsMaskedMParticleVal && userEmailAddress === this.maskEmail(mParticleUserIdentities.email))
+			)
+		) {
 			// Set mParticle Attribute and EXIT
-			this.initializeUserAttribute(mParticleUser, attributeName, attributeValue);
+			this.initializeUserAttributes(mParticleUser, userAttributeArray);
 			return;
 		}
 
-		// Call mParticle Identify For ONLY Email If No mParticle User
-		const identityRequest = mParticleUserIdentities && mParticleUserIdentities.customerid ?
-			{
-				userIdentities: {
-					customerid: mParticleUserIdentities.customerid,
-					email: userEmailAddress,
-				},
-			}
-		:
+		// Logged In User Did Not Match Email. Call mParticle Identify For ONLY Email
+		const identityRequest =
 			{
 				userIdentities: {
 					email: userEmailAddress,
@@ -921,7 +1002,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		const identityCallback = result => {
 			const mParticleUser = result.getUser();
 			if (mParticleUser) {
-				this.initializeUserAttribute(mParticleUser, attributeName, attributeValue);
+				this.initializeUserAttributes(mParticleUser, userAttributeArray);
+				window.mParticle.Identity.logout({});
 			}
 		};
 		window.mParticle.Identity.identify(identityRequest, identityCallback);

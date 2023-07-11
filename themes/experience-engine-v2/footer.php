@@ -1,13 +1,20 @@
 				<?php
 					$mparticle_register_embeds_in_observer = sprintf(
 					'<script class="mparticle_implementation">
-						setTimeout(() => {
+						const handleOnLoadForMParticle = () => {
 							const contentElement = document.getElementById(\'content\');
 							if (contentElement) {
-								console.log(\'Calling mparticle_implementation of Embeds \');
+								window.beasleyanalytics.setNewsletterControlForMParticleAccount(contentElement);
 								window.beasleyanalytics.fireLazyMParticlePageViewsForElementsWithMeta(contentElement.getElementsByTagName(\'mparticle-meta\'));
 							}
-						}, 2500);
+                            removeEventListener("DOMContentLoaded", handleOnLoadForMParticle);
+						}
+
+						if (document.readyState !== \'complete\') {
+							addEventListener(\'DOMContentLoaded\', handleOnLoadForMParticle);
+						} else {
+							handleOnLoadForMParticle();
+						}
 					</script>'
 					);
 					echo $mparticle_register_embeds_in_observer;

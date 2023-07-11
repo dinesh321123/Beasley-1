@@ -84,9 +84,14 @@
                         setTimeout(function() {
                             $('.response-error-container').fadeOut();
                           }, 20000);
-						window.beasleyanalytics?.setMParticleUserAttribute(email, nsf_subscription_attributes, true);
-						window.beasleyanalytics?.setMParticleUserAttribute(email, '$firstname', name);
-						window.beasleyanalytics?.setMParticleUserAttribute(email, '$lastname', nsf_last_name);
+
+						const userAttributeArray = [
+							{ 'attributeName': nsf_subscription_attributes , 'attributeValue': true},
+							{ 'attributeName': '$firstname' , 'attributeValue': name},
+							{ 'attributeName': '$lastname' , 'attributeValue': nsf_last_name},
+						];
+						const emailIsMaskedMParticleVal =  $(".nsf-email").disabled;
+						window.beasleyanalytics?.setMParticleUserAttributeArray(email, emailIsMaskedMParticleVal, userAttributeArray);
 					}else{
                         $('.response-error-container').html('Error Code '+res.code+' : '+res.message).css('color','red');
                     }

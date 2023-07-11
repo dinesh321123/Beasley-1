@@ -56,6 +56,15 @@ export const createMparticleSession = () => {
 	}
 };
 
+const refreshPageAfterLoginOrLogout = () => {
+	const contentElement = document.getElementById('content');
+	if (contentElement) {
+		window.beasleyanalytics.setNewsletterControlForMParticleAccount(
+			contentElement,
+		);
+	}
+};
+
 /**
  * Log Firebase User Into MParticle If Not Done So
  */
@@ -82,6 +91,7 @@ export const logFirebaseUserIntoMParticle = firebaseUser => {
 				if (result.getUser()) {
 					// proceed with login
 					console.log('MPARTICLE LOGIN CALLBACK: ', result);
+					refreshPageAfterLoginOrLogout();
 				}
 			};
 			window.mParticle.Identity.login(identifyRequest, identityCallback);
@@ -112,6 +122,7 @@ export const logFirebaseUserOutOfMParticle = () => {
 			if (result.getUser()) {
 				// proceed with login
 				console.log('MPARTICLE LOGOUT CALLBACK: ', result);
+				refreshPageAfterLoginOrLogout();
 			}
 		};
 		window.mParticle.Identity.logout({}, identityCallback);
