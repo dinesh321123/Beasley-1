@@ -899,6 +899,30 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		return maskedEmail;
 	}
 
+	getFirstNameFromDisplayName(displayName) {
+		let retval = '';
+		displayName = displayName.trim();
+		if (displayName) {
+			const nameParts = displayName.split(' ');
+			if (nameParts && nameParts.length > 0) {
+				retval = nameParts[0];
+			}
+		}
+		return retval;
+	}
+
+	getLastNameFromDisplayName(displayName) {
+		let retval = '';
+		displayName = displayName.trim();
+		if (displayName) {
+			const idxOfFirstSpace = displayName.indexOf(' ');
+			if (idxOfFirstSpace > 0) {
+				retval = displayName.toString().substring(idxOfFirstSpace + 1);
+			}
+		}
+		return retval;
+	}
+
 	setNewsletterControlForMParticleAccount(contentElement) {
 		const nsfContainerElementCollection = contentElement.getElementsByClassName('nsf-container');
 		if (!nsfContainerElementCollection || nsfContainerElementCollection.length < 1) {
@@ -939,14 +963,22 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 			}
 
 			if (newsletterFNameElement) {
-				newsletterFNameElement.value = mParticleUserAttributes['$firstname'];
-				newsletterFNameElement.disabled = true;
+				const firstName = mParticleUserAttributes['$firstname'] ||
+					this.getFirstNameFromDisplayName(window.firebase?.auth()?.currentUser?.displayName);
+				if (firstName) {
+					newsletterFNameElement.value = firstName;
+					newsletterFNameElement.disabled = true;
+				}
 			}
-			if (newsletterFNameElement) {
-				newsletterLNameElement.value = mParticleUserAttributes['$lastname'];
-				newsletterLNameElement.disabled = true;
+			if (newsletterLNameElement) {
+				const lastName = mParticleUserAttributes['$lastname'] ||
+					this.getLastNameFromDisplayName(window.firebase?.auth()?.currentUser?.displayName);
+				if (lastName) {
+					newsletterLNameElement.value = lastName;
+					newsletterLNameElement.disabled = true;
+				}
 			}
-			if (newsletterFNameElement) {
+			if (newsletterEmailElement) {
 				newsletterEmailElement.value = this.maskEmail(mParticleUserIdentities['email']);
 				newsletterEmailElement.disabled = true;
 			}
