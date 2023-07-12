@@ -1,6 +1,6 @@
 (function() {
     tinymce.PluginManager.add('newslettersignup-button', function( editor, url ) {
-        editor.addButton( 'newslettersignup-button', {
+            editor.addButton( 'newslettersignup-button', {
             text: tinyMCE_object_NSF.button_name,
             icon: 'code',
             image : tinyMCE_object_NSF.image,
@@ -42,21 +42,21 @@
                             name   : 'logo',
                             label  : 'logo',
                             tooltip: 'add logo URL',
-                            value  : ''
+                            value  : tinyMCE_object_NSF.logo
                         },
                         {
                             type   : 'textbox',
                             name   : 'subscription_attributes',
                             label  : 'subscription Attributes',
                             tooltip: 'add subscription_attributes',
-                            value  : ''
+                            value  : tinyMCE_object_NSF.subscription_attributes
                         },
                         {
                             type   : 'textbox',
                             name   : 'subscription_id',
                             label  : 'subscription ID',
                             tooltip: 'add subscription ID',
-                            value  : ''
+                            value  :  tinyMCE_object_NSF.subscription_id
                         },
 
                     ],
