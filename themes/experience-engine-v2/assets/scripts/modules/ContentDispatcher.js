@@ -10,11 +10,7 @@ import {
 	fetchPage,
 	fetchFeedsContent,
 } from '../redux/actions/screen';
-import {
-	firebaseAuth,
-	getBeasleyCanonicalUrl,
-	untrailingslashit,
-} from '../library';
+import { getBeasleyCanonicalUrl } from '../library';
 
 const specialPages = ['/wp-admin/', '/wp-signup.php', '/wp-login.php'];
 
