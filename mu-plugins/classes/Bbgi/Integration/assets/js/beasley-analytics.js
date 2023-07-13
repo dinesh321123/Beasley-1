@@ -490,7 +490,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.createMediaKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
 
-		this.CompleteInitializationAndSetPerSessionKeys();
+		this.completeInitializationAndSetPerSessionKeys();
 	}
 
 	createKeyValuePairs() {
@@ -511,7 +511,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.mediaSpecificKeyValuePairs = {...this.mediaSpecificKeyValuePairsTemplate};
 	}
 
-	CompleteInitializationAndSetPerSessionKeys = () => {
+	completeInitializationAndSetPerSessionKeys = () => {
 		// Set Global Fields In Callback After Ad Blocker Detection Completes And Empty Process Queue
 
 		const handleAdBlockFunc = () => {
@@ -901,8 +901,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 	getFirstNameFromDisplayName(displayName) {
 		let retval = '';
-		displayName = displayName.trim();
 		if (displayName) {
+			displayName = displayName.trim();
 			const nameParts = displayName.split(' ');
 			if (nameParts && nameParts.length > 0) {
 				retval = nameParts[0];
@@ -913,8 +913,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 	getLastNameFromDisplayName(displayName) {
 		let retval = '';
-		displayName = displayName.trim();
 		if (displayName) {
+			displayName = displayName.trim();
 			const idxOfFirstSpace = displayName.indexOf(' ');
 			if (idxOfFirstSpace > 0) {
 				retval = displayName.toString().substring(idxOfFirstSpace + 1);
@@ -949,6 +949,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 		if (
 			window.mParticle.Identity &&
+			window.mParticle.Identity.getCurrentUser && // Not a function in Whiz
 			window.mParticle.Identity.getCurrentUser() &&
 			window.mParticle.Identity.getCurrentUser().isLoggedIn()
 		) {
@@ -1006,6 +1007,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 		if (
 			window.mParticle.Identity &&
+			window.mParticle.Identity.getCurrentUser && // Not a function in Whiz
 			window.mParticle.Identity.getCurrentUser() &&
 			window.mParticle.Identity.getCurrentUser().isLoggedIn()
 		) {
