@@ -120,9 +120,10 @@
                           }, 20000);
 
 						const userAttributeArray = [
-							{ 'attributeName': nsf_subscription_attributes , 'attributeValue': true},
-							{ 'attributeName': '$firstname' , 'attributeValue': name},
-							{ 'attributeName': '$lastname' , 'attributeValue': nsf_last_name},
+							{'attributeName': nsf_subscription_attributes , 'attributeValue': true},
+							{'attributeName': 'email_subscribe' , 'attributeValue': 'opted_in'},
+							{'attributeName': '$firstname' , 'attributeValue': name},
+							{'attributeName': '$lastname' , 'attributeValue': nsf_last_name},
 						];
 						const emailIsMaskedMParticleVal =  $(".nsf-email").disabled;
 						window.beasleyanalytics?.setMParticleUserAttributeArray(email, emailIsMaskedMParticleVal, userAttributeArray);
