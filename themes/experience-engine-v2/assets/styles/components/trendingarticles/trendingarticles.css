@@ -288,6 +288,7 @@
                 display:block;
                 text-align:center;
             }
+
         }
         & .share {
             @media (--max-medium-viewport){ 
@@ -326,7 +327,13 @@
             }
         }
         
-        
+        & .meta-category-container{
+            justify-content:normal;
+            align-items: unset;
+            @media (--max-medium-viewport){ 
+                justify-content:center;
+            }
+        }
 
     }
 
