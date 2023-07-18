@@ -7,6 +7,20 @@ if ( ! function_exists( 'ee_get_episodes_query' ) ) :
 	function ee_get_episodes_query( $podcast = null, $args = array() ) {
 		$podcast = get_post( $podcast );
 		$args = wp_parse_args( $args );
+		if ( ! ee_is_whiz() ) {
+			$args["meta_query"] = array(
+				'relation' => 'OR',
+				array(
+					'key'     => '_is_app_only',
+					'value'   => 1,
+					'compare' => '!=',
+				),
+				array(
+					'key'     => '_is_app_only',
+					'compare' => 'NOT EXISTS',
+				),
+			);
+		}
 
 		return new \WP_Query( array_merge( $args, array(
 			'post_type'   => 'episode',
