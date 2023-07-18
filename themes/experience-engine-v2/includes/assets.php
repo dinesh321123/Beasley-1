@@ -21,6 +21,11 @@ if ( ! function_exists( 'add_featured_data_in_rss' ) ) :
 		global $post;
 		$video_url = "";
 
+		$is_app_only = get_post_meta( $post->ID, '_is_app_only', true );
+		if ( $is_app_only ) {
+			echo '<category><![CDATA[Exclusive Content]]></category>';
+		}
+
 		// Add Featured image at item end
 		if ( has_post_thumbnail( $post->ID ) ) {
 			$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'original' );
