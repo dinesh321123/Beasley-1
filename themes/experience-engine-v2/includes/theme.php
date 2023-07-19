@@ -30,6 +30,7 @@ add_filter( 'bbgi_supported_featured_image_layouts', 'ee_supported_featured_imag
 
 add_action( 'pre_get_posts', 'exclude_app_only_posts', 10000 );
 add_filter( 'template_include', 'custom_app_only_template' );
+add_filter( 'body_class', 'app_only_class' );
 
 if ( ! function_exists( 'ee_setup_theme' ) ) :
 	function ee_setup_theme() {
@@ -183,6 +184,26 @@ function exclude_app_only_posts( $query ) {
 			$query->set( 'meta_query', $merged_meta_query );
 		}
     }
+}
+
+function app_only_class( $classes ) {
+	// Get the allowed post types for the app only template
+    $allowed_post_types = array('post', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'show', 'contest', 'podcast', 'episode', 'tribe_events');
+
+    // Check if it is a singular post of the allowed post types
+    if (is_singular($allowed_post_types) && !ee_is_whiz()) {
+        // Get the current post object
+        $post = get_queried_object();
+
+        // Check if the post has the meta field "_is_app_only" set to 1
+        $_is_app_only = get_post_meta($post->ID, '_is_app_only', true);
+
+        // add app only class for style adjstment 
+        if ($_is_app_only) {
+			$classes[] = 'single-app-only';
+		}
+	}
+	return $classes;
 }
 
 function custom_app_only_template($template) {

@@ -17,6 +17,12 @@ function recent_section_feeds_on_show() {
 					echo '<category><![CDATA[' . esc_html( $category->cat_name ) . ']]></category>';
 				} ?>
 				<?php
+				$is_app_only = get_post_meta( get_the_ID(), '_is_app_only', true );
+				if ( $is_app_only ) {
+					echo '<category><![CDATA[Exclusive Content]]></category>';
+				}
+				?>
+				<?php
 				if ( has_post_thumbnail( $post->ID ) ) {
 					$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'original' );
 					if ( ! empty( $thumbnail[0] ) ) { ?>
