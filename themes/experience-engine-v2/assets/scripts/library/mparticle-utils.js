@@ -1,6 +1,6 @@
-import amplitudeKit from '@mparticle/web-amplitude-kit';
-import brazeKit from '@mparticle/web-braze-kit';
 import mParticle from '@mparticle/web-sdk';
+import amplitudeKit from '@mparticle/web-amplitude-kit';
+// import braze from '@mparticle/web-braze-kit';
 
 export const setMParticleUserAtributes = (
 	firstname,
@@ -14,20 +14,22 @@ export const setMParticleUserAtributes = (
 	);
 
 	if (window.firebase?.auth().currentUser) {
-		logFirebaseUserIntoMParticle(window.firebase.auth().currentUser);
+		const loginCallbackFunc = () => {
+			const currentUser = mParticle.Identity.getCurrentUser();
+			currentUser.setUserAttribute('$firstname', firstname);
+			currentUser.setUserAttribute('$lastname', lastname);
+			currentUser.setUserAttribute('$zip', zip);
+			const formattedGender =
+				gender && gender.length > 0 ? gender.toUpperCase()[0] : 'P';
+			currentUser.setUserAttribute('$gender', formattedGender);
+			const formattedDob = bday.replace(/(\d\d)\/(\d\d)\/(\d{4})/, '$3-$1-$2');
+			currentUser.setUserAttribute('dob', formattedDob);
+		};
 
-		const currentUser = mParticle.Identity.getCurrentUser();
-		currentUser.setUserAttribute('$firstname', firstname);
-		currentUser.setUserAttribute('$lastname', lastname);
-		currentUser.setUserAttribute('$zip', zip);
-		const formattedGender =
-			gender && gender.length > 0 ? gender.toUpperCase()[0] : 'P';
-		currentUser.setUserAttribute('$gender', formattedGender);
-		const formattedDob = bday
-			.replace(/(\d\d)\/(\d\d)\/(\d{4})/, '$3-$1-$2')
-			.split('/')
-			.join('-');
-		currentUser.setUserAttribute('dob', formattedDob);
+		logFirebaseUserIntoMParticle(
+			window.firebase.auth().currentUser,
+			loginCallbackFunc,
+		);
 	}
 };
 
@@ -42,7 +44,7 @@ export const createMparticleSession = () => {
 		console.log('Configuring mparticle in bundle');
 
 		amplitudeKit.register(window.bbgiAnalyticsConfig.mParticleConfig);
-		brazeKit.register(window.bbgiAnalyticsConfig.mParticleConfig);
+		// braze.register(window.bbgiAnalyticsConfig.mParticleConfig);
 
 		// Configures the SDK. Note the settings below for isDevelopmentMode
 		// and logLevel.
@@ -70,7 +72,10 @@ const refreshPageAfterLoginOrLogout = () => {
 /**
  * Log Firebase User Into MParticle If Not Done So
  */
-export const logFirebaseUserIntoMParticle = firebaseUser => {
+export const logFirebaseUserIntoMParticle = (
+	firebaseUser,
+	loginCallbackFunc,
+) => {
 	if (!firebaseUser) {
 		return;
 	}
@@ -94,6 +99,9 @@ export const logFirebaseUserIntoMParticle = firebaseUser => {
 					// proceed with login
 					console.log('MPARTICLE LOGIN CALLBACK: ', result);
 					refreshPageAfterLoginOrLogout();
+					if (loginCallbackFunc) {
+						loginCallbackFunc();
+					}
 				}
 			};
 			window.mParticle.Identity.login(identifyRequest, identityCallback);
