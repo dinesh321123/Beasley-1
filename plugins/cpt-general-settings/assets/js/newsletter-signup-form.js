@@ -125,7 +125,8 @@
 							{'attributeName': '$firstname' , 'attributeValue': name},
 							{'attributeName': '$lastname' , 'attributeValue': nsf_last_name},
 						];
-						const emailIsMaskedMParticleVal =  $(".nsf-email").disabled;
+						elementsWithEmailClass = document.getElementsByClassName('nsf-email');
+						const emailIsMaskedMParticleVal =  elementsWithEmailClass && elementsWithEmailClass.length > 0 ? !!elementsWithEmailClass[0].disabled : false;
 						window.beasleyanalytics?.setMParticleUserAttributeArray(email, emailIsMaskedMParticleVal, userAttributeArray);
 					}else{
                         $('.response-error-container').html('Error Code '+res.code+' : '+res.message).css('color','red');
