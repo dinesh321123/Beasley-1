@@ -20,7 +20,7 @@ class NewsletterSignupForm {
         $nsf_ajax_nonce = wp_create_nonce( 'nsf-ajax-nonce' );
         $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-        wp_register_style('nsf-style',GENERAL_SETTINGS_CPT_URL . "assets/css/newsletter-signup-form". $postfix .".css", array(), '1.0.1', 'all');
+        wp_register_style('nsf-style',GENERAL_SETTINGS_CPT_URL . "assets/css/newsletter-signup-form". $postfix .".css", array(), '1.0.2', 'all');
         wp_enqueue_style('nsf-style');
 
         wp_register_script('nsf-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/newsletter-signup-form'. $postfix .'.js', array('jquery'), '1.0.8');
