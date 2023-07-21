@@ -16,13 +16,13 @@ if ( have_posts() ) :
 	echo '</div>';
 
 	echo '<div class="content-wrap">';
-		// ee_load_more();
-        $page_number = (get_query_var('paged')) ? max(get_query_var('paged'), 1) : 1;
-        $dynamic_url = get_site_url() . '/events/page/' . $page_number + 1 . '/';
+		ee_load_more();
+        // $page_number = (get_query_var('paged')) ? max(get_query_var('paged'), 1) : 1;
+        // $dynamic_url = get_site_url() . '/events/page/' . $page_number + 1 . '/';
         //echo $dynamic_url;
         
         ?>
-            <a href="<?php echo $dynamic_url;?>" class="load-more">Load More</a>
+            <!-- <a href="<?php //echo $dynamic_url;?>" class="load-more">Load More</a> -->
         <?php
 
 	echo '</div>';
