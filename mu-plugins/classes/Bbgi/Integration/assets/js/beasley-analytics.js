@@ -328,7 +328,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	lazyPageEventObserver;
 
 	getCleanEventObject(eventName, isIgnoringBuiltInMparticleFields, isIncludingOnlyMediaSpecificFields) {
-		const dataPoints = window.mParticleSchema?.version_document?.data_points;
+		const dataPoints = window.mParticlePlan?.version_document?.data_points;
 		if (dataPoints) {
 			const dataPoint = dataPoints.find( dp =>
 				(dp?.match?.type === 'screen_view' && dp?.match?.criteria?.screen_name === eventName) ||
@@ -371,7 +371,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 
 	getCustomEventTypeValueForEventName(eventName) {
-		const dataPoints = window.mParticleSchema?.version_document?.data_points;
+		const dataPoints = window.mParticlePlan?.version_document?.data_points;
 		if (dataPoints) {
 			const dataPoint = dataPoints.find( dp =>
 				(dp?.match?.type === 'custom_event' && dp?.match?.criteria?.event_name === eventName));
