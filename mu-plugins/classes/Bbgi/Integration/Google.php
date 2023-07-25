@@ -49,9 +49,11 @@ class Google extends \Bbgi\Module {
 			$jsonData,
 		);
 
+		$homeUrl = home_url($wp->request);
+		$fileNameAddition = str_contains($homeUrl, '.beasley.test') || str_contains($homeUrl, '.bbgistage.com') ? '-staging' : '';
 		wp_enqueue_script(
 			'mparticle_enqueue_scripts',
-			'https://bbgi-mparticle-plan.s3.amazonaws.com/mparticle-plan.js',
+			'https://bbgi-mparticle-plan.s3.amazonaws.com/mparticle-plan' . $fileNameAddition . '.js'
 		);
 
 		wp_enqueue_script(
