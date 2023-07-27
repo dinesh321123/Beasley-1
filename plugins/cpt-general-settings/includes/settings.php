@@ -216,6 +216,9 @@ class CommonSettings {
 		global $typenow, $pagenow;
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
+		wp_register_style('additional-admin-style', GENERAL_SETTINGS_CPT_URL . "assets/css/register_admin_scripts" . $postfix . ".css", array(), '1.0.0', 'all');
+		wp_enqueue_style('additional-admin-style');
+
 		if ( in_array( $typenow, CommonSettings::allow_fontawesome_posttype_list() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			wp_register_style('general-font-awesome',GENERAL_SETTINGS_CPT_URL . "assets/css/general-font-awesome". $postfix .".css", array(), GENERAL_SETTINGS_CPT_VERSION, 'all');
 			wp_enqueue_style('general-font-awesome');
