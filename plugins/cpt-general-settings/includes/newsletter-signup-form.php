@@ -23,7 +23,7 @@ class NewsletterSignupForm {
         wp_register_style('nsf-style',GENERAL_SETTINGS_CPT_URL . "assets/css/newsletter-signup-form". $postfix .".css", array(), '1.0.3', 'all');
         wp_enqueue_style('nsf-style');
 
-        wp_register_script('nsf-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/newsletter-signup-form'. $postfix .'.js', array('jquery'), '1.0.3');
+        wp_register_script('nsf-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/newsletter-signup-form'. $postfix .'.js', array('jquery'), '1.0.8');
         wp_localize_script(
             'nsf-script',
             'nsf_ajax_object',
@@ -40,13 +40,16 @@ class NewsletterSignupForm {
     public function nsf_function($attr) {
 
         global $nsf_output_hide;
-        
+
         $attr = shortcode_atts(
             array(
                 'label' => '',
                 'description' => '',
                 'color' => '',
                 'checkbox_content' => '',
+                'logo' => '',
+                'subscription_attributes' => '',
+                'subscription_id' => '',
             ), $attr );
 
         if ( !$nsf_output_hide ) {
@@ -57,7 +60,16 @@ class NewsletterSignupForm {
             $nsf_description        = $attr['description'] != '' ? sanitize_text_field($attr['description']) : (get_option('nsf_description') != '' ? get_option('nsf_description') : 'Get Our Latest Articles in Your Inbox');
             $nsf_color              = $attr['color'] != '' ? sanitize_text_field($attr['color']) : (get_option('nsf_color') != '' ? get_option('nsf_color') : '#000000');
             $nsf_checkbox_content	= $attr['checkbox_content'] != '' ? sanitize_text_field($attr['checkbox_content']) : (get_option('nsf_checkbox_content') != '' ? get_option('nsf_checkbox_content') : 'By clicking "Subscribe" I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.');
-        
+
+            $logo                           = ($attr['logo'] != '') ? sanitize_text_field($attr['logo']) : '';
+            $subscription_attributes    = $attr['subscription_attributes'] != '' ? sanitize_text_field($attr['subscription_attributes']) : get_option('nsf_subscription_attributes');
+            $subscription_id            = $attr['subscription_id'] != '' ? sanitize_text_field($attr['subscription_id']) : '';
+
+            // hidden fields
+            $hidden_fields .= '<input type="hidden" name="nsf_subscription_attributes" id="nsf_subscription_attributes" class="nsf_subscription_attributes" value="'.$subscription_attributes.'" >';
+
+            $hidden_fields .= '<input type="hidden" name="nsf_subscription_ID" id="nsf_subscription_ID" class="nsf_subscription_ID" value="'.$subscription_id.'" >';
+
             $html .= '<style>
                         .nsf-container label,
                         .nsf-container h2.nsf-subheader,
@@ -70,12 +82,13 @@ class NewsletterSignupForm {
                     </style>';
             $html .= '<div class="nsf-container" id="root">';
                 $html .= '<div class="nsf-image-container" >';
-                    $html .= $this->ee_the_subheader_logo_html('desktop', 154, 88);
+                    $html .= $this->ee_the_subheader_logo_html('desktop', 154, 88, $logo);
                 $html .= '</div>';
                 $html .= '<div class="nsf-form-container">';
                     $html .= '<h1 class="nsf-header">'.$nsf_label.'</h1>';
                     $html .= '<h2 class="nsf-subheader">'.$nsf_description.'</h2>';
                     $html .= '<form id="nsf-form" class="nsf-form" name="nsf_form" action="#" method="POST">';
+                            $html .= $hidden_fields;
                             $html .= '<div class="nsf-input-container">';
                                 $html .= '<div class="input-label"><label>First Name</label><span> *</span></div>';
                                 $html .= '<div class="input-field"><input type="text" name="nsf_first_name" class="nsf-first-name" /><span class="nsf-fname-error-msg"></span></div>';
@@ -98,30 +111,37 @@ class NewsletterSignupForm {
                 $html .= '</div>';
             $html .= '</div>';
             $nsf_output_hide = true;
-            $nfsenabled = get_option('nsf_enable_disable');     
+            $nfsenabled = get_option('nsf_enable_disable');
             if($nfsenabled != 'off' ){
                 return $html;
             }else{
                 return "";
-            }           
+            }
         }
 
     }
 
-    public function ee_the_subheader_logo_html( $mobile_or_desktop, $base_w = 150, $base_h = 150 ) {
+    public function ee_the_subheader_logo_html( $mobile_or_desktop, $base_w = 150, $base_h = 150, $logo = '' ) {
         $html = '';
-        $field_name = get_option('ee_newsletter_logo') ? 'ee_newsletter_logo' : 'gmr_site_logo';
         $atag_class_name = $mobile_or_desktop . '-mewsletter-logo-link';
-        $site_logo_id = get_option( $field_name, 0 );
-        if ( $site_logo_id ) {
-            $site_logo = bbgi_get_image_url( $site_logo_id, $base_w, $base_h, false );
-            if ( $site_logo ) {
-                $alt = get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' );
-                $site_logo_2x = bbgi_get_image_url( $site_logo_id, 2 * $base_w, 2 * $base_h, false );
-                $html .= '<a href="'.esc_url( home_url() ). '" class="'. $atag_class_name. '" rel="home" itemprop="url">';
-                $html .= '<img src="'.esc_url( $site_logo ).'" srcset="'.esc_url( $site_logo_2x ).' 2x" alt="'.esc_attr( $alt ).'" class="custom-logo" itemprop="logo">';
-                $html .= '</a>';
+
+        if($logo == ''){
+            $field_name = get_option('ee_newsletter_logo') ? 'ee_newsletter_logo' : 'gmr_site_logo';
+            $site_logo_id = get_option( $field_name, 0 );
+            if ( $site_logo_id ) {
+                $site_logo = bbgi_get_image_url( $site_logo_id, $base_w, $base_h, false );
+                if ( $site_logo ) {
+                    $alt = get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' );
+                    $site_logo_2x = bbgi_get_image_url( $site_logo_id, 2 * $base_w, 2 * $base_h, false );
+                    $html .= '<a href="'.esc_url( home_url() ). '" class="'. $atag_class_name. '" rel="home" itemprop="url">';
+                    $html .= '<img src="'.esc_url( $site_logo ).'" srcset="'.esc_url( $site_logo_2x ).' 2x" alt="'.esc_attr( $alt ).'" class="custom-logo" itemprop="logo">';
+                    $html .= '</a>';
+                }
             }
+        } else {
+            $html .= '<a href="'.esc_url( home_url() ). '" class="'. $atag_class_name. '" rel="home" itemprop="url">';
+            $html .= '<img src="'.esc_url( $logo ).'" class="custom-logo" itemprop="logo">';
+            $html .= '</a>';
         }
         return $html;
     }
@@ -130,13 +150,13 @@ class NewsletterSignupForm {
         $section_id = 'beasley_newsletter_signup_form';
         $nsf_enable_disable_arg = array(
             'name'     => 'nsf_enable_disable',
-            'default' => 'on',	
+            'default' => 'on',
             'class'		=> '',
 			'options' => array(
 				'on' => 'On',
 				'off'  => 'Off',
 			),
-        );  
+        );
 
         add_settings_field('nsf_enable_disable','Enabled','bbgi_select_field',$page, $section_id, $nsf_enable_disable_arg);
         add_settings_field( 'ee_newsletter_logo', 'Logo', 'bbgi_image_field', $page, $section_id, 'name=ee_newsletter_logo' );
@@ -173,12 +193,22 @@ class NewsletterSignupForm {
 
         $siteid                         = (get_option( 'ee_publisher') != '') ? get_option( 'ee_publisher') : '';
         $domain                         = get_site_url();
-        $nsf_subscription_attributes    = get_option('nsf_subscription_attributes') ? get_option('nsf_subscription_attributes') : '' ;
-        $nsf_subscription_ID            = get_option('nsf_subscription_ID') ? get_option('nsf_subscription_ID') : '' ;
         $nsf_mailing_list_name          = get_option('nsf_mailing_list_name') ? get_option('nsf_mailing_list_name') : '' ;
         $nsf_mailing_list_description   = get_option('nsf_mailing_list_description') ? get_option('nsf_mailing_list_description') : '' ;
         $nsf_template_token             = get_option('nsf_template_token') ? get_option('nsf_template_token') : '' ;
-    
+
+        if($_POST['nsf_subscription_attributes'] != ''){
+            $nsf_subscription_attributes = sanitize_text_field($_POST['nsf_subscription_attributes']);
+        } else {
+            $nsf_subscription_attributes = get_option('nsf_subscription_attributes') ? get_option('nsf_subscription_attributes') : '' ;
+        }
+
+        if($_POST['nsf_subscription_ID'] != ''){
+            $nsf_subscription_ID = sanitize_text_field($_POST['nsf_subscription_ID']);
+        } else {
+            $nsf_subscription_ID = get_option('nsf_subscription_ID') ? get_option('nsf_subscription_ID') : '' ;
+        }
+
         $data_array = array(
             'nsf_name'                      => sanitize_text_field($_POST['name']),
             'nsf_email'                     => sanitize_email($_POST['email']),

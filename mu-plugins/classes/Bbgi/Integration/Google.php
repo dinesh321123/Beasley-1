@@ -49,25 +49,25 @@ class Google extends \Bbgi\Module {
 			$jsonData,
 		);
 
+		$homeUrl = home_url($wp->request);
+		$fileNameAddition = str_contains($homeUrl, '.beasley.test') || str_contains($homeUrl, '.bbgistage.com') ? '-staging' : '';
 		wp_enqueue_script(
 			'mparticle_enqueue_scripts',
-			plugins_url( 'assets/js/mparticle-schema.js', __FILE__ ),
-			array(),
-			'2.0.46'
+			'https://bbgi-mparticle-plan.s3.amazonaws.com/mparticle-plan' . $fileNameAddition . '.js'
 		);
 
 		wp_enqueue_script(
 			'window_utils_enqueue_scripts',
 			plugins_url( 'assets/js/window-utils.js', __FILE__ ),
 			array(),
-			'2.0.46'
+			'2.0.52'
 		);
 
 		wp_enqueue_script(
 			'ga_enqueue_scripts',
 			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
 			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' ),
-			'2.0.46'
+			'2.0.52'
 		);
 	}
 
