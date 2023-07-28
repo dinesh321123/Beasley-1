@@ -1,7 +1,7 @@
 <?php 
 
 add_filter( 'tribe_events_event_schedule_details_inner', 'ee_update_event_schedule_details' );
-add_action('pre_get_posts', 'tribe_events_archive_posts_per_page');
+add_action('pre_get_posts', 'tribe_events_archive_posts_per_page', 9999);
 
 if ( ! function_exists( 'ee_update_event_schedule_details' ) ) :
 	function ee_update_event_schedule_details( $details ) {
@@ -17,6 +17,16 @@ if ( ! function_exists( 'tribe_events_archive_posts_per_page' ) ) :
 	function tribe_events_archive_posts_per_page($query) {
 		if (is_post_type_archive('tribe_events')) { // Replace 'triue-event' with your custom post type slug.
 			$query->set('posts_per_page', tribe_get_option( 'postsPerPage')); // Set the number of posts you want to display per page.
+
+			// Check if it's the whiz query
+			if ( ! ee_is_whiz() ) {
+				// Get the existing meta query from the query object
+				$meta_query = (array) $query->get( 'meta_query' );
+				$new_meta_query = ee_app_only_validate_query( $meta_query );
+
+				// Add the meta query to the existing query
+				$query->set( 'meta_query', $new_meta_query );
+			}
 		}
 	}
 endif;
