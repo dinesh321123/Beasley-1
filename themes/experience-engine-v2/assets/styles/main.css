@@ -103,3 +103,7 @@
 @import "components/preferencecenter/preferencecenter";
 
 @import "components/cancelaccount/cancelaccount";
+@import "components/trendingarticles/trendingarticles";
+
+@import "components/show/show-custom-information";
+@import "components/show/show-custom-navigation";

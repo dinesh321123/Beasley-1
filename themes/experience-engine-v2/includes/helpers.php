@@ -685,3 +685,55 @@ if ( ! function_exists( 'ee_parse_shortcode_atts' ) ) :
 		return $attributes;
 	}
 endif;
+
+if ( ! function_exists( 'ee_render_trending_articles' ) ) :
+	function ee_render_trending_articles($location='') {
+		global $post;
+
+		$categories = array_map(
+			function( \WP_Term $category ) {
+				return $category->slug;
+			},
+			get_the_category()
+		);
+
+		$html = '';
+		$has_shortcode = has_shortcode( $post->post_content, 'trending-article' );
+		$html .= sprintf(
+			'<div class="trending-articles-container content-wrap"
+				data-postid="%d"
+				data-posttitle="%s"
+				data-posttype="%s"
+				data-categories="%s"
+				data-url="%s"
+				data-location="%s"
+				data-has_shortcode="%s"
+				></div>',
+			get_the_ID(),
+			get_the_title(),
+			get_post_type(),
+			implode( ',', $categories ),
+			// get_the_permalink()
+			'https://wmmr.com/2023/06/21/the-final-crossover/',
+			$location,
+			$has_shortcode,
+		);
+
+		if($location == 'embed_bottom'){
+			$current_post_object = get_queried_object();
+			$trending_article_after_content = (get_option( 'trending_article_after_content') != '') ? get_option( 'trending_article_after_content') : 'off';
+			$trending_article_after_content_page = get_field('trending_article_after_content_page',$current_post_object);
+
+			if($trending_article_after_content_page === false){
+				return '';
+			}
+
+			if($trending_article_after_content == 'off'){
+				return '';
+			}
+
+		}
+
+		return $html;
+	}
+endif;
