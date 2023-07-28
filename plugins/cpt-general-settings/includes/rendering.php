@@ -73,13 +73,14 @@ class GeneralSettingsFrontRendering {
 	public static function  show_404_for_disabled_feeds() {
 		global $wp;
 		$author_string = $wp->query_vars['author_name'];
-		
+		echo '<script>console.log("function render Feed working !");</script>';
 		if($author_string != ''){
+			echo '<script>console.log("author_string Feed working !");</script>';
 			if(!is_feed()){
+				echo '<script>console.log("is_feed() Feed working !");</script>';
 				$author = get_user_by('slug', $author_string);
 				if(!$author){
-					// echo 'testets';
-					// die();
+					echo '<script>console.log("author Feed working !");</script>';
 					ee_404_page_redirect();
 				}
 			}
