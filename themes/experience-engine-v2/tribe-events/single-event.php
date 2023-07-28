@@ -28,7 +28,7 @@ endif;
 
 		<h1 class="event-title">
 			<?php the_title(); ?>
-			<?php tribe_the_notices(); ?>
+			<?php //tribe_the_notices(); ?>
 		</h1>
 
 		<?php ee_the_sponsored_by_div( get_the_id(), false ); ?>
