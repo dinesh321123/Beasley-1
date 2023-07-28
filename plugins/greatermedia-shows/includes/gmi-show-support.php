@@ -438,6 +438,7 @@ function get_show_featured_query() {
 		'orderby'             => 'post__in',
 		'ignore_sticky_posts' => true,
 	);
+	$args = add_app_only_restricton($args);
 
 	$query = new \WP_Query( $args );
 
@@ -455,6 +456,7 @@ function get_show_favorites_query() {
 	);
 
 	$query = new \WP_Query( $args );
+	$args = add_app_only_restricton($args);
 
 	return $query;
 }

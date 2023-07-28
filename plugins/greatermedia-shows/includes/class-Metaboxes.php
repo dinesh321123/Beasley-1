@@ -257,6 +257,14 @@ class GMR_Show_Metaboxes {
 		return $this->_curation_post_types;
 	}
 
+	public function add_app_only_label($post_title, $post) {
+		$is_app_only = get_post_meta($post->ID, '_is_app_only', true);
+		if ( $is_app_only ) {
+			$post_title .= ' ( App only )';
+		}
+		return $post_title;
+	}
+
 	public function render_featured_meta_box( WP_Post $post ) {
 		if ( ! function_exists( 'pf_render' ) ) {
 			?><p>Please install the <a href="http://github.com/10up/post-finder">"post-finder"</a> plugin.</p><?php
@@ -275,7 +283,9 @@ class GMR_Show_Metaboxes {
 		?>
 		<p>These items require featured images. If an item is not present, make sure a featured image is assigned.</p>
 		<?php
+		add_filter('post_finder_item_label', array( $this, 'add_app_only_label'), 10, 2);
 		pf_render( 'gmr-featured-post-ids', $featured_posts, $options );
+		remove_filter('post_finder_item_label', array( $this, 'add_app_only_label'), 10);
 	}
 
 	public function render_favorites_meta_box( WP_Post $post ) {
@@ -297,7 +307,9 @@ class GMR_Show_Metaboxes {
 		?>
 		<p>These items require featured images. If an item is not present, make sure a featured image is assigned.</p>
 		<?php
+		add_filter('post_finder_item_label', array( $this, 'add_app_only_label'), 10, 2);
 		pf_render( 'gmr-favorite-post-ids', $favorite_posts, $options );
+		remove_filter('post_finder_item_label', array( $this, 'add_app_only_label'), 10);
 	}
 
 	/**

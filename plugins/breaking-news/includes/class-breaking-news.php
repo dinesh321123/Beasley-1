@@ -114,8 +114,25 @@ if ( !class_exists( "Breaking_News" ) ) {
 				$is_app_only = $this->sanitize_boolean( $_POST['app_only_option'] );
 			}
 
-			update_post_meta( $post_id, '_is_app_only', $is_app_only );
-
+			if( $_POST['post_type'] == "podcast" ) {
+				$args = array(
+					'post_type'   => 'episode',
+					'post_parent' => $post_id,
+				);
+				
+				$query = new WP_Query( $args );
+				
+				if ( $query->have_posts() ) {
+					while ( $query->have_posts() ) {
+						$query->the_post();
+						$ep_post_id = get_the_ID();
+						// Update the _is_app_only field
+						update_post_meta( $ep_post_id, '_is_app_only', $is_app_only );
+					}
+					wp_reset_postdata(); // Reset the post data after the loop
+				}
+			}
+			update_post_meta( $post_id, '_is_app_only', $is_app_only );	
 		}
 
 		/**
