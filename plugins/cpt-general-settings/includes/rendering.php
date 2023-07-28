@@ -79,17 +79,22 @@ class GeneralSettingsFrontRendering {
 	}
 
 	public static function  show_404_for_disabled_feeds() {
+		
 		global $wp;
 		$author_string = $wp->query_vars['author_name'];
-		echo '<script>console.log("function render Feed working !");</script>';
+		// var_dump($author_string);
+		// var_dump(!is_feed());
 		if($author_string != ''){
-			echo '<script>console.log("author_string Feed working !");</script>';
 			if(!is_feed()){
-				echo '<script>console.log("is_feed() Feed working !");</script>';
 				$author = get_user_by('slug', $author_string);
+				// var_dump(!$author);
 				if(!$author){
-					echo '<script>console.log("author Feed working !");</script>';
-					ee_404_page_redirect();
+					// ee_404_page_redirect();
+					global $wp_query;
+					$wp_query->set_404();
+					status_header(404);
+					include(get_404_template());
+					exit;
 				}
 			}
 		}
