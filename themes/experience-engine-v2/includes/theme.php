@@ -28,6 +28,10 @@ add_filter( 'body_class', 'ee_login_body_class' );
 add_filter( 'pre_get_posts','ee_update_main_query' );
 add_filter( 'bbgi_supported_featured_image_layouts', 'ee_supported_featured_image_layouts' );
 
+add_action( 'pre_get_posts', 'exclude_app_only_posts', 9999 );
+add_filter( 'template_include', 'custom_app_only_template', 9999 );
+add_filter( 'body_class', 'app_only_class' );
+
 if ( ! function_exists( 'ee_setup_theme' ) ) :
 	function ee_setup_theme() {
 		add_theme_support( 'custom-logo' );
@@ -140,3 +144,90 @@ function get_post_with_keyword( $query_arg ) {
 	}
 	return 0;
 }
+
+if ( ! function_exists( 'ee_app_only_validate_query' ) ) :
+	function ee_app_only_validate_query( $meta_query ) {
+		
+		// Set the meta query arguments for the additional condition
+		$additional_meta_query = array(
+			'relation' => 'OR',
+			array(
+				'key'     => '_is_app_only',
+				'value'   => 1,
+				'compare' => '!=',
+			),
+			array(
+				'key'     => '_is_app_only',
+				'compare' => 'NOT EXISTS',
+			),
+		);
+
+		$meta_query[] = $additional_meta_query;
+		
+		return $meta_query;
+	}
+endif;
+
+if ( ! function_exists( 'exclude_app_only_posts' ) ) :
+	function exclude_app_only_posts( $query ) {
+		// Check if it's the main query and on the front end
+		if ( $query->is_main_query() && ! is_admin() && ! is_singular() && !is_post_type_archive('tribe_events') ) {
+
+			// Check if it's the whiz query
+			if ( ! ee_is_whiz() ) {
+				// Get the existing meta query from the query object
+				$meta_query = (array) $query->get( 'meta_query' );
+				$new_meta_query = ee_app_only_validate_query( $meta_query );
+				
+				// Add the meta query to the existing query
+				$query->set( 'meta_query', $new_meta_query );
+			}
+		}
+	}
+endif;
+
+if ( ! function_exists( 'app_only_class' ) ) :
+	function app_only_class( $classes ) {
+		// Get the allowed post types for the app only template
+		$allowed_post_types = array('post', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'show', 'contest', 'podcast', 'episode', 'tribe_events');
+
+		// Check if it is a singular post of the allowed post types
+		if (is_singular($allowed_post_types) && !ee_is_whiz()) {
+			// Get the current post object
+			$post = get_queried_object();
+
+			// Check if the post has the meta field "_is_app_only" set to 1
+			$_is_app_only = get_post_meta($post->ID, '_is_app_only', true);
+
+			// add app only class for style adjstment 
+			if ($_is_app_only) {
+				$classes[] = 'single-app-only';
+			}
+		}
+		return $classes;
+	}
+endif;
+
+if ( ! function_exists( 'custom_app_only_template' ) ) :
+	function custom_app_only_template($template) {
+		// Get the allowed post types for the app only template
+		$allowed_post_types = array('post', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'show', 'contest', 'podcast', 'episode', 'tribe_events');
+
+		// Check if it is a singular post of the allowed post types
+		if (is_singular($allowed_post_types) && !ee_is_whiz()) {
+			// Get the current post object
+			$post = get_queried_object();
+
+			// Check if the post has the meta field "_is_app_only" set to 1
+			$_is_app_only = get_post_meta($post->ID, '_is_app_only', true);
+
+			// If the post is app-only, use the app only template
+			if ($_is_app_only) {
+				return get_template_directory() . '/templates/app-only.php';
+			}
+		}
+
+		// Return the default template for other cases
+		return $template;
+	}
+endif;

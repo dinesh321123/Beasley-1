@@ -11,9 +11,30 @@ if ( !class_exists( "Breaking_News" ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'breaking_news_enqueue_scripts' ) );
 			add_action( 'post_submitbox_misc_actions', array( $this, 'add_meta_checkbox' ) );
 			add_action( 'save_post', array( $this, 'save_breaking_news_meta_option' ) );
+			add_action( 'save_post', array( $this, 'save_app_only_meta_option' ) );
 			add_action( 'send_breaking_news_notices', array( $this, 'send_breaking_news_notices' ) );
 			add_action( 'show_breaking_news_banner', array( $this, 'show_breaking_news_banner' ) );
 			add_action( 'show_latest_breaking_news_item', array( $this, 'show_breaking_news_banner' ) );
+			add_action( 'add_meta_boxes',  array( $this, 'add_app_only_metabox' ) );
+		}
+
+		/**
+		 * Adds an app-only metabox for specified post types.
+		 *
+		 * @param string $post_type The post type for which to add the metabox.
+		 * @return void
+		 */
+		public static function add_app_only_metabox( $post_type ) {
+			$post_types = array( 'post', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'show', 'contest', 'podcast', 'episode', 'tribe_events' );
+			if ( in_array( $post_type, $post_types ) ) {
+				add_meta_box(
+					'app_only_metabox',
+					'App Only Settings',
+					array( __CLASS__, 'add_meta_checkbox_app_only' ),
+					$post_type,
+					'side'
+				);
+			}
 		}
 
 		public static function breaking_news_enqueue_scripts() {
@@ -43,6 +64,75 @@ if ( !class_exists( "Breaking_News" ) ) {
 				</div>
 			</div>
 			<?php
+		}
+
+		
+		/**
+		 * Add meta meta fields to the post edit page.
+		 *
+		 * @return void
+		 */
+		public static function add_meta_checkbox_app_only() {
+			global $post;
+
+			wp_nonce_field( 'save_app_only_meta', 'app_only_nonce' );
+
+			$is_app_only = self::sanitize_boolean( get_post_meta( $post->ID, '_is_app_only', true ) );
+			?>
+			<div id="app-only-meta-fields">
+				<div id="app-only-meta" class="misc-pub-section">
+					<input type="checkbox" name="app_only_option" id="app_only_option" <?php checked( $is_app_only ); ?> /> <label for="app_only_option"><?php _e( 'Show this app only', 'app_only' ); ?></label>
+				</div>
+			</div>
+			<?php
+		}
+
+		/**
+		 * Save the post meta.
+		 *
+		 * @param  int $post_id
+		 * @return void
+		 */
+		public function save_app_only_meta_option( $post_id ) {
+
+			// Defaults
+			$is_app_only = 0;
+
+			if ( ! isset( $_POST['app_only_nonce'] ) || ! wp_verify_nonce( $_POST['app_only_nonce' ], 'save_app_only_meta' ) ) {
+				return;
+			}
+
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
+				return;
+			}
+
+			if ( isset( $_POST['app_only_option'] ) ) {
+				$is_app_only = $this->sanitize_boolean( $_POST['app_only_option'] );
+			}
+
+			if( $_POST['post_type'] == "podcast" ) {
+				$args = array(
+					'post_type'   => 'episode',
+					'post_parent' => $post_id,
+				);
+				
+				$query = new WP_Query( $args );
+				
+				if ( $query->have_posts() ) {
+					while ( $query->have_posts() ) {
+						$query->the_post();
+						$ep_post_id = get_the_ID();
+						// Update the _is_app_only field
+						update_post_meta( $ep_post_id, '_is_app_only', $is_app_only );
+					}
+					wp_reset_postdata(); // Reset the post data after the loop
+				}
+			}
+			update_post_meta( $post_id, '_is_app_only', $is_app_only );	
 		}
 
 		/**

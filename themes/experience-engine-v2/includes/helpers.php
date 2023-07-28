@@ -324,6 +324,25 @@ if ( ! function_exists( 'ee_get_category_posts_query' ) ) :
 			'post__not_in' => $exclude_posts
 		);
 
+		// Check if it's the feed query
+		if ( ! ee_is_whiz() ) {
+			// Set the meta query arguments
+			$meta_query_args = array(
+				'relation' => 'OR',
+				array(
+					'key'     => '_is_app_only',
+					'value'   => 1,
+					'compare' => '!=',
+				),
+				array(
+					'key'     => '_is_app_only',
+					'compare' => 'NOT EXISTS',
+				),
+			);
+
+			$category_archive_query_params['meta_query'] = $meta_query_args;
+		}
+
 		if ( ee_is_first_page() ) {
 			$category_archive_query_params['posts_per_page'] = $category_archive_offset_start;
 		} else {

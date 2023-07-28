@@ -70,6 +70,48 @@ function article_link_html( $show_id, $link_text = 'Articles' ) {
 	}
 }
 
+function ee_is_common_mobile_show() {
+	static $jacapps_pos = null,
+			$whiz_pos = null;
+
+	if ( $jacapps_pos === null ) {
+		$jacapps_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'jacapps' );
+
+		// Allow way to toggle jacapps through URL querystring
+		if ( isset( $_GET['jacapps'] ) ) {
+			$jacapps_pos = 1;
+		}
+	}
+	if($whiz_pos === null ) {
+		$whiz_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'whiz' );
+
+		// Allow way to toggle whiz through URL querystring
+		if ( isset( $_GET['whiz'] ) ) {
+			$whiz_pos = 1;
+		}
+	}
+	return false !== $jacapps_pos || false !== $whiz_pos;
+}
+
+function add_app_only_restricton( $query_args ) {
+	$meta_query_args = array(
+		'relation' => 'OR',
+		array(
+			'key'     => '_is_app_only',
+			'value'   => 1,
+			'compare' => '!=',
+		),
+		array(
+			'key'     => '_is_app_only',
+			'compare' => 'NOT EXISTS',
+		),
+	);
+	if ( ! ee_is_common_mobile_show() ) {
+		$query_args['meta_query'] = $meta_query_args;
+	}
+	return $query_args;
+}
+
 function get_galleries_permalink( $show_id ) {
 	return trailingslashit( get_the_permalink( $show_id ) ) . "galleries/";
 }
@@ -199,6 +241,7 @@ function _get_show_children_ids( $type ) {
 				),
 			),
 		);
+		$args = add_app_only_restricton($args);
 
 		$ids = $query->query( $args );
 		wp_cache_set( $key, $ids, 'bbgi:show', HOUR_IN_SECONDS );
@@ -228,6 +271,7 @@ function _get_show_children_query( $type, $parents, $per_page ) {
 			'paged'           => $current_page,
 			'posts_per_page'  => $per_page,
 		);
+		$args = add_app_only_restricton($args);
 
 		$query = new \WP_Query( $args );
 
@@ -274,6 +318,7 @@ function get_show_video_query( $per_page = 10 ) {
 			),
 		),
 	);
+	$video_args = add_app_only_restricton($video_args);
 
 	$video_query = new \WP_Query( $video_args );
 
@@ -301,6 +346,7 @@ function get_show_gallery_query( $per_page = 10 ) {
 			),
 		),
 	);
+	$args = add_app_only_restricton($args);
 
 	return new \WP_Query( $args );
 }
@@ -326,6 +372,7 @@ function get_show_listiclecpt_query( $per_page = 10 ) {
 			),
 		),
 	);
+	$args = add_app_only_restricton($args);
 
 	return new \WP_Query( $args );
 }
@@ -351,6 +398,7 @@ function get_show_affiliate_marketing_query( $per_page = 10 ) {
 			),
 		),
 	);
+	$args = add_app_only_restricton($args);
 
 	return new \WP_Query( $args );
 }
@@ -390,6 +438,7 @@ function get_show_featured_query() {
 		'orderby'             => 'post__in',
 		'ignore_sticky_posts' => true,
 	);
+	$args = add_app_only_restricton($args);
 
 	$query = new \WP_Query( $args );
 
@@ -407,6 +456,7 @@ function get_show_favorites_query() {
 	);
 
 	$query = new \WP_Query( $args );
+	$args = add_app_only_restricton($args);
 
 	return $query;
 }
@@ -508,6 +558,7 @@ function get_show_main_query( $per_page = 10 ) {
 			)
 		),
 	);
+	$show_args = add_app_only_restricton( $show_args );
 
 	add_filter( 'posts_where', '\GreaterMedia\Shows\adjust_show_main_query' );
 	$show_query = new \WP_Query( $show_args );
@@ -523,8 +574,15 @@ function adjust_show_main_query( $where ) {
 	if ( class_exists( '\GMP_CPT' ) ) {
 		$podcasts = get_show_podcast_ids();
 		if ( ! empty( $podcasts ) ) {
+			$app_only = "";
+			if ( ! ee_is_common_mobile_show() ) {
+				$app_only = sprintf(
+					" AND ( ( wp_15_postmeta.meta_key = '_is_app_only' AND wp_15_postmeta.meta_value != '1' ) OR mt1.post_id IS NULL ) ",
+					$wpdb->postmeta
+				);
+			}
 			$where = sprintf(
-				" AND ((1 = 1%1\$s) OR (%2\$s.post_type = '%3\$s' AND %2\$s.post_parent IN (%4\$s) AND (%2\$s.post_status = 'publish')))",
+				" AND ((1 = 1%1\$s) OR (%2\$s.post_type = '%3\$s' AND %2\$s.post_parent IN (%4\$s) AND (%2\$s.post_status = 'publish')$app_only))",
 				$where,
 				$wpdb->posts,
 				\GMP_CPT::EPISODE_POST_TYPE,
