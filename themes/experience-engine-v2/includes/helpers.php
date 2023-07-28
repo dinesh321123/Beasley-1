@@ -112,6 +112,10 @@ if ( ! function_exists( 'ee_update_archive_title' ) ) :
 			$title = 'Events';
 		}
 
+		if ( is_post_type_archive( 'affiliate_marketing' ) ) {
+			$title = 'Must Haves';
+		}
+
 		$parts = explode( ':', $title, 2 );
 		return array_pop( $parts );
 	}
