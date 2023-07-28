@@ -24,22 +24,14 @@ class GeneralSettingsFrontRendering {
 	 * Callback function for handling the AJAX request
 	 */
 	public static function get_image_attribution_callback() {
-		// Retrieve the post ID from the AJAX request
-		$post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-	  
-		// Perform necessary checks and validations on the post ID
-		if ($post_id <= 0 || !is_numeric($post_id) || !get_post($post_id)) {
-		  wp_send_json(array('attribution' => ''));
+		// Prepare the response
+		$response = array( 'attribution' => '' );
+		$image_attribution = isset($_POST['image_attribution']) ? $_POST['image_attribution'] : "";
+
+		if( $image_attribution ) {
+			$response = array( 'attribution' => $image_attribution );
 		}
 
-		// Retrieve the desired post meta using get_post_meta
-		$attribution = get_post_meta($post_id, 'gmr_image_attribution', true);
-	  
-		// Prepare the response
-		$response = array(
-		  'attribution' => $attribution
-		);
-	  
 		// Return the response as JSON
 		wp_send_json($response);
 	}
