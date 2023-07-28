@@ -22,9 +22,12 @@
 				return {
 					slotID: s.getSlotElementId(),
 					slotName: s.getAdUnitPath(),
-					sizes: s.getSizes().map(size => [size.width, size.height]),
+					sizes: s.getSizes()
+						   .map(size => [size.width, size.height])
+						   .filter(mappedSize => mappedSize && mappedSize.length == 2 && mappedSize[0] <= window.screen.width),
 				};
-			});
+			})
+			.filter(mappedSlot => mappedSlot.sizes && mappedSlot.sizes.length > 0);
 		return retval;
 	};
 
