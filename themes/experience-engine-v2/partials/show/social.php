@@ -15,7 +15,7 @@ if ( ! $facebook_url && ! $twitter_url && ! $instagram_url && ! $google_url ) :
 endif;
 
 ?><div class="social">
-	<p>Social</p>
+
 	<?php if ( $facebook_url ) : ?>
 		<a href="<?php echo esc_url( $facebook_url ); ?>" target="_blank" rel="noopener" aria-label="Visit this show's Facebook page">
 			<svg xmlns="http://www.w3.org/2000/svg" width="8" height="17">

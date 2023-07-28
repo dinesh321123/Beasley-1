@@ -15,7 +15,7 @@ the_post();
 			</header>
 		<?php endif; ?>
 		<div class="content-wrap">
-			<?php get_template_part( 'partials/show/header' ); ?>
+			<?php get_template_part( 'partials/show/custom-header' ); ?>
 		</div>
 	<?php endif; ?>
 	<header class="post-info">
