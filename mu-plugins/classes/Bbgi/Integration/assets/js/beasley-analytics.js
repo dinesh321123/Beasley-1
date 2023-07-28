@@ -29,7 +29,7 @@ class BeasleyAnalytics {
 		return {
 			isDevelopmentMode: true,
 			logLevel: "verbose",
-			dataPlan: {planId: "beasley_web", "planVersion": 1},
+			dataPlan: {planId: "beasley_web", "planVersion": 3},
 			v1SecureServiceUrl: "mparticle.bbgi.com/webevents/v1/JS/",
 			v2SecureServiceUrl: "mparticle.bbgi.com/webevents/v2/JS/",
 			v3SecureServiceUrl: "mparticle.bbgi.com/webevents/v3/JS/",
@@ -48,7 +48,7 @@ class BeasleyAnalytics {
 		return {
 			isDevelopmentMode: false,
 			logLevel: "verbose",
-			dataPlan: {planId: "beasley_web", "planVersion": 1},
+			dataPlan: {planId: "beasley_web", "planVersion": 3},
 			v1SecureServiceUrl: "mparticle.bbgi.com/webevents/v1/JS/",
 			v2SecureServiceUrl: "mparticle.bbgi.com/webevents/v2/JS/",
 			v3SecureServiceUrl: "mparticle.bbgi.com/webevents/v3/JS/",
@@ -72,17 +72,16 @@ class BeasleyAnalytics {
 
 		const retval = isDevEnvironment ? BeasleyAnalytics.getMParticleDevConfig() : BeasleyAnalytics.getMParticleProdConfig();
 
-		// 2023-06-23 Disable mParticle Identify For Initial Prod Release
-		// If Firebase User Exists, Add mParticle identifyRequest
-		// if (firebase?.auth().currentUser) {
-		// 	console.log(`Augmenting mParticle Configuration with Firebase User: ${firebase.auth().currentUser.email}`);
-		// 	retval.identifyRequest = {
-		// 		userIdentities: {
-		// 			email: firebase.auth().currentUser.email,
-		// 			customerid: firebase.auth().currentUser.email,
-		// 		}
-		// 	};
-		// }
+		// If window.firebase User Exists, Add mParticle identifyRequest
+		if (window.firebase?.auth().currentUser) {
+			console.log(`Augmenting mParticle Configuration with window.firebase User: ${window.firebase.auth().currentUser.email}`);
+			retval.identifyRequest = {
+				userIdentities: {
+					customerid: window.firebase.auth().currentUser.uid,
+					email: window.firebase.auth().currentUser.email,
+				}
+			};
+		}
 
 		return retval;
 	}

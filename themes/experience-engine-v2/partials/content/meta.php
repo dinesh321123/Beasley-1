@@ -27,11 +27,22 @@
 
 			<span class="author-meta-name">
 				<?php
-					if($secondary_author_name) {
-							echo "<span style='color:rgba(68, 68, 68, 0.6);'>By </span>".$primary_author_name." <span style='color:rgba(68, 68, 68, 0.6);'> and </span> ".$secondary_author_name;
-					} else {
-						the_author_meta( 'display_name', $primary_author);
-					}
+					if($secondary_author_name) { ?>
+						<span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+						<a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+							<?php echo $primary_author_name; ?>
+						</a>
+						<span style='color:rgba(68, 68, 68, 0.6);'> and </span>
+						<a href="<?php echo esc_url( home_url( '/authors/'.$secondary_author ) ); ?>" title="<?php echo $secondary_author_name; ?>" >
+							<?php echo $secondary_author_name; ?>
+						</a>
+					<?php } else { ?>
+						<!-- // the_author_meta( 'display_name', $primary_author); -->
+						<span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+						<a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+							<?php echo $primary_author_name; ?>
+						</a>
+					<?php }
 				?>
 			</span>
 		<?php endif; ?>

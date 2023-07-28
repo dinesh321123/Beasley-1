@@ -106,7 +106,7 @@ export const logPrebidTargeting = unitId => {
 	return retval;
 };
 
-const HEADER_BID_TIMEOUT = 2000;
+const HEADER_BID_TIMEOUT = 1500;
 const headerBidFlags = {
 	amazonUAMAccountedFor: false,
 	prebidAccountedFor: false,

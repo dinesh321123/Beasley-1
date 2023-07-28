@@ -1,11 +1,11 @@
 window.mParticleSchema = {
-	"version": 1,
+	"version": 3,
 	"data_plan_id": "beasley_web",
 	"version_description": "",
 	"activated_environment": "development",
-	"created_on": "2023-05-11T17:09:53.597",
+	"created_on": "2023-07-06T12:47:48.57",
 	"created_by": "mike.persico@bbgi.com",
-	"last_modified_on": "2023-06-23T17:10:24.19",
+	"last_modified_on": "2023-07-06T15:12:51.987",
 	"last_modified_by": "mike.persico@bbgi.com",
 	"version_document": {
 		"data_points": [
@@ -2531,7 +2531,8 @@ window.mParticleSchema = {
 								"type": "string"
 							}
 						},
-						"required": []
+						"required": [],
+						"type": "object"
 					}
 				}
 			},

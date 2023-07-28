@@ -1,3 +1,81 @@
+document.addEventListener('DOMContentLoaded', () => {
+	// Find all elements with class "media-image-with-attr"
+	let mediaImages = document.querySelectorAll(".media-image-with-attr");
+  
+	// Function to retrieve image attribution
+	async function getImageAttribution(image) {
+	  if (!image.hasAttribute("data-media-image")) {
+		return;
+	  }
+
+	  // Mapping object for class names to float classes
+	  const floatClassMap = {
+		alignright: "media-right-align",
+		alignleft: "media-left-align",
+		aligncenter: "media-center-align",
+		alignnone: "media-none-align"
+	  };
+
+	  // Convert classList to an array
+	  const classList = Array.from(image.classList);
+
+	  // Find the matching float class from the classList
+	  const float = classList.find(className => floatClassMap.hasOwnProperty(className));
+
+	  try {
+		// Create form data with action and post_id
+		let data = new FormData();
+		data.append('action', 'get_image_attribution');
+		data.append('post_id', image.dataset.mediaImage); // Use the appropriate attribute containing the post ID
+  
+		// Send AJAX request to fetch image attribution
+		let response = await fetch(my_ajax_object.ajaxurl, {
+		  method: 'POST',
+		  body: data
+		});
+  
+		// Parse the JSON response
+		let json = await response.json();
+  
+		if (json.attribution) {
+		  // Create container div for image and attribution
+		  const containerDiv = document.createElement("div");
+		  containerDiv.className = "media-image-with-attr-container";
+ 
+		  // Add the float class to the containerDiv
+		  // If float is undefined or doesn't have a corresponding float class, add an empty string
+		  if(floatClassMap[float]) {
+			containerDiv.classList.add(floatClassMap[float]);
+		  }
+  
+		  // Create div for attribution text
+		  const attributionDiv = document.createElement("div");
+		  attributionDiv.className = "media-image-attr";
+		  attributionDiv.innerHTML = json.attribution;
+  
+		  // Clone the image element
+		  const clonedImage = image.cloneNode(true);
+  
+		  // Append cloned image and attribution div to container div
+		  containerDiv.appendChild(clonedImage);
+		  containerDiv.appendChild(attributionDiv);
+  
+		  // Replace the original image with the container div
+		  image.parentNode.replaceChild(containerDiv, image);
+		}
+	  } catch (error) {
+		console.error('Error:', error);
+	  }
+	}
+  
+	if (mediaImages.length > 0) {
+	  // Iterate over each image element
+	  mediaImages.forEach(async (image) => {
+		await getImageAttribution(image);
+	  });
+	}
+});  
+
 function scrollToSegmentation(type, item, heading_item = null) {
 	var gotoID = null;
 	var pagiStyleHeight = 0;

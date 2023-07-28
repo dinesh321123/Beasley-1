@@ -22,7 +22,7 @@ class ExistingGallerySelection {
 
 	public static function enqueue_scripts(){
 		global $typenow, $pagenow;
-		$post_types = array( 'post' );
+		$post_types = array( 'post', 'contest' );
 		if ( in_array( $typenow, $post_types ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			wp_register_style('existing-gallery-selection-admin', GALLERY_SELECTION_URL . "assets/css/gallery_selection.css", array(), GALLERY_SELECTION_VERSION, 'all');
 			wp_enqueue_style('existing-gallery-selection-admin');
