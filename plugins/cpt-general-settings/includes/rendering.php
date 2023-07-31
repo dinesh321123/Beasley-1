@@ -74,12 +74,18 @@ class GeneralSettingsFrontRendering {
 		
 		global $wp;
 		$author_string = $wp->query_vars['author_name'];
-		// var_dump($author_string);
-		// var_dump(!is_feed());
+
+		echo '<script>console.log("'.$author_string.'");</script>';
+
 		if($author_string != ''){
+			echo '<script>console.log("author_string inner");</script>';
+
 			if(!is_feed()){
 				$author = get_user_by('slug', $author_string);
-				// var_dump(!$author);
+				echo '<script>console.log("'.$author.'");</script>';
+				
+				//print_r($author);
+
 				if(!$author){
 					// ee_404_page_redirect();
 					global $wp_query;
