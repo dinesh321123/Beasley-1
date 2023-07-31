@@ -10,7 +10,7 @@ class GeneralSettingsFrontRendering {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
 		
-		add_action('wp', array( __CLASS__,'custom_author_check_function' ) );
+		add_action('init', array( __CLASS__,'custom_author_check_function' ) );
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 		add_filter( 'body_class', array( __CLASS__, 'category_archive_class' )  );
 		add_action('wp_head',  array( __CLASS__,'pushly_notification_script' ) );
@@ -72,36 +72,44 @@ class GeneralSettingsFrontRendering {
 	}
 
 	public static function custom_author_check_function() {
+		
+
 		global $wp;
 		$author_string = $wp->query_vars['author_name'];
-		echo '<script>console.log("'.$author_string.'","author_string var");</script>';
-		if ($author_string != '') {
-			echo '<script>console.log("'.$author_string.'","author_string inner");</script>';
-			echo '<script>console.log("'.is_feed().'","is feed");</script>';
-			if (!is_feed()) {
-				$author = get_user_by('slug', $author_string);
-				echo '<script>console.log("'.$author.'","author data");</script>';
-				if (!$author) {
-					echo '<script>console.log("'.$author.'","author data inner");</script>';
-					echo 'test';
-					// wp_die( __('No feed available,please visit our <a href=" ' . get_bloginfo('url') . '">homepage<a/>!') );
-				}else{
-					echo 'is_author else';
-				}
-			}else{
-				echo 'is_feed else';
-			}
-		}else{
-			echo '<script>console.log("author_string else");</script>';
-		}
+		var_dump($author_string);
 
-		if (!$author_string) {
-			echo '<script>console.log("other if");</script>';
-		}
+		echo $url_path = trim($_SERVER['REQUEST_URI']).'               --  ';
+		echo $template_file = get_404_template().'               --  ';
+		echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
+
+		var_dump(is_feed());
+		// exit();
+
+		// if (preg_match('/\/author\/([^\/]+)/', $url_path, $matches)) {
+		// 	$author_name = $matches[1];
+		// 	$author = get_user_by('slug', $author_name);
+		// 	if (!$author) {
+		// 		if (strpos($url_path, '/feed') !== false || is_feed()) {
+		// 			wp_safe_redirect($redirect_url);
+		// 		}
+		// 	}
+		// }
+
+
+
+
 
 	}
 
 	public static function  show_404_for_disabled_feeds() {
+
+		echo $url_path = trim($_SERVER['REQUEST_URI']).'               --  ';
+		echo $template_file = get_404_template().'               --  ';
+		echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
+
+		var_dump(is_feed());
+		// exit();
+
 		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
 			ee_404_page_redirect();
 		}
