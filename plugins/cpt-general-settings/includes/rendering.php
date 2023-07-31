@@ -10,7 +10,7 @@ class GeneralSettingsFrontRendering {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
 		
-		add_action('init', array( __CLASS__,'custom_author_check_function' ) );
+		add_filter('request', array( __CLASS__,'custom_author_check_function' ) );
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 		add_filter( 'body_class', array( __CLASS__, 'category_archive_class' )  );
 		add_action('wp_head',  array( __CLASS__,'pushly_notification_script' ) );
@@ -79,8 +79,19 @@ class GeneralSettingsFrontRendering {
 		return $parsely_metadata;
 	}
 
-	public static function custom_author_check_function() {
+	public static function custom_author_check_function($request) {
 		
+		if( isset( $request['feed'] ) ){
+			//This is a feed request
+			if($request['author_name'] != ''){
+				$author = get_user_by('slug', $request['author_name']);
+				if (!$author) {
+					echo 'test';
+					var_dump($author);
+				}
+			}
+		}
+		return $request;
 
 		// global $wp;
 		// $author_string = $wp->query_vars['author_name'];
@@ -103,10 +114,6 @@ class GeneralSettingsFrontRendering {
 		// 	}
 		// }
 
-
-
-
-
 	}
 
 	public static function  show_404_for_disabled_feeds() {
@@ -115,7 +122,7 @@ class GeneralSettingsFrontRendering {
 		// echo $template_file = get_404_template().'               --  ';
 		// echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
 
-		// var_dump(is_feed());
+		// var_dump(is_author());
 		// exit();
 
 		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
