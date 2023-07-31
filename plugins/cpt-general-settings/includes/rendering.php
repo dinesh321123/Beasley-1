@@ -74,15 +74,15 @@ class GeneralSettingsFrontRendering {
 	public static function custom_author_check_function() {
 		
 
-		global $wp;
-		$author_string = $wp->query_vars['author_name'];
-		var_dump($author_string);
+		// global $wp;
+		// $author_string = $wp->query_vars['author_name'];
+		// var_dump($author_string);
 
-		echo $url_path = trim($_SERVER['REQUEST_URI']).'               --  ';
-		echo $template_file = get_404_template().'               --  ';
-		echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
+		// echo $url_path = trim($_SERVER['REQUEST_URI']).'               --  ';
+		// echo $template_file = get_404_template().'               --  ';
+		// echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
 
-		var_dump(is_feed());
+		// var_dump(is_feed());
 		// exit();
 
 		// if (preg_match('/\/author\/([^\/]+)/', $url_path, $matches)) {
@@ -103,11 +103,11 @@ class GeneralSettingsFrontRendering {
 
 	public static function  show_404_for_disabled_feeds() {
 
-		echo $url_path = trim($_SERVER['REQUEST_URI']).'               --  ';
-		echo $template_file = get_404_template().'               --  ';
-		echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
+		// echo $url_path = trim($_SERVER['REQUEST_URI']).'               --  ';
+		// echo $template_file = get_404_template().'               --  ';
+		// echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
 
-		var_dump(is_feed());
+		// var_dump(is_feed());
 		// exit();
 
 		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
