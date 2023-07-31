@@ -82,12 +82,22 @@ class GeneralSettingsFrontRendering {
 	public static function custom_author_check_function() {
 		global $wp;
 		$author_string = $wp->query_vars['author_name'];
+		echo '<script>console.log("'.$author_string.'","author_string var");</script>';
 		if ($author_string != '') {
+			echo '<script>console.log("'.$author_string.'","author_string inner");</script>';
+			echo '<script>console.log("'.is_feed().'","is feed");</script>';
 			if (!is_feed()) {
 				$author = get_user_by('slug', $author_string);
+				echo '<script>console.log("'.$author.'","author data");</script>';
 				if (!$author) {
-					wp_die( __('No feed available,please visit our <a href=" ' . get_bloginfo('url') . '">homepage<a/>!') );
+					echo '<script>console.log("'.$author.'","author data inner");</script>';
+					echo 'test';
+					// wp_die( __('No feed available,please visit our <a href=" ' . get_bloginfo('url') . '">homepage<a/>!') );
+				}else{
+					echo 'is_author else';
 				}
+			}else{
+				echo 'is_feed else';
 			}
 		}
 	}
