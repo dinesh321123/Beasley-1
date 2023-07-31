@@ -27,7 +27,9 @@ endif;
                 <?php endif; ?>
             </div>
         </div>
-        <?php get_template_part( 'partials/show/social' ); ?>  
+        <div class="social-container">
+            <?php get_template_part( 'partials/show/social' ); ?>  
+        </div>
     </div>
 	  
 </div>

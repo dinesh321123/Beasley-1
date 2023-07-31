@@ -9,6 +9,7 @@ endif;
 		wp_nav_menu( array(
 			'menu'      => \GreaterMedia\Shows\assigned_custom_menu_id( $show->ID ),
 			'container' => false,
+			'menu_class'  => 'cnavigation', 
 		) );
 	else :
 		// disables expand redirects functionality
