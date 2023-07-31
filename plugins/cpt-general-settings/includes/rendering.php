@@ -9,7 +9,8 @@ class GeneralSettingsFrontRendering {
 		// Register scripts
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
-
+		
+		// add_action('do_feed_rss2', array( __CLASS__,'custom_author_check_function' ) );
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 		add_filter( 'body_class', array( __CLASS__, 'category_archive_class' )  );
 		add_action('wp_head',  array( __CLASS__,'pushly_notification_script' ) );
@@ -78,29 +79,45 @@ class GeneralSettingsFrontRendering {
 		return $parsely_metadata;
 	}
 
+	// public static function custom_author_check_function() {
+	// 	global $wp;
+	
+	// 	$author_string = $wp->query_vars['author_name'];
+	// 	var_dump($author_string);
+	// 	die();
+	// 	// echo '<script>console.log("' . $author_string . '");</script>';
+	
+	// 	// if ($author_string != '') {
+	// 	// 	echo '<script>console.log("author_string inner");</script>';
+	
+	// 	// 	if (!is_feed()) {
+	// 	// 		$author = get_user_by('slug', $author_string);
+	// 	// 		echo '<script>console.log("' . $author . '");</script>';
+	
+	// 	// 		//print_r($author);
+	
+	// 	// 		if (!$author) {
+	// 	// 			global $wp_query;
+	// 	// 			$wp_query->set_404();
+	// 	// 			status_header(404);
+	// 	// 			include(get_404_template());
+	// 	// 			exit;
+	// 	// 		}
+	// 	// 	}
+	// 	// }
+	// }
+
 	public static function  show_404_for_disabled_feeds() {
 		
 		global $wp;
 		$author_string = $wp->query_vars['author_name'];
 
-		echo '<script>console.log("'.$author_string.'");</script>';
-
 		if($author_string != ''){
-			echo '<script>console.log("author_string inner");</script>';
 
 			if(!is_feed()){
 				$author = get_user_by('slug', $author_string);
-				echo '<script>console.log("'.$author.'");</script>';
-				
-				//print_r($author);
-
 				if(!$author){
-					// ee_404_page_redirect();
-					global $wp_query;
-					$wp_query->set_404();
-					status_header(404);
-					include(get_404_template());
-					exit;
+					wp_die( __('No feed available,please visit our <a href=" ' . get_bloginfo('url') . '">homepage<a/>!') );
 				}
 			}
 		}
