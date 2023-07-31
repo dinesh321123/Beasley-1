@@ -78,8 +78,9 @@ class GeneralSettingsFrontRendering {
 			if($request['author_name'] != ''){
 				$author = get_user_by('slug', $request['author_name']);
 				if (!$author) {
-					echo 'test';
-					var_dump($author);
+					// echo 'test';
+					// var_dump($author);
+					ee_404_page_redirect();
 				}
 			}
 		}
