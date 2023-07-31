@@ -48,8 +48,7 @@
                 }
 
 
-                & h2 {
-                    font-size: 12px;
+                & h2 {                   
                     text-transform: uppercase;
                     color: #2c2e35;
                     font-weight: 800;
@@ -61,11 +60,7 @@
                     }
 
                     @media (--max-xmedium-viewport) {
-                        font-size: 9px;
                         width: 100%;
-                    }
-                    @media (--max-small-viewport) {
-                        font-size: 8px;                       
                     }
                    
                     }
@@ -78,11 +73,7 @@
                     text-align: center;
                     margin-top: 0px;
                     margin-left: 5px;
-                    @media (--max-xmedium-viewport) {
-                        font-size: 9px;
-                    }
                     @media (--max-small-viewport) {
-                        font-size: 8px;   
                         margin-left: 0px;                        
                     }
                    
