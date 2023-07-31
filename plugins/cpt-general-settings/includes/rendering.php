@@ -91,7 +91,14 @@ class GeneralSettingsFrontRendering {
 			}else{
 				echo 'is_feed else';
 			}
+		}else{
+			echo '<script>console.log("author_string else");</script>';
 		}
+
+		if (!$author_string) {
+			echo '<script>console.log("other if");</script>';
+		}
+
 	}
 
 	public static function  show_404_for_disabled_feeds() {
