@@ -105,9 +105,9 @@ class NewsletterSignupForm {
                             $html .= '<button class="nsf-form-submit" type="submit">Subscribe</button>';
                         $html .= '</div>';
                     $html .= '</form>';
-                    $html .= '<p class="nsf-checkbox-container"><input type="checkbox" class="nsf-checkbox-content" id="nsf-checkbox-content" name="nsf_checkbox_content"> '.$nsf_checkbox_content.'</p>';
+                    $html .= '<div class="nsf-checkbox-container"><input type="checkbox" class="nsf-checkbox-content" id="nsf-checkbox-content" name="nsf_checkbox_content"> '.$nsf_checkbox_content.'</div>';
                     $html .= '<div class="nsf-spinner"><div class="spinner"></div></div>';
-                    $html .= '<p class="response-error-container" style="font-size:14px;"></p>';
+                    $html .= '<div class="response-error-container" style="font-size:14px;"></div>';
                 $html .= '</div>';
             $html .= '</div>';
             $nsf_output_hide = true;
