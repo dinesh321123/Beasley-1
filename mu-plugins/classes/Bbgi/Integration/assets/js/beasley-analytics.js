@@ -157,6 +157,13 @@ class BeasleyAnalytics {
 		}
 	}
 
+	setMParticleAppBoyForwarderForDOB() {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			provider.setAppBoyForwarderForDOB.apply(provider, arguments);
+		}
+	}
+
 	setMParticleUserAttributeArray(userEmailAddress, emailIsMaskedMParticleVal, userAttributeArray) {
 		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
@@ -1002,7 +1009,33 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		userAttributeArray.forEach(attr =>  this.initializeUserAttribute(mParticleUser, attr.attributeName, attr.attributeValue));
 	}
 
+	appboyWasSetForDOB = false;
+
+	setAppBoyForwarderForDOB() {
+		const appBoyForwarder = mParticle?.Store?.activeForwarders?.find(forwarderItem => forwarderItem.name === 'Appboy');
+		if (appBoyForwarder && !this.appboyWasSetForDOB) {
+			this.appboyWasSetForDOB = true;
+			const funcCopy = appBoyForwarder.setUserAttribute
+
+			const newFunc = (key, value) => {
+				if (key === 'dob' && !(value instanceof Date)) {
+					console.log(`Creating Braze DOB object for string '${value.toString()}'`);
+					// ASSUME value is a string in YYYY-MM-DD format
+					value = new Date(value);
+				}
+				funcCopy(key, value);
+			}
+			appBoyForwarder.setUserAttribute = newFunc;
+		}
+	}
+
+	/*
+	Set an array of {attributeName: 'name', attributeValue: 'val'} objects.
+	Complexity arose when we mask emails in UI. For this case we set the emailIsMaskedMParticleVal flag.
+	 */
 	setMParticleUserAttributeArray(userEmailAddress, emailIsMaskedMParticleVal, userAttributeArray) {
+		this.setAppBoyForwarderForDOB();
+
 		// Get Logged In mParticle User If Exists
 		let mParticleUser;
 		let mParticleUserIdentities;

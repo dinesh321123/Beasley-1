@@ -16,6 +16,7 @@ export const setMParticleUserAtributes = (
 	if (window.firebase?.auth().currentUser) {
 		const loginCallbackFunc = () => {
 			const currentUser = mParticle.Identity.getCurrentUser();
+			window.beasleyanalytics.setMParticleAppBoyForwarderForDOB();
 			currentUser.setUserAttribute('$firstname', firstname);
 			currentUser.setUserAttribute('$lastname', lastname);
 			currentUser.setUserAttribute('$zip', zip);
