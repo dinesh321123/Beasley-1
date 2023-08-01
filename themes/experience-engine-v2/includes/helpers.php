@@ -662,22 +662,3 @@ if ( ! function_exists( 'ee_parse_shortcode_atts' ) ) :
 		return $attributes;
 	}
 endif;
-
-if ( ! function_exists( 'ee_404_page_redirect' ) ) :
-	function ee_404_page_redirect() {
-			
-		// global $wp_query;
-		// $wp_query->set_404();	// Mark the current query as a 404
-		// status_header(404);	// Return 404 HTTP status code instead of the default 200
-		// header('Content-Type: text/html; charset=utf-8');	// By default, this page returns XML, so we change the Content-Type header // Because we want to show a 404 page
-		// get_template_part( 404 );	// Render the 404 template
-		// exit();	// You should exit from the script after that
-
-		global $wp_query;
-		$wp_query->set_404();
-		status_header(404);
-		include(get_404_template());
-		exit;
-
-	}
-endif;

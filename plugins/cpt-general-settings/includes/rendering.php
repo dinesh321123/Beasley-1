@@ -10,7 +10,6 @@ class GeneralSettingsFrontRendering {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
 		
-		add_filter('request', array( __CLASS__,'custom_author_check_function' ) );
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 		add_filter( 'body_class', array( __CLASS__, 'category_archive_class' )  );
 		add_action('wp_head',  array( __CLASS__,'pushly_notification_script' ) );
@@ -79,55 +78,15 @@ class GeneralSettingsFrontRendering {
 		return $parsely_metadata;
 	}
 
-	public static function custom_author_check_function($request) {
-		
-		if( isset( $request['feed'] ) ){
-			//This is a feed request
-			if($request['author_name'] != ''){
-				$author = get_user_by('slug', $request['author_name']);
-				if (!$author) {
-					// echo 'test';
-					// var_dump($author);
-					ee_404_page_redirect();
-				}
-			}
-		}
-		return $request;
-
-		// global $wp;
-		// $author_string = $wp->query_vars['author_name'];
-		// var_dump($author_string);
-
-		// echo $url_path = trim($_SERVER['REQUEST_URI']).'               --  ';
-		// echo $template_file = get_404_template().'               --  ';
-		// echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
-
-		// var_dump(is_feed());
-		// exit();
-
-		// if (preg_match('/\/author\/([^\/]+)/', $url_path, $matches)) {
-		// 	$author_name = $matches[1];
-		// 	$author = get_user_by('slug', $author_name);
-		// 	if (!$author) {
-		// 		if (strpos($url_path, '/feed') !== false || is_feed()) {
-		// 			wp_safe_redirect($redirect_url);
-		// 		}
-		// 	}
-		// }
-
-	}
-
 	public static function  show_404_for_disabled_feeds() {
-
-		// echo $url_path = trim($_SERVER['REQUEST_URI']).'               --  ';
-		// echo $template_file = get_404_template().'               --  ';
-		// echo $redirect_url = home_url() . '/' . str_replace( ABSPATH, '', $template_file );
-
-		// var_dump(is_author());
-		// exit();
-
 		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
-			ee_404_page_redirect();
+			global $wp_query;
+
+			$wp_query->set_404();	// Mark the current query as a 404
+			status_header(404);	// Return 404 HTTP status code instead of the default 200
+			header('Content-Type: text/html; charset=utf-8');	// By default, this page returns XML, so we change the Content-Type header // Because we want to show a 404 page
+			get_template_part( 404 );	// Render the 404 template
+			exit();	// You should exit from the script after that
 		}
 	}
 
