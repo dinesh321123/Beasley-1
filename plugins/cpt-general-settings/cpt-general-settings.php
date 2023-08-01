@@ -36,6 +36,9 @@ include __DIR__ . '/includes/shutdown-elasticsearch-log.php';
 
 include __DIR__ . '/includes/bbgi-station-settings.php';
 
+// Includes the capability.php file, which contains additional code related to custom capabilities.
+include __DIR__ . '/includes/capability.php';
+
 /* Include the trending-article.php file for the trending article shortcode functionality. */
 include __DIR__ . '/includes/trending-article.php';
 include __DIR__ . '/includes/more-menu.php';

@@ -10,11 +10,7 @@ import {
 	fetchPage,
 	fetchFeedsContent,
 } from '../redux/actions/screen';
-import {
-	firebaseAuth,
-	getBeasleyCanonicalUrl,
-	untrailingslashit,
-} from '../library';
+import { getBeasleyCanonicalUrl } from '../library';
 
 const specialPages = ['/wp-admin/', '/wp-signup.php', '/wp-login.php'];
 
@@ -217,28 +213,10 @@ class ContentDispatcher extends Component {
 	 * @param {String} url
 	 */
 	loadPage(url, options = {}) {
-		const { fetchPage, fetchFeedsContent } = this.props;
-		const { origin } = window.location;
+		const { fetchPage } = this.props;
 
-		// load user homepage if token is not empty and the next page is the homepage
-		// otherwise just load the next page
-		if (
-			untrailingslashit(origin) === untrailingslashit(url.split(/[?#]/)[0]) &&
-			firebaseAuth.currentUser
-		) {
-			firebaseAuth.currentUser
-				.getIdToken()
-				.then(token => {
-					fetchFeedsContent(token, url, options);
-				})
-				.catch(() => {
-					// fallback to loading regular homepage if fetchFeedsContent fails.
-					fetchPage(url, options);
-				});
-		} else {
-			// if it's a regular internal page (not homepage) just fetch the page as usual.
-			fetchPage(url, options);
-		}
+		// if it's a regular internal page (not homepage) just fetch the page as usual.
+		fetchPage(url, options);
 	}
 
 	render() {
