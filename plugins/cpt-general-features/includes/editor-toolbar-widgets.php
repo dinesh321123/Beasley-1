@@ -41,10 +41,22 @@ class NewsLetterSignup {
 			'1.0.0',
 			true
 		);
+		$logo = get_option('ee_newsletter_logo'); 
+		if(empty($logo)){
+			$logo =  get_option('gmr_site_logo');			
+		}
+		$site_logo = bbgi_get_image_url( $logo, 150, 150, false );
+		$subscription_attributes = get_option('nsf_subscription_attributes'); ;
+		$subscription_id = get_option('nsf_subscription_ID'); ;
+
+
 		wp_localize_script( 'newslettersignup-tinymce-scripts', 'tinyMCE_object_NSF', array(
 			'button_name' => esc_html__('', 'newslettersignup'),
 			'button_title' => esc_html__('Newsletter signup form', 'newslettersignup'),
 			'image' =>GFF_URL.'/assets/image/mail.png',
+			'logo' => $site_logo,
+			'subscription_attributes' => $subscription_attributes,
+			'subscription_id'=>$subscription_id,
 		));
 	}
 
