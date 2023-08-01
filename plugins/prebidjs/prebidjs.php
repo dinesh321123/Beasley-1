@@ -20,7 +20,7 @@ function enqueue_prebid_scripts() {
 	echo "<script type='text/javascript' async src='". $prebidjsurl ."'></script>";
 	$amazon_uam_pubid = get_option( 'amazon_uam_pubid', '' );
 	if ($amazon_uam_pubid != '') {
-		$amazonuamurl = plugins_url( '/beasleyAmazonUAM1.0.9.js', __FILE__ );
+		$amazonuamurl = plugins_url( '/beasleyAmazonUAM1.0.10.js', __FILE__ );
 		echo "<script type='text/javascript' async src='". $amazonuamurl ."'></script>";
 	}
 }
