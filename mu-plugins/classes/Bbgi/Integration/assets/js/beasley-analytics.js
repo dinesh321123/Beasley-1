@@ -1019,9 +1019,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 			const newFunc = (key, value) => {
 				if (key === 'dob' && !(value instanceof Date)) {
-					console.log(`Creating Braze DOB object for string '${value.toString()}'`);
 					// ASSUME value is a string in YYYY-MM-DD format
-					value = new Date(value);
+					value = new Date(`${value}T00:00:00`);
 				}
 				funcCopy(key, value);
 			}
