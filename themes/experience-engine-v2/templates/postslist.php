@@ -21,7 +21,7 @@ if($author_id == '' || !$user_data){
 }else{
 
 	echo '<div class="', join( ' ', get_post_class() ), '">'; ?>
-
+	<?php if ( ee_is_first_page() ): ?>
 		<div class="archive-title content-wrap">
 			<h1>
 				<span>
@@ -31,25 +31,24 @@ if($author_id == '' || !$user_data){
 				</span>
 			</h1>
 		</div>
-
+	<?php endif; ?>
 	<?php
+		$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 		$pre_query = array(
 				'post_type' => array('post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing'),
-				// 'post_author'	=> $author_id, //Author ID
 				'meta_query' => array(
 						'relation' => 'OR',
 						array('key' => 'primary_author_cpt','value' => $author_id,'compare' => '=',),
 						array('key' => 'secondary_author_cpt','value' => $author_id,'compare' => '=',),
 						),
 				'post_status' => 'publish',
-				'paged' => get_query_var( 'paged' ),
-				'posts_per_page'=> '16',
+				'paged' => $paged,
+				'posts_per_page'=> 16,
 				'search_author_id' => $author_id
 		);
 		add_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
 		$author_query = new WP_Query( $pre_query );
 		remove_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
-		// echo "<pre>", print_r($author_query->request), "</pre>";
 		if ( $author_query->have_posts() ) {
 			echo '<div class="archive-tiles content-wrap -grid -large">';
 			while ( $author_query->have_posts() ) {
