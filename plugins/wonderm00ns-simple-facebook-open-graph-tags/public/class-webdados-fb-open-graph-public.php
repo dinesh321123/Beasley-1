@@ -284,7 +284,9 @@ class Webdados_FB_Public {
 						$debug[] = 'is_category';
 						$fb_title = wp_strip_all_tags( stripslashes( single_cat_title( '', false ) ), true );
 						$term = $wp_query->get_queried_object();
-						$fb_url = get_term_link( $term, $term->taxonomy );
+						if($term){
+							$fb_url = get_term_link( $term, $term->taxonomy );
+						}
 						$cat_desc = trim( wp_strip_all_tags( stripslashes( category_description() ), true ) );
 						if ( trim($cat_desc)!='' ) $fb_desc = $cat_desc;
 					} else {
