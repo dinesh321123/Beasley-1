@@ -60,14 +60,14 @@ class Google extends \Bbgi\Module {
 			'window_utils_enqueue_scripts',
 			plugins_url( 'assets/js/window-utils.js', __FILE__ ),
 			array(),
-			'2.0.54'
+			'2.0.55'
 		);
 
 		wp_enqueue_script(
 			'ga_enqueue_scripts',
 			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
 			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' ),
-			'2.0.54'
+			'2.0.55'
 		);
 	}
 

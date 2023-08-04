@@ -382,9 +382,16 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	getCustomEventTypeValueForEventName(eventName) {
 		const dataPoints = mParticlePlan?.version_document?.data_points;
 		if (dataPoints) {
-			const dataPoint = dataPoints.find( dp =>
+			/* We need to filter because event names are not unique.
+				For instance, there are 2 play events: one of type media and one of type other.
+				This was done in order to share the play event between React pages, which have access to the
+				media library, and Whiz pages which do not.
+				We return first matched event type which means Media events must be above non-media events
+				in the plan.
+			 */
+			const matchingDataPoints = dataPoints.filter( dp =>
 				(dp?.match?.type === 'custom_event' && dp?.match?.criteria?.event_name === eventName));
-			if (dataPoint) {
+			for (const dataPoint of matchingDataPoints) {
 				const dataPointType = dataPoint.match?.criteria?.custom_event_type;
 				if (dataPointType) {
 					const mParticleEventType = Object.entries(window.mParticle.EventType).find( kvpair => kvpair[0].toLowerCase() === dataPointType.toLowerCase());
@@ -392,10 +399,10 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 						return mParticleEventType[1];
 					} else {
 						console.log(`ERROR - could not find an MParticle Custom Event Type matching text - '${dataPointType}'`);
-						return window.mParticle.EventType.Unknown;
 					}
 				}
 			}
+			return window.mParticle.EventType.Unknown;
 		}
 
 		console.log(`Could not find Custom Event Type For MParticle Event - '${eventName}'`);
