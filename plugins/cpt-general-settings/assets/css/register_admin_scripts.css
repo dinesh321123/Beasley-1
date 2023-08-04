@@ -4,4 +4,27 @@
     display: none;
 } 
 
+.settings_page_greatermedia-settings table.form-table {
+    width: 100%;
+    background-color: #FFF;
+    display: block;
+    margin-top:0px;
+}
 
+/* Style table cells */
+.settings_page_greatermedia-settings table.form-table th,
+.settings_page_greatermedia-settings table.form-table td {
+    padding: 20px;
+}
+
+/* Style table headers */
+.settings_page_greatermedia-settings table.form-table th {
+    font-weight: bold;
+}
+
+.settings_page_greatermedia-settings form h2 {
+    border-bottom: 1px solid #CCC;
+    padding: 20px;
+    margin-bottom: 0px;
+    background: #CCC;
+}
