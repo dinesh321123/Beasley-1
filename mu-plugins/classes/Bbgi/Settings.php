@@ -44,11 +44,58 @@ class Settings extends \Bbgi\Module {
 	 * @access public
 	 */
 	public function render_settings_page() {
-		echo '<form action="options.php" method="post" style="max-width:750px;">';
-			settings_fields( self::option_group );
-			do_settings_sections( $this->_settings_page_hook );
-			submit_button( 'Submit' );
-		echo '</form>';
+		
+		$sections = $GLOBALS['wp_settings_sections']['settings_page_greatermedia-settings'];
+		
+		if ($sections) {
+			echo '<h2 class="nav-tab-wrapper station-settings">';
+			foreach ($sections as $section) {
+				echo '<a class="nav-tab" href="#' . $section['id'] . '">' . $section['title'] . '</a>';
+			}
+			echo '</h2>';
+		}
+
+		if ($sections) {
+			echo '<form action="options.php" method="post" style="max-width:750px;">';
+				settings_fields( self::option_group );	
+				foreach ($sections as $section) {
+					echo '<div id="' . $section['id'] . '" class="tab-content">';
+						echo '<h3>' . ucfirst(str_replace('_', ' ', $section['title'])) . '</h3>'; // Display section title
+						// Loop through registered settings fields
+						foreach ($GLOBALS['wp_settings_fields'] as $page => $field_sections) {
+							foreach ($field_sections as $field_section => $fields) {
+								if ($field_section === $section['id']) {
+									echo '<table class="form-table">';
+										do_settings_fields( $this->_settings_page_hook, $section['id'] );
+									echo '</table>';
+								}
+							}
+						}
+					echo '</div>';
+				}
+				submit_button( 'Submit' );
+			echo '</form>';
+		}
+
+		?>
+		<script>
+			jQuery(document).ready(function($) {
+				$('.nav-tab').click(function(event) {
+					event.preventDefault();
+					
+					$('.nav-tab').removeClass('nav-tab-active');
+					$(this).addClass('nav-tab-active');
+					
+					$('.tab-content').hide();
+					$($(this).attr('href')).show();
+				});
+				
+				$('.nav-tab:first').addClass('nav-tab-active');
+				$('.tab-content').hide();
+				$('.tab-content:first').show();
+			});
+		</script>
+		<?php
 	}
 
 	/**
