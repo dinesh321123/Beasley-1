@@ -224,7 +224,7 @@
 		window.beasleyanalytics.setAnalyticsForMParticle('stream_type', 'OnDemand');
 		window.beasleyanalytics.setAnalyticsForMParticle('is_primary_stream', true);
 		window.beasleyanalytics.setAnalyticsForMParticle('content_id', videoId);
-		window.beasleyanalytics.setAnalyticsForMParticle('show_name', Vimeo);
+		window.beasleyanalytics.setAnalyticsForMParticle('show_name', 'Vimeo');
 		window.beasleyanalytics.setAnalyticsForMParticle('content_duration', videoDuration);
 
 		window.beasleyanalytics.sendMParticleEvent(
