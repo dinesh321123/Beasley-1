@@ -185,3 +185,13 @@
 		}
 	}
 }
+.listicle-embed-description {
+	& .wp-caption {
+		width: 100% !important;
+	}
+}
+.listicle-main-ul-item{
+	& .wp-caption {    
+		width: 100% !important;
+	}
+}
