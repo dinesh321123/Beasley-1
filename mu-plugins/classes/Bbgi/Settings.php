@@ -49,6 +49,7 @@ class Settings extends \Bbgi\Module {
 		
 		if ($sections) {
 			echo '<h2 class="nav-tab-wrapper station-settings">';
+			echo '<a class="nav-tab" href="#all">All Settings</a>';
 			foreach ($sections as $section) {
 				echo '<a class="nav-tab" href="#' . $section['id'] . '">' . $section['title'] . '</a>';
 			}
@@ -60,7 +61,7 @@ class Settings extends \Bbgi\Module {
 				settings_fields( self::option_group );	
 				foreach ($sections as $section) {
 					echo '<div id="' . $section['id'] . '" class="tab-content">';
-						echo '<h3>' . ucfirst(str_replace('_', ' ', $section['title'])) . '</h3>'; // Display section title
+						echo '<h2>' . ucfirst(str_replace('_', ' ', $section['title'])) . '</h2>'; // Display section title
 						// Loop through registered settings fields
 						foreach ($GLOBALS['wp_settings_fields'] as $page => $field_sections) {
 							foreach ($field_sections as $field_section => $fields) {
@@ -77,25 +78,6 @@ class Settings extends \Bbgi\Module {
 			echo '</form>';
 		}
 
-		?>
-		<script>
-			jQuery(document).ready(function($) {
-				$('.nav-tab').click(function(event) {
-					event.preventDefault();
-					
-					$('.nav-tab').removeClass('nav-tab-active');
-					$(this).addClass('nav-tab-active');
-					
-					$('.tab-content').hide();
-					$($(this).attr('href')).show();
-				});
-				
-				$('.nav-tab:first').addClass('nav-tab-active');
-				$('.tab-content').hide();
-				$('.tab-content:first').show();
-			});
-		</script>
-		<?php
 	}
 
 	/**

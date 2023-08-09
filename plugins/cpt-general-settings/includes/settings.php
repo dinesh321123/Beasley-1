@@ -212,7 +212,7 @@ class CommonSettings {
 	 * @global string $typenow The current type.
 	 * @global string $pagenow The current page.
 	 */
-	public static function enqueue_scripts() {
+	public static function enqueue_scripts($hook) {
 		global $typenow, $pagenow;
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
@@ -252,6 +252,11 @@ class CommonSettings {
 				array( 'jquery' ), '0.1' );
 			wp_enqueue_script( 'sticky-public-box-js' );
 
+		}
+
+		if($hook == 'settings_page_greatermedia-settings'){
+			wp_register_script('settings_page_greatermedia_js', GENERAL_SETTINGS_CPT_URL . "assets/js/admin_station_settings". $postfix .".js", array( 'jquery' ), '0.1' );
+			wp_enqueue_script( 'settings_page_greatermedia_js' );
 		}
 
 	}

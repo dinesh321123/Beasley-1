@@ -17,7 +17,7 @@
     box-shadow: none;
 }
 
-/* .settings_page_greatermedia-settings table.form-table {
+.settings_page_greatermedia-settings table.form-table {
     width: 100%;
     background-color: #FFF;
     display: block;
@@ -38,4 +38,4 @@
     padding: 20px;
     margin-bottom: 0px;
     background: #CCC;
-} */
+}
