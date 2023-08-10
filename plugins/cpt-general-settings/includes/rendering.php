@@ -18,6 +18,9 @@ class GeneralSettingsFrontRendering {
 		// Register the AJAX action for logged-in and non-logged-in users
 		add_action('wp_ajax_get_image_attribution', array( __CLASS__, 'get_image_attribution_callback' ) );
 		add_action('wp_ajax_nopriv_get_image_attribution', array( __CLASS__, 'get_image_attribution_callback' ) );
+		
+		add_filter('request', array( __CLASS__,'check_user_on_feed_page' ) );
+
 	}
 
 	/**
@@ -158,6 +161,17 @@ class GeneralSettingsFrontRendering {
 		}
 	}
 
+	public static function check_user_on_feed_page($request) {
+		if( isset( $request['feed'] ) ){
+			if($request['author_name'] != ''){
+				$author = get_user_by('slug', $request['author_name']);
+				if (!$author) {
+					ee_404_page_redirect();
+				}
+			}
+		}
+		return $request;
+	}
 
 }
 
