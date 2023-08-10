@@ -28,8 +28,8 @@ add_filter( 'body_class', 'ee_login_body_class' );
 add_filter( 'pre_get_posts','ee_update_main_query' );
 add_filter( 'bbgi_supported_featured_image_layouts', 'ee_supported_featured_image_layouts' );
 
-add_action( 'pre_get_posts', 'exclude_app_only_posts', 9999 );
-add_filter( 'template_include', 'custom_app_only_template', 9999 );
+add_action( 'pre_get_posts', 'exclude_app_only_posts', 10000 );
+add_filter( 'template_include', 'custom_app_only_template', 10000 );
 add_filter( 'body_class', 'app_only_class' );
 
 if ( ! function_exists( 'ee_setup_theme' ) ) :
@@ -172,13 +172,13 @@ if ( ! function_exists( 'exclude_app_only_posts' ) ) :
 	function exclude_app_only_posts( $query ) {
 		// Check if it's the main query and on the front end
 		if ( $query->is_main_query() && ! is_admin() && ! is_singular() && !is_post_type_archive('tribe_events') ) {
-
 			// Check if it's the whiz query
 			if ( ! ee_is_whiz() ) {
 				// Get the existing meta query from the query object
 				$meta_query = (array) $query->get( 'meta_query' );
 				$new_meta_query = ee_app_only_validate_query( $meta_query );
 				
+				echo "<pre>", print_r($new_meta_query), "</pre>";
 				// Add the meta query to the existing query
 				$query->set( 'meta_query', $new_meta_query );
 			}
