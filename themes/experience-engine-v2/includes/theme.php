@@ -178,7 +178,6 @@ if ( ! function_exists( 'exclude_app_only_posts' ) ) :
 				$meta_query = (array) $query->get( 'meta_query' );
 				$new_meta_query = ee_app_only_validate_query( $meta_query );
 				
-				echo "<pre>", print_r($new_meta_query), "</pre>";
 				// Add the meta query to the existing query
 				$query->set( 'meta_query', $new_meta_query );
 			}
