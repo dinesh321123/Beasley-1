@@ -59,17 +59,17 @@ class Webdados_FB_Public {
 			$html='
 <!-- START - '.WEBDADOS_FB_PLUGIN_NAME.' '.WEBDADOS_FB_VERSION.' -->
 ';
-
+	
 			if ( apply_filters('fb_og_enabled', true) ) {
 
 				//Partial image - Since 2.2 we do NOT get partial by default anymore - Advanced users can use this filter to use it again
 				$this->image_size_use_partial = apply_filters( 'fb_og_image_size_use_partial', false );
 				//If we're using partial image, we lower the transient validity to one day
 				if ( $this->image_size_use_partial ) $this->transient_validity = DAY_IN_SECONDS;
-
+		
 				//Also set Title Tag? - Needed??
 				$fb_set_title_tag=0;
-
+		
 				//Init values
 				$fb_locale = '';
 				$fb_title = '';
@@ -91,7 +91,7 @@ class Webdados_FB_Public {
 				$fb_publisher = trim($this->options['fb_publisher']);
 				$fb_publisher_schema = trim($this->options['fb_publisher_schema']);
 				$fb_publisher_twitteruser = trim($this->options['fb_publisher_twitteruser']);
-
+		
 				//Homepage Description
 				switch( $this->options['fb_desc_homepage'] ) {
 					case 'custom':
@@ -112,7 +112,7 @@ class Webdados_FB_Public {
 				if ( is_singular() ) { //Including homepage if set as static page
 
 					$debug[] = 'is_singular';
-
+		
 					global $post;
 					// Title
 						//It's a Post or a Page or an attachment page - It can also be the homepage if it's set as a page
@@ -157,7 +157,7 @@ class Webdados_FB_Public {
 							$fb_author_linkrelgp = get_the_author_meta('googleplus', $author_id);
 							$fb_author_twitter = get_the_author_meta('twitter', $author_id);
 						}
-
+		
 					//Published and Modified time - We should check this out and maybe have it for any kind of post...
 						if ( is_singular('post' ) ) {
 							$fb_article_pub_date = get_the_date('c' );
@@ -195,7 +195,7 @@ class Webdados_FB_Public {
 									} else {
 										//If not we grab it from the content
 										$fb_desc = trim($this->post->post_content);
-									}
+									}		
 									if (intval($this->options['fb_image_show'])==1 || intval($this->options['fb_image_show_schema'])==1 || intval($this->options['fb_image_show_twitter'])==1) {
 										$thumbdone = false;
 										if ( intval($this->options['fb_image_use_featured'])==1 ) {
@@ -263,14 +263,14 @@ class Webdados_FB_Public {
 								}
 							}
 						}
-
+		
 				} else {
-
+		
 					//Other pages - Defaults
 					$fb_title = wp_strip_all_tags( stripslashes( get_bloginfo( 'name' ) ), true );
 					$fb_url = ( ( !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://' ).$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];  //Not really canonical but will work for now
 					$fb_image = intval($this->options['fb_image_use_default'])==1 ? trim( $this->options['fb_image'] ) : '';
-
+		
 					$this->options['fb_article_sections_show'] = 0;
 					$this->options['fb_article_dates_show'] = 0;
 					$this->options['fb_author_show'] = 0;
@@ -278,7 +278,7 @@ class Webdados_FB_Public {
 					$this->options['fb_author_show_linkrelgp'] = 0;
 					$this->options['fb_author_show_twitter'] = 0;
 					$this->options['fb_author_show_twitter'] = 0;
-
+		
 					//Category
 					if ( is_category() ) {
 						$debug[] = 'is_category';
@@ -378,7 +378,7 @@ class Webdados_FB_Public {
 						}
 					}
 				}
-
+		
 				//og:type for WPML root page?
 				if ( $webdados_fb->is_wpml_active() ) {
 					if ( class_exists('WPML_Root_Page') ) {
@@ -387,9 +387,9 @@ class Webdados_FB_Public {
 						}
 					}
 				}
-
-
-
+		
+		
+		
 				//Default description, if empty until now
 				if ( trim($fb_desc)=='' ) {
 					switch( $this->options['fb_desc_default_option'] ) {
@@ -408,7 +408,7 @@ class Webdados_FB_Public {
 							break;
 					}
 				}
-
+		
 				//Trim description
 				$fb_desc = trim( str_replace('&nbsp;', ' ', $fb_desc) ); //Non-breaking spaces are usefull on a meta description. We'll just convert them to normal spaces to really trim it
 				$fb_desc = trim(
@@ -418,7 +418,7 @@ class Webdados_FB_Public {
 							:
 							wp_strip_all_tags( strip_shortcodes( stripslashes( $fb_desc ), true ) )
 				);
-
+		
 				//YOAST SEO?
 				if ( $this->options['fb_show_wpseoyoast']==1 ) {
 					if ( $webdados_fb->is_yoast_seo_active() ) {
@@ -470,7 +470,7 @@ class Webdados_FB_Public {
 						$fb_desc = wp_strip_all_tags( trim($fb_desc_temp)!='' ? trim($fb_desc_temp) : $fb_desc, true);
 					}
 				}
-
+		
 				//All in One SEO Pack?
 				if ( $this->options['fb_show_aioseop']==1 ) {
 					if ( $webdados_fb->is_aioseop_active() ) {
@@ -504,9 +504,9 @@ class Webdados_FB_Public {
 							if ( empty( $url ) ) {
 								$fb_url_temp = $aiosp->aiosp_mrt_get_url( $wp_query, $show_page );
 							}
-
+				
 							$fb_url_temp = $aiosp->validate_url_scheme( $fb_url_temp );
-
+				
 							$fb_url_temp = apply_filters( 'aioseop_canonical_url', $fb_url_temp );
 						}
 						$fb_url = wp_strip_all_tags( trim($fb_url_temp)!='' ? trim($fb_url_temp) : $fb_url, true);*/
@@ -518,7 +518,7 @@ class Webdados_FB_Public {
 						}
 						$fb_desc_temp = apply_filters( 'aioseop_description', $aiosp->get_main_description( $post ) );
 						$fb_desc = wp_strip_all_tags( trim($fb_desc_temp)!='' ? trim($fb_desc_temp) : $fb_desc, true);
-
+		
 					}
 				}
 
@@ -534,7 +534,7 @@ class Webdados_FB_Public {
 						$fb_image = 'https://s0.wordpress.com/mshots/v1/'.urlencode($fb_url).'?w=1200&h=630';
 					}
 				}
-
+		
 				//Apply Filters
 				$fb_app_id = apply_filters('fb_og_app_id', $this->options['fb_app_id']);
 				$fb_locale = apply_filters('fb_og_locale', $fb_locale);
@@ -544,7 +544,7 @@ class Webdados_FB_Public {
 				$fb_desc = apply_filters('fb_og_desc', $fb_desc);
 				$fb_image = apply_filters('fb_og_image', $fb_image);
 				$fb_image_additional = apply_filters('fb_og_image_additional', $fb_image_additional);
-
+		
 				//Image size
 				$fb_image_size = false;
 				if ( intval($this->options['fb_image_show'])==1 && trim($fb_image)!='' ) {
@@ -558,7 +558,7 @@ class Webdados_FB_Public {
 				} else {
 					$this->options['fb_image_show'] = 0;
 				}
-
+		
 				//Image overlay
 				//Object queried
 				$img_overlay_params = array(
@@ -612,7 +612,7 @@ class Webdados_FB_Public {
 					apply_filters( 'fb_og_image_overlay', true, $fb_image, $img_overlay_params )
 				) {
 					$debug[] = 'image overlay';
-
+					
 					//The main one
 					$temp_fb_image_overlay = $this->get_image_with_overlay( $fb_image, $img_overlay_params, false );
 					if ( $temp_fb_image_overlay['overlay'] ) {
@@ -633,7 +633,7 @@ class Webdados_FB_Public {
 						}
 					}
 				}
-
+				
 				//No spaces on URLs
 				if ( isset($fb_url) && trim($fb_url)!='' )								$fb_url =				str_replace(' ', '%20', trim($fb_url));
 				if ( isset($fb_publisher) && trim($fb_publisher)!='' )					$fb_publisher =			str_replace(' ', '%20', trim($fb_publisher));
@@ -646,10 +646,10 @@ class Webdados_FB_Public {
 						if ( isset($value['fb_image']) ) $fb_image_additional[$key]['fb_image'] = str_replace( ' ', '%20', trim($value['fb_image']) );
 					}
 				}
-
+				
 				//If there's still no description let's just add the title as a last resort
 				if ( trim($fb_desc)=='' ) $fb_desc = $fb_title;
-
+		
 				//Print tags
 					// Facebook
 				$html.=' <!-- Facebook Open Graph -->
@@ -805,21 +805,21 @@ class Webdados_FB_Public {
 						foreach($tags as $tag => $values) {
 							foreach($values as $value) {
 								$html.='  <meta '.$type.'="'.str_replace('_', ':', trim($tag)).'" content="'.esc_attr(trim($value)).'"/>
-';
+';	
 							}
 						}
 					}
 			} else {
-
+	
 				$debug[] = 'Removed by fb_og_enabled filter';
-
+	
 			}
-
+		
 			//Close tag
 			if ( apply_filters( 'fb_og_enable_debug', true ) ) $html.=' <!-- '.implode( ' | ', $debug ).' -->
 ';
 			$html.='<!-- END - '.WEBDADOS_FB_PLUGIN_NAME.' '.WEBDADOS_FB_VERSION.' -->
-
+	
 ';
 		} else {
 			$html = '
@@ -1224,10 +1224,10 @@ class Webdados_FB_Public {
 				if ( file_exists($path) ) {
 					$filesize = filesize($path);
 					$url = $path;
-				} else {
-					$header = get_headers($fb_image, 1);
-					$filesize = $header['Content-Length'];
-					$url = $fb_image;
+				} else {		
+					$header = get_headers($fb_image, 1);					   
+					$filesize = $header['Content-Length'];	
+					$url = $fb_image;				
 				}
 				if ( intval($this->options['fb_adv_disable_image_size'])==0 ) {
 					if ( list( $width, $height, $type, $attr ) = $this->get_open_graph_image_size( $url ) ) {
