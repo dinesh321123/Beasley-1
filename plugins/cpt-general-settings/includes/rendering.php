@@ -49,8 +49,13 @@ class GeneralSettingsFrontRendering {
 
 	public static function category_archive_class( $classes ) {
 		// Set the custom class for category archive styling
+		$category_page_class = 'category-archive-page';
+		$common_grid_class = 'category-grid-container';
 		if(is_archive() && is_category()) {
-			$classes[] = 'category-archive-page';
+			$classes[] = $category_page_class;
+			$classes[] = $common_grid_class;
+		} else if (is_single() && get_post_type() === 'post') {
+			$classes[] = $common_grid_class;
 		}
 		return $classes;
 	}

@@ -309,11 +309,12 @@ if ( ! function_exists( 'ee_get_sponsor_url' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_category_posts_query' ) ) :
-	function ee_get_category_posts_query( $category = null, $exclude_posts = array(), $total_category_archive_featured = 0 ) {
+	function ee_get_category_posts_query( $category = null, $exclude_posts = array(), $total_category_archive_featured = 0, $outer_call = false ) {
 		$category_archive_per_page = 24;
-		$category_archive_current_page = get_query_var('paged');
+		$query_var = $outer_call ? 'related_page' : 'paged';
+		$category_archive_current_page = get_query_var( $query_var ) ? absint(get_query_var( $query_var )) : 1;
 		$category_archive_current_page = max( 1, $category_archive_current_page );
-		$category_archive_offset_start = 48 + (5 - $total_category_archive_featured);
+		$category_archive_offset_start = $outer_call ? 48 : ( 48 + (5 - $total_category_archive_featured) );
 		$offset = $category_archive_offset_start + (($category_archive_current_page - 2) * $category_archive_per_page);
 		$category_archive_query_params = array(
 			'post_type'   => 'any',
@@ -335,13 +336,16 @@ if ( ! function_exists( 'ee_get_category_posts_query' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
-	function ee_get_category_featured_posts( $category = null ) {
-		$response = array();
-		$response['exclude_posts'] = array();
-		$response['result'] = null;
-		$response['stn_video_barker_id'] = "";
+	function ee_get_category_featured_posts( $category = null, $outer_call = false ) {
+		$response = [
+			'posts' => [],
+			'post_count' => 0,
+			'mobile_ad_occurrence' => 0,
+			'exclude_posts' => [],
+			'stn_video_barker_id' => "",
+		];
 
-		if($category == null) {
+		if($category === null) {
 			return $response;
 		}
 
@@ -380,10 +384,90 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 			$response['stn_video_barker_id'] = $stn_video_barker_id;
 			$response['mobile_ad_occurrence'] = $mobile_ad_occurrence;
 			$response['exclude_posts'] = $ids;
-			$response['result'] = $query;
-			return $response;
+			$response['posts'] = $query->post_count === 0 ? [] : $query->posts;
+			$response['post_count'] = $query->post_count ?? 0;
+		}
+		if ($outer_call) {
+			$response['stn_video_barker_id'] = "";
+			$response['exclude_posts'] = [];
+			$response['posts'] = [];
+			$response['post_count'] = 0;
 		}
 		return $response;
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_category_archive_details' ) ) :
+	function ee_get_category_archive_details( $ca_obj, $outer_call = false, $current_artile_id = 0 ){
+		global $wp_query;
+		$ca_cat_query = $wp_query->query['category_name'];
+		$ca_cat_slug = strpos($ca_cat_query, ',') !== false ? $ca_cat_query : $ca_obj->slug;
+
+		// Getting Featured Curated posts for the category
+		$ca_featured_query = ee_get_category_featured_posts( $ca_obj->term_id, $outer_call );
+		extract($ca_featured_query);
+
+		if(!empty($current_artile_id)) {
+			$exclude_posts[] = $current_artile_id;
+		}
+		
+		// Getting Posts related to the category
+		$ca_posts_query = ee_get_category_posts_query( $ca_cat_slug, $exclude_posts, $post_count, $outer_call );
+
+		return array(
+			"query"					=> $ca_posts_query,
+			"featured"				=> $posts,
+			"station_mobile_ad"		=> get_option('mobile_ad_category_setting', 6),
+			"stn_video_barker_id" 	=> $stn_video_barker_id ?? "",
+			"mobile_ad_occurrence" 	=> $mobile_ad_occurrence ?? 0
+		);
+	}
+endif;
+
+if ( ! function_exists( 'ee_ca_no_post' ) ) :
+	function ee_ca_no_post(){
+		echo "<div class=\"content-wrap\">
+				<div class=\"d-flex\">";
+		ee_the_have_no_posts();
+		echo " </div>
+			</div>";
+	}
+endif;
+
+if ( ! function_exists( 'ee_ca_get_articles' ) ) :
+	function ee_ca_get_articles( $ca_obj , $ca_posts , $ca_data, $default_order = true, $outer_call = false ) {
+		$ca_posts_query = $ca_data['query'];
+		$ca_mobile_ad = $ca_data['mobile_ad_occurrence'];
+		$station_mobile_ad = $ca_data['station_mobile_ad'];
+		$ca_stn_video_barker_id = $ca_data['stn_video_barker_id'];
+		set_query_var( 'ca_articles_data', array(
+			'ca_obj'					=> $ca_obj,
+			'ca_posts'					=> $ca_posts,
+			'outer_call' 				=> $outer_call,
+			'ca_mobile_ad' 				=> $ca_mobile_ad,
+			'default_order' 			=> $default_order,
+			'ca_posts_query'			=> $ca_posts_query,
+			'station_mobile_ad' 		=> $station_mobile_ad,
+			'ca_stn_video_barker_id'	=> $ca_stn_video_barker_id
+		) );
+		get_template_part( 'partials/category/articles' );
+	}
+endif;
+
+if ( ! function_exists( 'ee_load_more_ca' ) ) :
+	function ee_load_more_ca( $query, $outer_call = false ){
+		$current_page = absint(get_query_var('related_page', 1));
+		echo "<div class=\"content-wrap\">
+			<div class=\"d-flex\">
+				<div class=\"w-67\">";
+		if( !$outer_call ) {
+			ee_load_more( $query );
+		} else {
+			echo '<a href="' . esc_url(trailingslashit(get_permalink()) . 'related_page/' . ($current_page + 1)) . '" class="load-more" autoload="true" showafter="3">Load More</a>';
+		}
+		echo " 	</div>
+			</div>
+		</div>";
 	}
 endif;
 

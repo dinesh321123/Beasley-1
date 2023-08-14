@@ -8,7 +8,7 @@
 	}
 ?>
 
-<div class="post-thumbnail">
+<div class="post-thumbnail ca-post-thumbnail">
 	<a href="<?php ee_the_permalink($category_archive_post); ?>" aria-label="Post thumbnail description link">
 		<?php ee_the_lazy_thumbnail( $category_archive_post, true ); ?>
 		<?php if( has_post_format( 'video', $category_archive_post->ID ) ) : ?>
