@@ -6,8 +6,8 @@ $ca_mobile_ad_occurrence = isset($display_ca_archive_data['ca_mobile_ad_occurren
 $ca_mobile_ad_occurrence = $ca_mobile_ad_occurrence ? $ca_mobile_ad_occurrence : $station_mobile_ad_occurance;
 
 if( !empty($display_ca_archive_posts) && ( count($display_ca_archive_posts) > 0 ) ) { ?>
-<div class="archive-tiles content-wrap -grid -medium">
-	<section class="list-grid-section card">
+<div class="archive-tiles ca-archive-tiles content-wrap -grid -medium">
+	<section class="list-grid-section ca-card">
 		<?php
 			foreach ($display_ca_archive_posts as $key=>$archive_ca_post) {
 				$cap_sponsored_by = ee_get_sponsored_by($archive_ca_post);

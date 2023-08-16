@@ -10,12 +10,13 @@ import updateTargeting from '../../../redux/utilities/screen/updateTargeting';
 class LoadMore extends PureComponent {
 	constructor(props) {
 		super(props);
-
+		let { showafter } = this.props;
+		showafter = showafter ? Number(showafter) : 4;
 		const loadmoreCount = document.getElementsByClassName(
 			'placeholder-loadmore',
 		);
 		const showButton =
-			loadmoreCount.length > 0 && loadmoreCount.length % 5 === 0;
+			loadmoreCount.length > 0 && loadmoreCount.length % (showafter + 1) === 0;
 		this.state = { loading: false, button: showButton };
 		this.onLoadClick = this.handleLoadClick.bind(this);
 		this.onIntersectionChange = this.handleIntersectionChange.bind(this);
@@ -107,10 +108,12 @@ LoadMore.propTypes = {
 	partialKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
 	load: PropTypes.func.isRequired,
 	autoload: PropTypes.string,
+	showafter: PropTypes.string,
 };
 
 LoadMore.defaultProps = {
 	autoload: '',
+	showafter: '',
 };
 
 LoadMore.contextType = IntersectionObserverContext;

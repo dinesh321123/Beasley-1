@@ -81,6 +81,7 @@ function getLoadMoreParams(element) {
 	return {
 		link: element.getAttribute('href'),
 		autoload: element.getAttribute('autoload'),
+		showafter: element.getAttribute('showafter'),
 	};
 }
 

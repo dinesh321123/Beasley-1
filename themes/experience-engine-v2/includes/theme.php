@@ -32,6 +32,9 @@ add_action( 'pre_get_posts', 'exclude_app_only_posts', 10000 );
 add_filter( 'template_include', 'custom_app_only_template', 10000 );
 add_filter( 'body_class', 'app_only_class' );
 
+add_action('init', 'ee_ca_pagination_rewrite_rules');
+add_action('pre_get_posts', 'ee_ca_pre_get_posts');
+
 if ( ! function_exists( 'ee_setup_theme' ) ) :
 	function ee_setup_theme() {
 		add_theme_support( 'custom-logo' );
@@ -147,7 +150,7 @@ function get_post_with_keyword( $query_arg ) {
 
 if ( ! function_exists( 'ee_app_only_validate_query' ) ) :
 	function ee_app_only_validate_query( $meta_query ) {
-		
+
 		// Set the meta query arguments for the additional condition
 		$additional_meta_query = array(
 			'relation' => 'OR',
@@ -163,7 +166,7 @@ if ( ! function_exists( 'ee_app_only_validate_query' ) ) :
 		);
 
 		$meta_query[] = $additional_meta_query;
-		
+
 		return $meta_query;
 	}
 endif;
@@ -177,7 +180,7 @@ if ( ! function_exists( 'exclude_app_only_posts' ) ) :
 				// Get the existing meta query from the query object
 				$meta_query = (array) $query->get( 'meta_query' );
 				$new_meta_query = ee_app_only_validate_query( $meta_query );
-				
+
 				// Add the meta query to the existing query
 				$query->set( 'meta_query', $new_meta_query );
 			}
@@ -198,7 +201,7 @@ if ( ! function_exists( 'app_only_class' ) ) :
 			// Check if the post has the meta field "_is_app_only" set to 1
 			$_is_app_only = get_post_meta($post->ID, '_is_app_only', true);
 
-			// add app only class for style adjstment 
+			// add app only class for style adjstment
 			if ($_is_app_only) {
 				$classes[] = 'single-app-only';
 			}
@@ -228,5 +231,20 @@ if ( ! function_exists( 'custom_app_only_template' ) ) :
 
 		// Return the default template for other cases
 		return $template;
+	}
+endif;
+
+if ( ! function_exists( 'ee_ca_pagination_rewrite_rules' ) ) :
+	function ee_ca_pagination_rewrite_rules() {
+		add_rewrite_tag('%related_page%', '([^&]+)');
+		add_rewrite_endpoint('related_page', EP_PERMALINK | EP_PAGES);
+	}
+endif;
+
+if ( ! function_exists( 'ee_ca_pre_get_posts' ) ) :
+	function ee_ca_pre_get_posts($query) {
+		if ( $query->is_main_query() && $query->get( 'related_page' ) ) {
+			$query->set('paged', get_query_var('related_page'));
+		}
 	}
 endif;
