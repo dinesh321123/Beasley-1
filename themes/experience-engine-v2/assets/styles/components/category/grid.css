@@ -1039,3 +1039,9 @@
 		}
 	}
 }
+
+.article-category-archive {
+	& .content-wrap {
+		max-width: 1420px;
+	}
+}

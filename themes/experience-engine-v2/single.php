@@ -4,7 +4,7 @@ get_header();
 ee_switch_to_article_blog();
 the_post();
 
-?><div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
+?><div id="post-<?php the_ID(); ?>" <?php post_class( [ 'single', 'article-category-archive' ] ); ?>>
 <?php if ( ee_is_first_page() ) : ?>
 	<?php if ( ee_get_current_show() ) : ?>
 		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) ) : ?>
@@ -68,10 +68,8 @@ the_post();
 	</div>
 
 	<?php get_template_part( 'partials/related-articles' );	?>
-</div><?php
+<?php
 endif;
-restore_current_blog();
-
 // Check if primary category exists
 $article_cat = ee_get_primary_terms(get_the_ID(), 'category', false);
 $article_primary_cat = $article_cat['primary'];
@@ -93,5 +91,9 @@ if( !empty( $article_primary_cat ) ) {
 	if($article_ca_query->max_num_pages >= ($current_page + 1)) {
 		ee_load_more_ca( $article_ca_query, true );
 	}
-}
+} ?>
+</div><?php
+restore_current_blog();
+
+
 get_footer();
