@@ -1,0 +1,106 @@
+.top_header {
+	& .information {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        margin-bottom: 24px;
+
+        @media (--max-xmedium-viewport) {
+            margin-bottom: 17px;
+        }
+        
+        & .information_content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+             & .thumbnail{
+                flex-basis: auto;
+                flex-shrink: 0;
+                margin-bottom: 0px;                
+                & .lazy-image {
+                    border: 2px solid #e12e21;
+                    border: 2px solid var(--brand-primary);
+                    border-radius: 50%;
+                    height: 100px;
+                    margin: 0 auto;
+                    width: 100px;
+
+                    @media (--max-xmedium-viewport) {
+                        width: 75px;
+                        height: 75px;
+                    }
+                    @media (--max-xsmall-viewport) {
+                        width: 45px;
+                        height: 45px;
+                    }
+                }
+             }
+        }
+
+            & .title_description {
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                @media (--max-xlmedium-viewport) {
+                   flex-wrap: wrap;
+                }
+
+
+                & h2 {                   
+                    text-transform: uppercase;
+                    color: #2c2e35;
+                    font-weight: 800;
+                    margin-bottom: 0px;
+                    text-align: center;
+                    margin-top: 0px;
+                    @media (--max-xlmedium-viewport) {                        
+                        width: 100%;
+                    }
+
+                    @media (--max-xmedium-viewport) {
+                        width: 100%;
+                    }
+                   
+                    }
+                & .meta-fave-time{
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    color: #2c2e35;
+                    font-weight: 400;
+                    margin-bottom: 0px;
+                    text-align: center;
+                    margin-top: 0px;
+                    margin-left: 5px;
+                    @media (--max-small-viewport) {
+                        margin-left: 0px;                        
+                    }
+                   
+                }
+            }
+        
+        & .social {
+            display: flex;
+            align-items: center;
+            margin-top:0px;
+            margin-left: 5px;
+    
+            & a {
+                margin: 0px 12px;
+                padding-right: 0;
+                @media (--max-xmedium-viewport) {
+                    margin: 0px 8px; 
+                }                
+            }
+            & a:first-child {
+                margin-left: 0px;
+    
+            }
+            & a:last-child {
+                margin-right: 0px;
+    
+            }
+        }
+    }
+}

@@ -264,6 +264,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_other_css_vars()) ),
 			'geotargetly' => ee_current_page_needs_geotargetly(),
 			'related_article_title' => get_option( 'related_article_title', 'You May Also Like' ),
+			'trending_article_title' => get_option( 'trending_article_title', 'Trending Articles' ),
 			'ad_leaderboard_initial_height_setting' => get_option( 'ad_leaderboard_initial_height_setting', '250' ),
 			'ad_rotation_enabled' => get_option( 'ad_rotation_enabled', 'on' ),
 			'ad_rotation_polling_sec_setting' => get_option( 'ad_rotation_polling_sec_setting', '5' ),
@@ -285,6 +286,17 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 				'live_streaming' => absint( get_option( 'gmr_live_streaming_interval', 1 ) ),
 				'inline_audio'   => absint( get_option( 'gmr_inline_audio_interval', 1 ) ),
 			],
+			'isTrendingPostRender' => array(
+				'embed_custom' => false,
+				'embed_listicle' => false,
+				'embed_AM' => false,
+				'embed_gallery' => false,
+				'embed_inner_listicle' => false,
+				'embed_inner_AM' => false,
+				'embed_inner_gallery' => false,
+				'embed_bottom' => false,
+			),
+			'endpointTrandingArticle' => false,
 		);
 
 		$custom_logo_id = get_option( 'gmr_site_logo' );

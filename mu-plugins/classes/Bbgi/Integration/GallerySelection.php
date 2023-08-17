@@ -55,8 +55,10 @@ class GallerySelection extends \Bbgi\Module {
 
 		$gallery_object = get_post( $gallery_id );
 		$content = apply_filters( 'bbgi_gallery_content', false, $gallery_object, $ids, $post_object );
+		$content_updated = '';
 		if ( ! empty( $content ) ) {
-			$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>";
+			$content_updated .= ee_render_trending_articles('embed_gallery');
+			$content_updated .= "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>";
 			if( !empty( $attributes['description'] ) &&  ($attributes['description'] == 'yes') ) {
 				remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 				$the_content = apply_filters('the_content', $gallery_object->post_content);
