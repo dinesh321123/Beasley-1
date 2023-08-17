@@ -6,9 +6,6 @@ the_post();
 ?>
 <div id="post-<?php the_ID(); ?>" <?php post_class( [ 'single', 'article-category-archive' ] ); ?>>
 <?php if ( ee_is_first_page() ) : ?>
-	<!-- <div class="ads-image" style="text-align:center; margin-bottom:30px;">
-		<img src="<?php //echo get_template_directory_uri().'/assets/images/ad-static-1.jpg'; ?>" alt="" style="width:50%;" />
-	</div> -->
 	<?php if ( ee_get_current_show() ) : ?>
 		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) ) : ?>
 			<header class="post-info">
@@ -50,7 +47,6 @@ the_post();
 				<?php endif; ?>
 				<?php get_template_part( 'partials/footer/common', 'description' ); ?>
 				<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
-				<?php //get_template_part( 'partials/content/categories' ); ?>
 				<div class="post-meta footer-post-meta-container">
 					<?php get_template_part("partials/content/articles/meta",null,array('show'=>array('tags','category'))); ?>
 				</div>
@@ -61,6 +57,7 @@ the_post();
 	</div>
 <?php
 endif;
+
 // Check if primary category exists
 $article_cat = ee_get_primary_terms(get_the_ID(), 'category', false);
 $article_primary_cat = $article_cat['primary'];
@@ -83,8 +80,7 @@ if( !empty( $article_primary_cat ) ) {
 		ee_load_more_ca( $article_ca_query, true );
 	}
 } ?>
-</div><?php
+</div>
+<?php
 restore_current_blog();
-
-
 get_footer();
