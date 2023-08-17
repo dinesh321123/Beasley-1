@@ -9,8 +9,8 @@ if( !empty($display_ca_archive_posts) && ( count($display_ca_archive_posts) > 0 
 <div class="content-wrap">
 	<div class="d-flex">
 		<div class="w-67">
-			<div class="archive-tiles content-wrap -grid -large p-0">
-				<section class="list-grid-section card-2">
+			<div class="archive-tiles ca-archive-tiles content-wrap -grid -large p-0">
+				<section class="list-grid-section ca-card-2">
 					<?php
 						foreach ($display_ca_archive_posts as $key=>$archive_ca_post) {
 							$cap_sponsored_by = ee_get_sponsored_by($archive_ca_post);

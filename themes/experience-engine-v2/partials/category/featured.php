@@ -3,10 +3,10 @@ $ca_featured_section_posts = get_query_var( 'featured_posts' );
 if( !empty($ca_featured_section_posts) && ( count($ca_featured_section_posts) > 0 ) ) {
 ?>
 <div class="content-wrap">
-	<?php the_archive_title( '<div class="section-head-container"><h2 class="section-head category-section-title"> <span class="bigger">', '</span></h2></div>' ); ?>
+	<?php the_archive_title( '<div class="ca-section-head-container"><h2 class="section-head ca-section-head category-section-title"> <span class="bigger">', '</span></h2></div>' ); ?>
 	<div class="d-flex">
-		<div class="archive-tiles -grid -custom w-75 m-60  pl-30">
-			<div class="blog-first w-60 m-100 card">
+		<div class="archive-tiles ca-archive-tiles -grid -custom w-75 m-60  pl-30">
+			<div class="blog-first w-60 m-100 ca-card">
 				<?php
 				$category_archive_data = array(
 					'category_archive_post' => $ca_featured_section_posts[0],
@@ -18,7 +18,7 @@ if( !empty($ca_featured_section_posts) && ( count($ca_featured_section_posts) > 
 				get_template_part( 'partials/tile/title', 'category' );
 				?>
 			</div>
-			<div class="blog-second w-40 px-15 d-sm-none card">
+			<div class="blog-second w-40 px-15 d-sm-none ca-card">
 				<div class="list-grid">
 					<section class="featured-list-section">
 						<?php

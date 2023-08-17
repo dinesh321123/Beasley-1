@@ -28,6 +28,9 @@ add_filter( 'body_class', 'ee_login_body_class' );
 add_filter( 'pre_get_posts','ee_update_main_query' );
 add_filter( 'bbgi_supported_featured_image_layouts', 'ee_supported_featured_image_layouts' );
 
+add_action('init', 'ee_ca_pagination_rewrite_rules');
+add_action('pre_get_posts', 'ee_ca_pre_get_posts');
+
 if ( ! function_exists( 'ee_setup_theme' ) ) :
 	function ee_setup_theme() {
 		add_theme_support( 'custom-logo' );
@@ -140,3 +143,18 @@ function get_post_with_keyword( $query_arg ) {
 	}
 	return 0;
 }
+
+if ( ! function_exists( 'ee_ca_pagination_rewrite_rules' ) ) :
+	function ee_ca_pagination_rewrite_rules() {
+		add_rewrite_tag('%related_page%', '([^&]+)');
+		add_rewrite_endpoint('related_page', EP_PERMALINK | EP_PAGES);
+	}
+endif;
+
+if ( ! function_exists( 'ee_ca_pre_get_posts' ) ) :
+function ee_ca_pre_get_posts($query) {
+	if ( $query->is_main_query() && $query->get( 'related_page' ) ) {
+		$query->set('paged', get_query_var('related_page'));
+    }
+}
+endif;
