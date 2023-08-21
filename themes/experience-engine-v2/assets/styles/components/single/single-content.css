@@ -23,6 +23,7 @@
 		@media (--min-large-viewport) {
 			flex-basis: 67%;
 		}
+
 	}
 
 	& .ad {
@@ -90,6 +91,11 @@
 
 		& p {
 			line-height: 1.6;
+		}
+		& a {
+			@media (--max-medium-viewport){
+				word-break: break-all;
+			}
 		}
 	}
 
