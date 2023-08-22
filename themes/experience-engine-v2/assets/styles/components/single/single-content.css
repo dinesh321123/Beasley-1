@@ -190,6 +190,7 @@
 }
 
 .article-inner-container{
+	background-color: #fff;
 	& .content-wrap{
 		padding: 0 1.3rem 1rem;
 	}
