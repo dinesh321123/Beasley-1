@@ -188,3 +188,9 @@
 .file .element-invisible {
 	visibility: hidden;
 }
+
+.article-inner-container{
+	& .content-wrap{
+		padding: 0 1.3rem 1rem;
+	}
+}
