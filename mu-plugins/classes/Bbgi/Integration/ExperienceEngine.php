@@ -401,20 +401,25 @@ class ExperienceEngine extends \Bbgi\Module {
 		}
 
 		$request = rest_ensure_request( $request );
-		$authorization = $request->get_param( 'authorization' );
+		//$authorization = $request->get_param( 'authorization' );
 
-		if ( ! empty( $authorization ) ) {
-			$path = sprintf(
-				'experience/channels/%s/feeds/content/?authorization=%s',
-				urlencode( $publisher ),
-				urlencode( $authorization )
-			);
-		} else {
-			$path = sprintf(
-				'experience/channels/%s/feeds/content/',
-				urlencode( $publisher )
-			);
-		}
+		// if ( ! empty( $authorization ) ) {
+		// 	$path = sprintf(
+		// 		'experience/channels/%s/feeds/content/?authorization=%s',
+		// 		urlencode( $publisher ),
+		// 		urlencode( $authorization )
+		// 	);
+		// } else {
+		// 	$path = sprintf(
+		// 		'experience/channels/%s/feeds/content/',
+		// 		urlencode( $publisher )
+		// 	);
+		// }
+
+		$path = sprintf(
+			'experience/channels/%s/feeds/content/',
+			urlencode( $publisher )
+		);
 
 		$response = $this->send_request( $path );
 		if ( is_wp_error( $response ) ) {
