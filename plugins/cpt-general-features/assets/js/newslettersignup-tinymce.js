@@ -12,49 +12,50 @@
                         {
                             type   : 'textbox',
                             name   : 'label',
-                            label  : 'label',
-                            tooltip: 'News letter signup label',
-                            value  : 'Join the Family'
+                            label  : 'Label',
+                            tooltip: 'News letter signup label',                           
+                            style: 'width: 300px',
+                            value  : tinyMCE_object_NSF.label,
                         },
                         {
                             type   : 'textbox',
                             name   : 'description',
-                            label  : 'description',
+                            label  : 'Description',
                             tooltip: 'News letter signup description',
-                            value  : 'Get Our Latest Articles in Your Inbox'
+                            value  : tinyMCE_object_NSF.description
                         },
                         {
                             type   : 'textbox',
                             name   : 'color',
-                            label  : 'color',
+                            label  : 'Text-color',
                             tooltip: 'News letter signup color',
-                            value  : '#000000'
+                            value  : tinyMCE_object_NSF.text_color
                         },
                         {
                             type   : 'textbox',
                             name   : 'checkbox_content',
-                            label  : 'Terms and Condition content',
-                            tooltip: 'Terms and Condition content',
-                            value  : "By clicking 'Subscribe' I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time."
+                            label  : 'Terms and Privacy Policy Content',
+                            tooltip: 'Terms and Privacy Policy Content',
+                            value  : tinyMCE_object_NSF.checkbox_content
                         },
                         {
                             type   : 'textbox',
                             name   : 'logo',
-                            label  : 'logo',
+                            label  : 'Logo',
                             tooltip: 'add logo URL',
                             value  : tinyMCE_object_NSF.logo
                         },
                         {
                             type   : 'textbox',
                             name   : 'subscription_attributes',
-                            label  : 'subscription Attributes',
+                            label  : 'Subscription Attributes',
                             tooltip: 'add subscription_attributes',
                             value  : tinyMCE_object_NSF.subscription_attributes
                         },
                         {
                             type   : 'textbox',
                             name   : 'subscription_id',
-                            label  : 'subscription ID',
+                            label  : 'Subscription ID',
                             tooltip: 'add subscription ID',
                             value  :  tinyMCE_object_NSF.subscription_id
                         },

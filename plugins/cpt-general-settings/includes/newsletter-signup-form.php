@@ -169,7 +169,7 @@ class NewsletterSignupForm {
         add_settings_field('nsf_mailing_list_name', 'Mailing list name', 'bbgi_input_field', $page, $section_id, 'name=nsf_mailing_list_name');
         add_settings_field('nsf_mailing_list_description', 'Mailing list description', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_mailing_list_description');
         add_settings_field('nsf_template_token', 'Template token', 'bbgi_input_field', $page, $section_id, 'name=nsf_template_token');
-        add_settings_field('nsf_checkbox_content', 'Terms of Service and Privacy Policy Content', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_checkbox_content&default= By clicking "Subscribe" I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.');
+        add_settings_field('nsf_checkbox_content', 'Terms and Privacy Policy Content', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_checkbox_content&default= By clicking "Subscribe" I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.');
 
         register_setting( $group, 'ee_newsletter_logo', 'intval' );
         register_setting( $group, 'nsf_label', 'sanitize_text_field' );

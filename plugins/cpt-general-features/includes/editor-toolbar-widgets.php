@@ -47,8 +47,24 @@ class NewsLetterSignup {
 		}
 		$site_logo = bbgi_get_image_url( $logo, 150, 150, false );
 		$subscription_attributes = get_option('nsf_subscription_attributes'); ;
-		$subscription_id = get_option('nsf_subscription_ID'); ;
+		$subscription_id = get_option('nsf_subscription_ID'); 
 
+		$label = get_option('nsf_label','Join the Family');
+		if(empty($label)){
+			$label = 'Join the Family';
+		}
+		$description = get_option('nsf_description','Get Our Latest Articles in Your Inbox');
+		if(empty($description)){
+			$description = 'Get Our Latest Articles in Your Inbox';
+		}
+		$text_color = get_option('nsf_color','#000000');
+		if(empty($text_color)){
+			$text_color = '#000000';
+		}
+		$checkbox_content = get_option('nsf_checkbox_content',"By clicking 'Subscribe' I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.");
+		if(empty($checkbox_content)){
+			$checkbox_content = "By clicking 'Subscribe' I agree to the website\'s terms of Service and Privacy Policy. I understand I can unsubscribe at any time.";
+		}
 
 		wp_localize_script( 'newslettersignup-tinymce-scripts', 'tinyMCE_object_NSF', array(
 			'button_name' => esc_html__('', 'newslettersignup'),
@@ -57,6 +73,11 @@ class NewsLetterSignup {
 			'logo' => $site_logo,
 			'subscription_attributes' => $subscription_attributes,
 			'subscription_id'=>$subscription_id,
+			'label'=>$label,
+			'description'=>$description,
+			'text_color'=>$text_color,
+			'checkbox_content'=>$checkbox_content
+
 		));
 	}
 
