@@ -53,21 +53,21 @@ class Google extends \Bbgi\Module {
 		$fileNameAddition = str_contains($homeUrl, '.beasley.test') || str_contains($homeUrl, '.bbgistage.com') ? '-staging' : '';
 		wp_enqueue_script(
 			'mparticle_enqueue_scripts',
-			'https://bbgi-mparticle-plan.s3.amazonaws.com/mparticle-plan' . $fileNameAddition . '.js'
+			'https://analytics-plan.bbgi.com/mparticle-events' . $fileNameAddition . '.js'
 		);
 
 		wp_enqueue_script(
 			'window_utils_enqueue_scripts',
 			plugins_url( 'assets/js/window-utils.js', __FILE__ ),
 			array(),
-			'2.0.55'
+			'2.0.56'
 		);
 
 		wp_enqueue_script(
 			'ga_enqueue_scripts',
 			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
 			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' ),
-			'2.0.55'
+			'2.0.56'
 		);
 	}
 
