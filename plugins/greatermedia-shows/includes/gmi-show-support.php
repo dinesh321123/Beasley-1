@@ -577,7 +577,7 @@ function adjust_show_main_query( $where ) {
 			$app_only = "";
 			if ( ! ee_is_common_mobile_show() ) {
 				$app_only = sprintf(
-					" AND ( ( wp_15_postmeta.meta_key = '_is_app_only' AND wp_15_postmeta.meta_value != '1' ) OR mt1.post_id IS NULL ) ",
+					" AND ( ( %1\$s.meta_key = '_is_app_only' AND %1\$s.meta_value != '1' ) OR mt1.post_id IS NULL ) ",
 					$wpdb->postmeta
 				);
 			}
