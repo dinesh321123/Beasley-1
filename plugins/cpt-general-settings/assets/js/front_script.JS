@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
 	// Function to retrieve image attribution
 	async function getImageAttribution(image) {
-	  if (!image.hasAttribute("data-media-image")) {
+	  if ( !image.hasAttribute("data-media-image-attribution") ) {
 		return;
 	  }
 
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Create form data with action and post_id
 		let data = new FormData();
 		data.append('action', 'get_image_attribution');
-		data.append('post_id', image.dataset.mediaImage); // Use the appropriate attribute containing the post ID
+		data.append('image_attribution', image.dataset.mediaImageAttribution);
   
 		// Send AJAX request to fetch image attribution
 		let response = await fetch(my_ajax_object.ajaxurl, {
