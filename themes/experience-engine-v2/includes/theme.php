@@ -171,7 +171,7 @@ endif;
 if ( ! function_exists( 'exclude_app_only_posts' ) ) :
 	function exclude_app_only_posts( $query ) {
 		// Check if it's the main query and on the front end
-		if ( $query->is_main_query() && ! is_admin() && ! is_singular() && !is_post_type_archive('tribe_events') ) {
+		if ( $query->is_main_query() && ! is_admin() && ! is_singular() && !is_post_type_archive('tribe_events') && !is_home() && !is_feed() ) {
 			// Check if it's the whiz query
 			if ( ! ee_is_whiz() ) {
 				// Get the existing meta query from the query object
