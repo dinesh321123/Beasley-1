@@ -6,15 +6,16 @@ $app_only_meta_args = array();
 if ( ! ee_is_whiz() ) {
 	$app_only_meta_args["meta_query"] = array(
 		'relation' => 'OR',
-		array(
-			'key'     => '_is_app_only',
-			'value'   => 1,
-			'compare' => '!=',
-		),
-		array(
+		[
 			'key'     => '_is_app_only',
 			'compare' => 'NOT EXISTS',
-		),
+		],
+		[
+			'key'     => '_is_app_only',
+			'value'   => 0,
+			'compare' => '=',
+			'type'    => 'NUMERIC',
+		],		
 	);
 }
 $query = new \WP_Query( array_merge( $app_only_meta_args, array(

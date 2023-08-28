@@ -96,15 +96,16 @@ function ee_is_common_mobile_show() {
 function add_app_only_restricton( $query_args ) {
 	$meta_query_args = array(
 		'relation' => 'OR',
-		array(
-			'key'     => '_is_app_only',
-			'value'   => 1,
-			'compare' => '!=',
-		),
-		array(
+		[
 			'key'     => '_is_app_only',
 			'compare' => 'NOT EXISTS',
-		),
+		],
+		[
+			'key'     => '_is_app_only',
+			'value'   => 0,
+			'compare' => '=',
+			'type'    => 'NUMERIC',
+		],		
 	);
 	if ( ! ee_is_common_mobile_show() ) {
 		$query_args['meta_query'] = $meta_query_args;
@@ -574,15 +575,8 @@ function adjust_show_main_query( $where ) {
 	if ( class_exists( '\GMP_CPT' ) ) {
 		$podcasts = get_show_podcast_ids();
 		if ( ! empty( $podcasts ) ) {
-			$app_only = "";
-			if ( ! ee_is_common_mobile_show() ) {
-				$app_only = sprintf(
-					" AND ( ( %1\$s.meta_key = '_is_app_only' AND %1\$s.meta_value != '1' ) OR mt1.post_id IS NULL ) ",
-					$wpdb->postmeta
-				);
-			}
 			$where = sprintf(
-				" AND ((1 = 1%1\$s) OR (%2\$s.post_type = '%3\$s' AND %2\$s.post_parent IN (%4\$s) AND (%2\$s.post_status = 'publish')$app_only))",
+				" AND ((1 = 1%1\$s) OR (%2\$s.post_type = '%3\$s' AND %2\$s.post_parent IN (%4\$s) AND (%2\$s.post_status = 'publish')))",
 				$where,
 				$wpdb->posts,
 				\GMP_CPT::EPISODE_POST_TYPE,
