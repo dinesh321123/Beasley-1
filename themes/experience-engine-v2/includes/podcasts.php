@@ -10,15 +10,16 @@ if ( ! function_exists( 'ee_get_episodes_query' ) ) :
 		if ( ! ee_is_whiz() ) {
 			$args["meta_query"] = array(
 				'relation' => 'OR',
-				array(
-					'key'     => '_is_app_only',
-					'value'   => 1,
-					'compare' => '!=',
-				),
-				array(
+				[
 					'key'     => '_is_app_only',
 					'compare' => 'NOT EXISTS',
-				),
+				],
+				[
+					'key'     => '_is_app_only',
+					'value'   => 0,
+					'compare' => '=',
+					'type'    => 'NUMERIC',
+				],		
 			);
 		}
 

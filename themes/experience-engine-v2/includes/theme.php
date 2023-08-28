@@ -154,15 +154,16 @@ if ( ! function_exists( 'ee_app_only_validate_query' ) ) :
 		// Set the meta query arguments for the additional condition
 		$additional_meta_query = array(
 			'relation' => 'OR',
-			array(
-				'key'     => '_is_app_only',
-				'value'   => 1,
-				'compare' => '!=',
-			),
-			array(
+			[
 				'key'     => '_is_app_only',
 				'compare' => 'NOT EXISTS',
-			),
+			],
+			[
+				'key'     => '_is_app_only',
+				'value'   => 0,
+				'compare' => '=',
+				'type'    => 'NUMERIC',
+			],		
 		);
 
 		$meta_query[] = $additional_meta_query;

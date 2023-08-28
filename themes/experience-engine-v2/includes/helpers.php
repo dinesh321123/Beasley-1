@@ -334,15 +334,16 @@ if ( ! function_exists( 'ee_get_category_posts_query' ) ) :
 			// Set the meta query arguments
 			$meta_query_args = array(
 				'relation' => 'OR',
-				array(
-					'key'     => '_is_app_only',
-					'value'   => 1,
-					'compare' => '!=',
-				),
-				array(
+				[
 					'key'     => '_is_app_only',
 					'compare' => 'NOT EXISTS',
-				),
+				],
+				[
+					'key'     => '_is_app_only',
+					'value'   => 0,
+					'compare' => '=',
+					'type'    => 'NUMERIC',
+				],		
 			);
 
 			$category_archive_query_params['meta_query'] = $meta_query_args;
