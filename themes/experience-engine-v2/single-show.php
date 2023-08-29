@@ -6,8 +6,8 @@ the_post();
 
 echo '<div class="', join( ' ', get_post_class() ), '">';
 	echo '<div class="content-wrap">';
-		if ( ee_is_first_page() ) :
-			get_template_part( 'partials/show/header' );
+		if ( ee_is_first_page() ) :			
+			get_template_part( 'partials/show/custom-header' );
 			get_template_part( 'partials/show/featured' );
 			get_template_part( 'partials/show/favorites' );
 		endif;

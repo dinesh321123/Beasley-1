@@ -1,7 +1,10 @@
 (function ($) {
 	$(document).ready(function () {
+		$('[class*="_shows-"]').addClass("custom-margin");
 		width = $(window).width();
+
 		if ($(window).width() <= 768 && $(window).width() > 575) {
+			$(".top_mobile_header").empty();			
 			licount = $(".cnavigation").find("li").length;
 			if (licount > 4) {
 				$(".cnavigation")
@@ -30,6 +33,8 @@
 			}
 		}
 		if ($(window).width() <= 575) {
+			$(".article-inner-container .cnavigation").empty();
+			$(".show .cnavigation").empty();
 			licount = $(".cnavigation").find("li").length;
 			if (licount > 3) {
 				$(".cnavigation")
@@ -54,7 +59,6 @@
 						}
 					});
 			} else {
-				
 				var targetElement = $(".cnavigation");
 				targetElement.toggleClass("no-pseudo");
 			}

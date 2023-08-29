@@ -502,6 +502,7 @@ class PrimaryNav extends PureComponent {
 	}
 
 	handlePageChange() {
+		this.setupNavigation();
 		const { primaryNavRef } = this;
 		const { setNavigationCurrent, hideModal } = this.props;
 		const container = primaryNavRef.current;
@@ -547,9 +548,22 @@ class PrimaryNav extends PureComponent {
 				}
 			}
 		}
-
 		this.closeMenus();
 		hideModal();
+	}
+
+	setupNavigation() {
+		const currentUrl = window.location.href;
+		const subItems = document.querySelectorAll('.cnavigation li');
+		subItems.forEach(subitem => {
+			subitem.classList.remove('current-menu-item');
+		});
+		subItems.forEach(function(item) {
+			const anchor = item.querySelector('a');
+			if (anchor && anchor.href === currentUrl) {
+				item.classList.add('current-menu-item');
+			}
+		});
 	}
 
 	closeMenus() {
