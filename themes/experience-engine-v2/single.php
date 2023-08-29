@@ -3,6 +3,8 @@ get_header();
 
 ee_switch_to_article_blog();
 the_post();
+//var_dump(ee_get_current_show());
+
 ?>
 <div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
 	<?php if ( ee_get_current_show() ) : ?>
@@ -10,10 +12,12 @@ the_post();
 			<header class="post-info">
 				<?php get_template_part( 'partials/featured-media' ); ?>
 			</header>
-		<?php endif; ?>
-		<div class="content-wrap">
-			<?php get_template_part( 'partials/show/custom-header' ); ?>
-		</div>
+		<?php endif; ?>		
+		<div class="article-inner-container">
+			<div class="entry-content content-wrap">
+				<?php get_template_part( 'partials/show/custom-header' ); ?>
+			</div>
+		</div>		
 	<?php endif; ?>
 	<header class="post-info">
 		<?php if ( ee_get_current_show() ) : ?>
