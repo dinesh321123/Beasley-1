@@ -1058,7 +1058,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		const identityRequest =
 			{
 				userIdentities: {
-					email: userEmailAddress,
+					email: userEmailAddress.toLowerCase(),
 				},
 			};
 		const identityCallback = result => {
