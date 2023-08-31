@@ -54,6 +54,7 @@ class PrimaryNav extends PureComponent {
 		window.addEventListener('scroll', this.handleScrollNavigation);
 		window.addEventListener('popstate', this.onPageChange);
 		window.addEventListener('pushstate', this.onPageChange);
+
 		// Add close button in the active mega menu and set current active menu
 		this.handleOnLoadFix();
 
@@ -77,6 +78,7 @@ class PrimaryNav extends PureComponent {
 		if (sButtonContainer) {
 			sButtonContainer.addEventListener('click', this.handleSearchClick);
 		}
+
 		document.body.classList.remove('-lock');
 	}
 
@@ -500,6 +502,7 @@ class PrimaryNav extends PureComponent {
 	}
 
 	handlePageChange() {
+		this.setupNavigation();
 		const { primaryNavRef } = this;
 		const { setNavigationCurrent, hideModal } = this.props;
 		const container = primaryNavRef.current;
@@ -545,10 +548,23 @@ class PrimaryNav extends PureComponent {
 				}
 			}
 		}
-
 		this.closeMenus();
 		this.nsf_disable_button();
 		hideModal();
+	}
+
+	setupNavigation() {
+		const currentUrl = window.location.href;
+		const subItems = document.querySelectorAll('.cnavigation li');
+		subItems.forEach(subitem => {
+			subitem.classList.remove('current-menu-item');
+		});
+		subItems.forEach(function(item) {
+			const anchor = item.querySelector('a');
+			if (anchor && anchor.href === currentUrl) {
+				item.classList.add('current-menu-item');
+			}
+		});
 	}
 
 	nsf_disable_button() {

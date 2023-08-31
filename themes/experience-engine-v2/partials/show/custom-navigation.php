@@ -4,7 +4,14 @@ if ( ! $show ) :
 	return;
 endif;
 
-?><div><?php
+?><div class="position-relative">
+	<div class="mobile-navigation-logo">
+		<?php if ( ( $logo = ee_get_show_meta( $show, 'logo' ) ) ) : ?>		<!--  -->			
+				<img src="<?php echo wp_get_attachment_image_url( $logo ,array(40,40));?>" />
+				<?php //ee_the_lazy_image( $logo ); ?>			
+		<?php endif; ?>
+	</div>	
+	<?php
 	if ( \GreaterMedia\Shows\uses_custom_menu( $show->ID ) ) :
 		wp_nav_menu( array(
 			'menu'      => \GreaterMedia\Shows\assigned_custom_menu_id( $show->ID ),
