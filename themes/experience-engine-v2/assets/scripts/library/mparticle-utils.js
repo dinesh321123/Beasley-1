@@ -92,7 +92,7 @@ export const logFirebaseUserIntoMParticle = (
 			const identifyRequest = {
 				userIdentities: {
 					customerid: firebaseUser.uid,
-					email: firebaseUser.email,
+					email: firebaseUser.email.toLowerCase(),
 				},
 			};
 			const identityCallback = result => {

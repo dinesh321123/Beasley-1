@@ -80,7 +80,7 @@ class BeasleyAnalytics {
 			retval.identifyRequest = {
 				userIdentities: {
 					customerid: window.firebase.auth().currentUser.uid,
-					email: window.firebase.auth().currentUser.email,
+					email: window.firebase.auth().currentUser.email.toLowerCase(),
 				}
 			};
 		}
@@ -1055,7 +1055,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		}
 
 		// Logged In User Did Not Match Email. Call mParticle Identify For ONLY Email
-		const identityRequest =
+		const identifyRequest =
 			{
 				userIdentities: {
 					email: userEmailAddress.toLowerCase(),
@@ -1068,7 +1068,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				window.mParticle.Identity.logout({});
 			}
 		};
-		window.mParticle.Identity.identify(identityRequest, identityCallback);
+		window.mParticle.Identity.identify(identifyRequest, identityCallback);
 	}
 }
 
