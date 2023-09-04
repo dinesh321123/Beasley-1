@@ -1,6 +1,7 @@
 .top_header {
     @media (--max-small-viewport) {
         display: none;
+
     }    
 	& .information {
         display: flex;
@@ -113,7 +114,7 @@
 }
 
 .top_mobile_header{
-    display: none;   
+    display: none;     
     @media (--max-small-viewport) {
         display: block;
         & .position-relative{
@@ -126,16 +127,16 @@
             margin: 0px;       
     }
     & img{
-        height: 40px;
-        width: 60px;
-        border-radius: 25px;
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
     }
 }
 .mobile-navigation-logo{
     display: none;
     position: absolute;
     left: 5px;
-    top: 5px; 
+    top: 3px; 
     @media (--max-small-viewport) {
         display: block;
     }

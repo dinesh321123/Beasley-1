@@ -4,7 +4,7 @@
 
 <div id="post-<?php the_ID(); ?>" <?php post_class('show-about'); ?>>
 	<div class="article-inner-container">
-		<div class="entry-content content-wrap">
+		<div class="content-wrap">
 			<?php get_template_part('partials/show/custom-header'); ?>
 		</div>
 		<div class="content-wrap">
