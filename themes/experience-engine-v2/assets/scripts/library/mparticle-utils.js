@@ -53,6 +53,9 @@ export const createMparticleSession = () => {
 			'Done configuring mparticle in bundle, now initializing Beasley Analytics',
 		);
 		window.beasleyanalytics.initializeMParticle();
+	} else {
+		console.log('mParticle is not configured to run on this site');
+		window.mParticle = null;
 	}
 };
 
