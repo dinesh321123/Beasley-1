@@ -19,3 +19,24 @@
         color: red;
        }
 }
+
+.page-template-myaccount{
+    & header.post-info {
+        padding: 0 1rem 1rem;
+
+        & p{
+            margin:0px;
+        }
+    } 
+
+    & .entry-content{
+        & .description{
+            & .info_account{
+                & p{
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+
+} 
