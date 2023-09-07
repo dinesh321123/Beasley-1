@@ -11,7 +11,7 @@ set -euo pipefail
 set +x
 # themes needs to be updated to Node LTS version(currently 16)
 # using Node version 14 until that is done.
-nvm use 16
+nvm use 18
 set -x
 node --version
 
