@@ -10,7 +10,8 @@ Author URI: https://bbgi.com/
 if ( ! defined( 'ABSPATH' ) ) {
 	die( "Please don't try to access this file directly." );
 }
-define( 'GENERAL_SETTINGS_CPT_VERSION', '0.0.4' );
+define( 'BLOGUPLOADDIR', '' ); /* Fix error of Gravity Form Constant. */
+define( 'GENERAL_SETTINGS_CPT_VERSION', '0.0.5' );
 define( 'GENERAL_SETTINGS_CPT_URL', plugin_dir_url( __FILE__ ) );
 define( 'GENERAL_SETTINGS_CPT_PATH', dirname( __FILE__ ) );
 define( 'GENERAL_SETTINGS_CPT_TEXT_DOMAIN', 'general_settings_textdomain' );

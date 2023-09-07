@@ -79,7 +79,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_script_add_data( 'td-sdk', 'async', true );
 
 		// Google Tag Manager
-		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
+		wp_register_script( 'googletag', '//securepubads.g.doubleclick.net/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
 		wp_script_add_data( 'googletag', 'async', true );
 
 		$ad_confiant_enabled = get_option( 'ad_confiant_enabled', 'off' );

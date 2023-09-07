@@ -54,7 +54,6 @@ class PrimaryNav extends PureComponent {
 		window.addEventListener('scroll', this.handleScrollNavigation);
 		window.addEventListener('popstate', this.onPageChange);
 		window.addEventListener('pushstate', this.onPageChange);
-
 		// Add close button in the active mega menu and set current active menu
 		this.handleOnLoadFix();
 
@@ -78,7 +77,6 @@ class PrimaryNav extends PureComponent {
 		if (sButtonContainer) {
 			sButtonContainer.addEventListener('click', this.handleSearchClick);
 		}
-
 		document.body.classList.remove('-lock');
 	}
 
@@ -549,7 +547,34 @@ class PrimaryNav extends PureComponent {
 		}
 
 		this.closeMenus();
+		this.nsf_disable_button();
 		hideModal();
+	}
+
+	nsf_disable_button() {
+		const email = document.querySelector('.nsf-email').value;
+		const pattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+		const submitButton = document.querySelector('#nsf-form .nsf-form-submit');
+
+		if (
+			document.querySelector('.nsf-first-name').value === '' ||
+			email === '' ||
+			!document.querySelector('#nsf-checkbox-content').checked
+		) {
+			submitButton.disabled = true;
+			submitButton.style.opacity = 0.5;
+			submitButton.style.cursor = 'not-allowed';
+		} else {
+			submitButton.disabled = false;
+			submitButton.style.opacity = 1;
+			submitButton.style.cursor = 'pointer';
+
+			if (!pattern.test(email)) {
+				submitButton.disabled = true;
+				submitButton.style.opacity = 0.5;
+				submitButton.style.cursor = 'not-allowed';
+			}
+		}
 	}
 
 	closeMenus() {

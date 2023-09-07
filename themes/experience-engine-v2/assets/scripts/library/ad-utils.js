@@ -137,15 +137,18 @@ const bidsBackHandler = slotList => {
 
 export const requestHeaderBids = slotList => {
 	headerBidFlags.gamRequestWasSent = false;
+	window.lastReturnedAmazonUAMBids = null;
 
-	// Request Amazon UAM bids if a window.initializeAPS function exists, which indicates UAM enabled
-	if (window.initializeAPS) {
+	// Set Amazon UAM bid sizes if a window.initializeAPS function exists, which indicates UAM enabled
+	const amazonBidArray =
+		window.initializeAPS && window.getAmazonUAMSlots(slotList);
+
+	if (amazonBidArray && amazonBidArray.length > 0) {
 		headerBidFlags.amazonUAMAccountedFor = false;
 		window.initializeAPS();
-		window.lastReturnedAmazonUAMBids = null;
 		window.apstag.fetchBids(
 			{
-				slots: window.getAmazonUAMSlots(slotList),
+				slots: amazonBidArray,
 				timeout: HEADER_BID_TIMEOUT,
 			},
 			function(bids) {

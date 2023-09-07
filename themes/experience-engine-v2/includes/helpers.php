@@ -662,3 +662,13 @@ if ( ! function_exists( 'ee_parse_shortcode_atts' ) ) :
 		return $attributes;
 	}
 endif;
+
+if ( ! function_exists( 'ee_404_page_redirect' ) ) :
+	function ee_404_page_redirect() {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+		include(get_404_template());
+		exit;
+	}
+endif;
