@@ -230,7 +230,6 @@ class CommonSettings {
 					'required-feature-img-admin-js',
 					GENERAL_SETTINGS_CPT_URL . "assets/js/require-featured-image-onedit". $postfix .".js",
 					array( 'jquery' ), '0.1' );
-			// wp_register_script( 'required-feature-img-admin-js', GENERAL_SETTINGS_CPT_URL . "assets/js/require-featured-image-onedit.js", array( 'jquery' ) );
 			wp_enqueue_script( 'required-feature-img-admin-js' );
 
 			wp_localize_script(
@@ -258,5 +257,5 @@ class CommonSettings {
 	}
 }
 
-// CommonSettings::init();
+
 new CommonSettings();

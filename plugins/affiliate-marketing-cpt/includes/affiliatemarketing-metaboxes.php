@@ -32,7 +32,7 @@ class AffiliateMarketingCPTMetaboxes {
 	public static function enqueue_scripts() {
 		global $typenow, $pagenow;
 		if ( AffiliateMarketingCPT::AFFILIATE_MARKETING_POST_TYPE == $typenow && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
-			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+			
 			wp_enqueue_media();
 			wp_enqueue_script('jquery-ui-core');
         	wp_enqueue_script('jquery-ui-dialog');
@@ -306,7 +306,7 @@ class AffiliateMarketingCPTMetaboxes {
 							menubar    : false,
 							indent     : false,
 							toolbar1: 'formatselect bold italic | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | wp_more | spellchecker | fullscreen | wp_adv',
-							// toolbar1   : 'bold, italic, strikethrough, bullist, numlist, blockquote, hr, alignleft, aligncenter, alignright, link, unlink, wp_more, spellchecker, fullscreen, wp_adv',
+							
 							toolbar2   : 'underline, alignjustify, forecolor, pastetext, removeformat, charmap, outdent,indent,undo,redo,wp_help',
 							toolbar3   : '',
 							toolbar4   : '',
@@ -443,7 +443,7 @@ class AffiliateMarketingCPTMetaboxes {
 							menubar    : false,
 							indent     : false,
 							toolbar1: 'formatselect bold italic | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | wp_more | spellchecker | fullscreen | wp_adv',
-							// toolbar1   : 'bold, italic, strikethrough, bullist, numlist, blockquote, hr, alignleft, aligncenter, alignright, link, unlink, wp_more, spellchecker, fullscreen, wp_adv',
+							
 							toolbar2   : 'underline, alignjustify, forecolor, pastetext, removeformat, charmap, outdent,indent,undo,redo,wp_help',
 							toolbar3   : '',
 							toolbar4   : '',
@@ -517,7 +517,7 @@ class AffiliateMarketingCPTMetaboxes {
 	public static function affiliate_marketing_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_am_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_am_footer_description_nonce'], '_am_footer_description_nonce' ) ) return;
-		// if ( ! current_user_can( 'edit_post' ) ) return;
+		
 
 		if ( isset( $_POST['am_footer_description'] ) ) {
 			$am_footer_description = $_POST['am_footer_description'];
@@ -528,7 +528,7 @@ class AffiliateMarketingCPTMetaboxes {
 	public static function affiliate_marketing_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['repeatable_editor_repeatable_editor_nonce'] ) || ! wp_verify_nonce( $_POST['repeatable_editor_repeatable_editor_nonce'], '_repeatable_editor_repeatable_editor_nonce' ) ) return;
-		// if ( ! current_user_can( 'edit_post' ) ) return;
+		
 
 		if ( isset( $_POST['am_item_name'] ) ) {
 			$am_item_name = $_POST['am_item_name'];
@@ -542,7 +542,7 @@ class AffiliateMarketingCPTMetaboxes {
 		}
 		if ( isset( $_POST['am_item_photo'] ) ) {
 			$filecontents =  $_POST['am_item_photo'] ;
-			// var_dump($filecontents);
+			
 			update_post_meta( $post_id, 'am_item_photo', $filecontents );
 			self::clear_post_metadata_from_cache('am_item_photo', $post_id);
 		}

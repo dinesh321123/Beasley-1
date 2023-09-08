@@ -25,12 +25,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		wp_cache_delete( $this->defaults[ 'plugin_slug' ], 'widget' );
 	}
 
-	/**
-	 * Mega menu - Returns array of post type for recent post widgets.
-	 */
-	/* public function allow_megamenu_recent_posts_posttype() {
-		return (array) apply_filters( 'allow-megamenu-recent-posts-for-posttypes', array( 'post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing' )  );
-	} */
+	
 
 	public function widget( $args, $instance ) {
 		if ( ! isset( $args['widget_id'] ) ) {
@@ -49,29 +44,16 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		} else {
 			$category_ids = implode( ',', $category_ids );
 		}
-		/* $query_args		= array('post_type' => $this->allow_megamenu_recent_posts_posttype(), 'posts_per_page' => $number, 'no_found_rows' => true,'post_status' => 'publish', 'ignore_sticky_posts' => true);
-		if ($category_ids != 0 && !in_array( 0, $category_ids ) ) {
-			$query_args[ 'category__in' ] = $category_ids;
-		} */
-		/* $thumb_dimensions = ( ! empty( $instance[ 'thumb_dimensions' ] ) ) ? $instance[ 'thumb_dimensions' ] : $this->defaults[ 'thumb_dimensions' ];
-		list( $ints[ 'thumb_width' ], $ints[ 'thumb_height' ] ) = $this->get_image_dimensions( $thumb_dimensions );
-		$this->customs[ 'thumb_dimensions' ] = $thumb_dimensions;
-		$r = new WP_Query($query_args); */
+		
 
-		// if ($r->have_posts()) {
+
 			echo '<div id="rpwwt-recent-posts-widget-with-thumbnails-3" class="rpwwt-widget rpwwt-widget-'.$args['widget_id'].'">';
 			echo $args['before_widget'];
 
 			if ( $title ) {
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
-			/* $format = current_theme_supports( 'html5', 'navigation-widgets' ) ? 'html5' : 'xhtml';
-			$format = apply_filters( 'navigation_widgets_format', $format );
-			if ( 'html5' === $format ) {
-				$title      = trim( strip_tags( $title ) );
-				$aria_label = $title ? $title : $default_title;
-				echo '<nav aria-label="' . esc_attr( $aria_label ) . '">';
-			} */
+			
 
 			echo sprintf(
 					'<div class="megamenu-recent-posts-endpoint"
@@ -87,34 +69,11 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 					$args['widget_id']
 			);
 
-			/* echo '<ul>';
-			while ( $r->have_posts() )
-			{
-				$r->the_post();
-				$post_title   = get_the_title();
-				$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)' );
-				$aria_current = '';
-				if ( get_queried_object_id() === get_the_ID() ) {
-					$aria_current = ' aria-current="page"';
-				} ?>
-				<li>
-					<a href="<?php the_permalink(); ?>"<?php echo $aria_current; ?>>
-						<?php
-						if ( $show_thumb ){
-							the_post_thumbnail($this->customs[ 'thumb_dimensions' ]);
-						}?>
-						<span class="rpwwt-post-title"><?php echo $title; ?></span>
-					</a>
-				</li><?php
-			}
-			echo '</ul>';
-			if ( 'html5' === $format ) {
-				echo '</nav>';
-			} */
+			
 			echo $args['after_widget'];
 			echo '</div>';
 
-		// } close if
+		
 	}
 
 	/**
@@ -306,10 +265,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 				foreach ( $thumbsizearray as $thumbsize ) { ?>
 					<option value="<?php echo esc_attr( $thumbsize ); ?>"<?php selected( $thumb_dimensions, $thumbsize ); ?>> <?php echo esc_html( $thumbsize ); ?> </option>
 				<?php } ?>
-				<?php /* foreach ( $size_options as $option ) { ?>
-						<?php if( in_array( $option[ 'size_name' ], array( "thumbnail", "medium", "large", "full" ) ) ) ?>
-					<option value="<?php echo esc_attr( $option[ 'size_name' ] ); ?>"<?php selected( $thumb_dimensions, $option[ 'size_name' ] ); ?>><?php echo esc_html( $option[ 'name' ] ); ?> (<?php echo absint( $option[ 'width' ] ); ?> &times; <?php echo absint( $option[ 'height' ] ); ?>)</option>
-				<?php }	*/ ?>
+				
 			</select>
 			<em><?php printf( esc_html__( 'If you use a specified size the following sizes will be taken, otherwise they will be ignored and the selected dimension as stored in %s will be used:', RPMW_TEXT_DOMAIN ), $media_trail ); ?></em>
 		</p><?php

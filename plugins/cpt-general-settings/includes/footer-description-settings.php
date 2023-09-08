@@ -34,7 +34,7 @@ class FooterDescriptionSettings {
 	public static function common_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_common_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_common_footer_description_nonce'], '_common_footer_description_nonce' ) ) return;
-		// if ( ! current_user_can( 'edit_post' ) ) return;
+		
 
 		if ( isset( $_POST['common_footer_description'] ) ) {
 			$common_footer_description = $_POST['common_footer_description'];
@@ -64,11 +64,11 @@ class FooterDescriptionSettings {
 				'tribe_events',
 				'page',
 				'gmr_gallery',
-				// 'gmr_album',
+				
 				'contest',
-				// 'show',
+				
 				'podcast',
-				// 'episode',
+				
 				'advertiser'
 			)
 		);

@@ -18,11 +18,4 @@ define( 'LISTICLE_SELECTION_URL', plugin_dir_url( __FILE__ ) );
 
 include __DIR__ . '/includes/select-listicle.php';
 
-register_activation_hook( __FILE__, 'select_listicle_activated' );
-register_deactivation_hook( __FILE__, 'select_listicle_deactivated' );
 
-function select_listicle_activated() {
-}
-
-function select_listicle_deactivated() {
-}

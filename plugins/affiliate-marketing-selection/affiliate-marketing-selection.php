@@ -18,11 +18,3 @@ define( 'AFFILIATE_MARKETING_SELECTION_URL', plugin_dir_url( __FILE__ ) );
 
 include __DIR__ . '/includes/select-affiliate-marketing.php';
 
-register_activation_hook( __FILE__, 'select_affiliate_marketing_activated' );
-register_deactivation_hook( __FILE__, 'select_affiliate_marketing_deactivated' );
-
-function select_affiliate_marketing_activated() {
-}
-
-function select_affiliate_marketing_deactivated() {
-}

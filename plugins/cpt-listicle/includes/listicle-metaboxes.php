@@ -28,7 +28,6 @@ class ListicleCPTMetaboxes {
         	wp_enqueue_script('jquery-ui-dialog');
         	wp_enqueue_style('jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css');
 			add_filter( 'wp_default_editor', function() { return "html"; } );
-			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 			wp_register_style('listicle-admin',LISTICLE_CPT_URL . "assets/css/listicle_admin.css", array(), LISTICLE_CPT_VERSION, 'all');
 			wp_enqueue_style('listicle-admin');
 			wp_enqueue_script( 'listicle-admin', LISTICLE_CPT_URL . "assets/js/listicle_admin.js", array('jquery', 'jquery-ui-dialog'), LISTICLE_CPT_VERSION, true);
@@ -130,9 +129,9 @@ class ListicleCPTMetaboxes {
 	}
 	public static function listicle_cpt_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-		// echo "Break before nonce"; exit;
+		
 		if ( ! isset( $_POST['_listicle_cpt_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_listicle_cpt_footer_description_nonce'], '_listicle_cpt_footer_description_nonce' ) ) return;
-		// if ( ! current_user_can( 'edit_post' ) ) return;
+		
 
 		if ( isset( $_POST['listicle_cpt_footer_description'] ) ) {
 			$listicle_cpt_footer_description = $_POST['listicle_cpt_footer_description'];
@@ -143,7 +142,7 @@ class ListicleCPTMetaboxes {
 	public static function listicle_cpt_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['repeatable_editor_nonce'] ) || ! wp_verify_nonce( $_POST['repeatable_editor_nonce'], '_repeatable_editor_nonce' ) ) return;
-		// if ( ! current_user_can( 'edit_post' ) ) return;
+		
 
 		if ( isset( $_POST['cpt_item_name'] ) ) {
 			$cpt_item_name = $_POST['cpt_item_name'];

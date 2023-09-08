@@ -163,7 +163,6 @@ class DashboardActivity {
 		$key				 = md5('bbgi_recent_published_posts');
 		$dashboard_activity_result = wp_cache_get( $key, 'bbgi', false, $found );
 		if ( ! $found ) {
-			// echo "<div style='display: none;'>Records from database.</div>";
 			$dashboard_activity_result = $this->wp_dashboard_recent_published_posts(
 				array(
 					'max'    => 25,

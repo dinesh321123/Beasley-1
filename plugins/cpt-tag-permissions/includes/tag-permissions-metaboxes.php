@@ -181,7 +181,7 @@ class TagPermissionsMetaboxes {
 	public static function tag_permissions_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_tag_permissions_nonce'] ) || ! wp_verify_nonce( $_POST['_tag_permissions_nonce'], '_tag_permissions_nonce' ) ) return;
-		// if ( ! current_user_can( 'edit_post' ) ) return;
+		
 
 		if ( isset( $_POST['tag_permissions_post_tag'] ) ) {
 			$post_tag_array = explode( ',', $_POST['tag_permissions_post_tag'] );

@@ -7,10 +7,10 @@ class EmbedVideoURL {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
-		add_action( 'init', array( __CLASS__, 'embed_videourl_cpt_init' ), 0 );
+		
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_filter( 'attachment_fields_to_edit', array( __CLASS__, 'videourl_field_credit' ), 10, 2 );
-		// add_filter( 'attachment_fields_to_save', array( __CLASS__, 'videourl_field_credit_save' ), 10, 2 );
+		
 		add_action( 'wp_ajax_validate_embed_videourl', array( __CLASS__, 'validate_embed_videourl_action' ) );
 		add_action( 'wp_ajax_nopriv_validate_embed_videourl', array( __CLASS__, 'validate_embed_videourl_action' ) );
 	}
@@ -24,16 +24,14 @@ class EmbedVideoURL {
 			wp_send_json_error( $error );
 		}
 		
-		// $embed = EmbedVideoURL::get_oembed_details($embed_url);
-		/* $embed		=	EmbedVideoURL::get_oembed_details('https://youtu.be/HrxX9TBj2zY');
-		echo "<pre>", print_r($embed); exit; */
+		
 		$embed = _wp_oembed_get_object()->get_data( $embed_url );
 		if ( $embed->type != 'error' && isset($embed->html) && !empty( $embed->html ) ) {
 			delete_post_meta( $getPostid, 'embed' );
 			
 			$embed_array = json_decode( json_encode( $embed ), true );
 			update_post_meta( $getPostid, 'embed', $embed_array );
-			// update_post_meta( $getPostid, 'embed_url', $embed_url ); same in featured-video.php file 347
+			
 			$result = array( "message" => 'URL update successfully...', "embed_data" => array( $embed_array, $embed_url ) );
 			wp_send_json_success( $result );
 		}
@@ -49,13 +47,13 @@ class EmbedVideoURL {
 			preg_match( '/src="([^"]+)"/', $embed['html'], $matchUrl );
 			$youtubeMatchUrl	= isset($matchUrl[1]) && $matchUrl[1] != "" ? $matchUrl[1] : "";
 			$url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : $youtubeMatchUrl;
-			// $url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : "";
+			
 		} else if ( isset($embed['type']) && $embed['type'] == 'video' ) {
 			$url = $embed['provider_url'].''.$embed['video_id'];
 		}
 		return $url;
 		exit;
-		// return "https://vimeo.com/640411928/static"; exit;
+		
 	}
 
 	public static function videourl_field_credit( $form_fields, $post ) {
@@ -70,21 +68,9 @@ class EmbedVideoURL {
 		return $form_fields;
 	}
 	
-	// Save custom text/textarea attachment field
-	public static function videourl_field_credit_save($post, $attachment) {
-		/* if( isset($attachment['text_field']) ){
-			update_post_meta($post['ID'], 'text_field', sanitize_text_field( $attachment['text_field'] ) );
-		}else{
-			delete_post_meta($post['ID'], 'text_field' );
-		}
-		return $post; */
-	}
 	
-	public static function embed_videourl_cpt_init() {
-		/* $embed_url = get_post_meta('303361', 'embed', true);
-		echo $embed_url['provider_url'].''.$embed_url['video_id'];
-		echo "<pre>", print_r($embed_url); exit; */
-	}
+	
+
 
 	/**
 	 * Enqueues admin scripts and styles.

@@ -114,7 +114,7 @@ class DuplicateListicle {
 			$post_meta = get_post_meta( $post_id );
 			if( $post_meta ) {
 				foreach ( $post_meta as $meta_key => $meta_values ) {
-					// echo " Key: ", $meta_key, " -- Value: ", print_r($meta_values), "<br>";
+					
 					if( '_wp_old_slug' == $meta_key ) { // do nothing for this meta key
 						continue;
 					}
@@ -123,7 +123,7 @@ class DuplicateListicle {
 						$final_meta_value =		$meta_value;
 						if( in_array( $meta_key, array("cpt_item_name", "cpt_item_description", "cpt_item_order", "cpt_item_type") ) ) {
 							$final_meta_value = maybe_unserialize($meta_value);
-							// echo " Key: ", $meta_key, " -- Value: ", print_r($final_meta_value), " --------------- Old one - ", print_r($meta_value),  "<br>";
+							
 						}
 						add_post_meta( $new_post_id, $meta_key, $final_meta_value, true );
 					}

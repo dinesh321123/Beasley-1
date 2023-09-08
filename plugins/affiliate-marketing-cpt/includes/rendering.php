@@ -9,20 +9,10 @@ class AffiliateMarketingCPTFrontRendering {
 	public static $strip_shortcodes = false;
 
 	public static function init() {
-		// Register scripts
-		// add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
+		
 	}
 
-	/**
-	 * Registers Affiliate Marketing scripts to use on the front end.
-	 *
-	 * @static
-	 * @access public
-	 * @action wp_enqueue_scripts
-	 */
-	public static function register_scripts() {
-		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-	}
+     
 
 	/**
 	 * Gets an array of meta data for the Affiliate Marketing

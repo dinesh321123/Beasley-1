@@ -26,7 +26,7 @@ class CoAuthorSettingMetaboxes {
 		$location = array();
 		$currnet_author = isset($_GET['post']) ? (get_post($_GET['post']) ? get_post($_GET['post'])->post_author : 0) : 0;
 		$currnet_author = $currnet_author ? (int)trim($currnet_author) : get_current_user_id();
-		// $current_author_name = get_the_author_meta( 'display_name', $currnet_author ? $currnet_author : get_current_user_id() );
+		
 
 		$args = array( 'blog_id' => 0, 'fields' => array( 'ID', 'display_name','user_login' ) );
 
@@ -110,7 +110,7 @@ class CoAuthorSettingMetaboxes {
 			wp_dequeue_style('select2');
 			wp_deregister_style('select2');
 			wp_enqueue_style('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css');
-			// wp_enqueue_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', '', '', false);
+			
 			wp_enqueue_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js', '', '', false);
 			wp_register_style('coauthor-settings-admin', COAUTHOR_SETTINGS_URL . "assets/css/coauthor_settings.css", array(), COAUTHOR_SETTINGS_VERSION, 'all');
 			wp_enqueue_style('coauthor-settings-admin');

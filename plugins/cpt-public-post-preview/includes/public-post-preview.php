@@ -560,4 +560,4 @@ class BBGI_Public_Post_Preview {
 		delete_option( 'public_post_preview' );
 	}
 }
-// BBGI_Public_Post_Preview::init();
+
