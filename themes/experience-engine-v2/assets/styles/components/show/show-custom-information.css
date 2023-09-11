@@ -1,7 +1,6 @@
 .top_header {
     @media (--max-small-viewport) {
         display: none;
-
     }    
 	& .information {
         display: flex;

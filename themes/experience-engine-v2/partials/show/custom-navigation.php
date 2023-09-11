@@ -1,10 +1,14 @@
 <?php
 $show = ee_get_current_show();
-if ( ! $show ) :
-	return;
-endif;
+$slimmermobile = get_query_var( 'slimmermobile' );
+if (!$show ) {
+    $class = ' slimmer-show-mobile-menu';
+} else {
+    $class = '';
+}
+if ($show ) {
 
-?><div class="position-relative">
+?><div id="slimmer-mobile-navigation" class="position-relative<?php echo $class ?>">
 	<div class="mobile-navigation-logo">
 		<?php if ( ( $logo = ee_get_show_meta( $show, 'logo' ) ) ) : ?>		<!--  -->			
 				<img src="<?php echo wp_get_attachment_image_url( $logo ,array(40,40));?>" />
@@ -35,3 +39,5 @@ endif;
 	endif;
 remove_filter( 'bbgi_expand_redirects', '__return_false' );
 ?></div>
+
+<?php } ?>

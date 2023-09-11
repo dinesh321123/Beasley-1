@@ -297,6 +297,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 				'embed_bottom' => false,
 			),
 			'endpointTrandingArticle' => false,
+			'isCurrentShow' => ee_get_current_show()
 		);
 
 		$custom_logo_id = get_option( 'gmr_site_logo' );

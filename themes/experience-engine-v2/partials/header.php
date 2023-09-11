@@ -86,12 +86,5 @@
 	</header>
 	<?php do_action( 'show_breaking_news_banner' ); ?>
 </div>
-<div class="top_header top_mobile_header">
-<?php  
-if(wp_is_mobile()){
-	get_template_part( 'partials/show/custom-navigation' ); 
-}
-?>
-</div>
 <?php get_template_part( 'partials/ads/top-scrolling' ); ?>
 

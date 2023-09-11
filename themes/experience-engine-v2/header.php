@@ -117,6 +117,9 @@ use Bbgi\Integration\Google;
 
 		?><div id='main-container-div' class="container">
 			<main id="content" class="content">
+			<div id='top_mobile_header' class="top_mobile_header">
+				<?php  get_template_part( 'partials/show/custom-navigation' ); ?>
+				</div>
 				<?php
 					if ( class_exists( Google::class ) ) {
 						Google::render_ga_placeholder();
@@ -132,55 +135,59 @@ use Bbgi\Integration\Google;
 
 					$mparticle_implementation = sprintf(
 							'<script class="mparticle_implementation">
-						try {
-							console.log(`Firing Page View - ` + window.location.href);
-							window.beasleyanalytics.setAnalyticsForMParticle(`page_url`, window.location.href);
-							window.beasleyanalytics.setAnalyticsForMParticle(`title`, window.document.title);
-							window.beasleyanalytics.setAnalyticsForMParticle(`primary_category`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`primary_category_id`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`show_name`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`show_id`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`content_type`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`view_type`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_id`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_title`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_type`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_path`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_post_id`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_wp_author`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_primary_author`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_secondary_author`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`post_id`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`wp_author`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`primary_author`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`secondary_author`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`consent_cookie`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`publish_date`, %s);
-							window.beasleyanalytics.setAnalyticsForMParticle(`publish_day_of_the_week`, %s);
-							window.beasleyanalytics.setAnalyticsForMParticle(`publish_hour_of_the_day`, %s);
-							window.beasleyanalytics.setAnalyticsForMParticle(`publish_month`, %s);
-							window.beasleyanalytics.setAnalyticsForMParticle(`publish_time_of_day`, %s);
-							window.beasleyanalytics.setAnalyticsForMParticle(`publish_timestamp_local`, %s);
-							window.beasleyanalytics.setAnalyticsForMParticle(`publish_timestamp_UTC`, %s);
-							window.beasleyanalytics.setAnalyticsForMParticle(`publish_year`, %s);
-							window.beasleyanalytics.setAnalyticsForMParticle(`section_name`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`word_count`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`categories_stringified`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`tags_stringified`, `%s`);
-							window.beasleyanalytics.setAnalyticsForMParticle(`referrer`, window.document.referrer);
+						if (!window.beasleyanalytics) {
+                            console.log(`Beasley Analytics Is Not Configured`);
+                        } else {
+							try {
+								console.log(`Firing Page View - ` + window.location.href);
+								window.beasleyanalytics.setAnalyticsForMParticle(`page_url`, window.location.href);
+								window.beasleyanalytics.setAnalyticsForMParticle(`title`, window.document.title);
+								window.beasleyanalytics.setAnalyticsForMParticle(`primary_category`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`primary_category_id`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`show_name`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`show_id`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`content_type`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`view_type`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_id`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_title`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_type`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_path`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_post_id`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_wp_author`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_primary_author`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`embedded_content_item_secondary_author`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`post_id`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`wp_author`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`primary_author`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`secondary_author`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`consent_cookie`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`publish_date`, %s);
+								window.beasleyanalytics.setAnalyticsForMParticle(`publish_day_of_the_week`, %s);
+								window.beasleyanalytics.setAnalyticsForMParticle(`publish_hour_of_the_day`, %s);
+								window.beasleyanalytics.setAnalyticsForMParticle(`publish_month`, %s);
+								window.beasleyanalytics.setAnalyticsForMParticle(`publish_time_of_day`, %s);
+								window.beasleyanalytics.setAnalyticsForMParticle(`publish_timestamp_local`, %s);
+								window.beasleyanalytics.setAnalyticsForMParticle(`publish_timestamp_UTC`, %s);
+								window.beasleyanalytics.setAnalyticsForMParticle(`publish_year`, %s);
+								window.beasleyanalytics.setAnalyticsForMParticle(`section_name`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`word_count`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`categories_stringified`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`tags_stringified`, `%s`);
+								window.beasleyanalytics.setAnalyticsForMParticle(`referrer`, window.document.referrer);
 
-							window.beasleyanalytics.sendMParticleEvent(
-								BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView,
-							);
-						} catch(e) {
-                            window.beasleyanalytics.sendMParticleErrorEvent(
-								BeasleyAnalyticsMParticleProvider.mparticleErrorClasses.mParticle,
-								BeasleyAnalyticsMParticleProvider.mparticleErrorCodes.UnableToSendPageViewEvent.number,
-								BeasleyAnalyticsMParticleProvider.mparticleErrorCodes.UnableToSendPageViewEvent.name,
-                                window.location.href,
-								`Could Not Send Page View Event - ${e.name}: ${e.message}`
-							);
-						}
+								window.beasleyanalytics.sendMParticleEvent(
+									BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView,
+								);
+							} catch(e) {
+								window.beasleyanalytics.sendMParticleErrorEvent(
+									BeasleyAnalyticsMParticleProvider.mparticleErrorClasses.mParticle,
+									BeasleyAnalyticsMParticleProvider.mparticleErrorCodes.UnableToSendPageViewEvent.number,
+									BeasleyAnalyticsMParticleProvider.mparticleErrorCodes.UnableToSendPageViewEvent.name,
+									window.location.href,
+									`Could Not Send Page View Event - ${e.name}: ${e.message}`
+								);
+							}
+                        }
 					</script>',
 							$mparticle_pageview_event_data['mParticle_category'] ? $mparticle_pageview_event_data['mParticle_category']->name : 'null',
 							$mparticle_pageview_event_data['mParticle_category'] ? $mparticle_pageview_event_data['mParticle_category']->slug : 'null',
