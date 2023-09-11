@@ -117,6 +117,9 @@ use Bbgi\Integration\Google;
 
 		?><div id='main-container-div' class="container">
 			<main id="content" class="content">
+			<div id='top_mobile_header' class="top_mobile_header">
+				<?php  get_template_part( 'partials/show/custom-navigation' ); ?>
+				</div>
 				<?php
 					if ( class_exists( Google::class ) ) {
 						Google::render_ga_placeholder();
