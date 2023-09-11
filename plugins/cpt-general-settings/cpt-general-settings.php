@@ -34,7 +34,7 @@ include __DIR__ . '/includes/newsletter-signup-form.php';
 /** This should be removed after we confirm if logging the shutdown hook is successful */
 include __DIR__ . '/includes/shutdown-elasticsearch-log.php';
 
-include __DIR__ . '/includes/bbgi-station-settings.php';
+include __DIR__ . '/includes/bbgi-station-second-stream-settings.php';
 
 // Includes the capability.php file, which contains additional code related to custom capabilities.
 include __DIR__ . '/includes/capability.php';
