@@ -64,6 +64,9 @@
 }
 
 .control-station-button {
+	@media (--max-small-viewport) {
+		padding: 1.5px 1px !important;
+	}
 	cursor: pointer;
 	border-style: none;
 	padding: 1px;
@@ -89,7 +92,10 @@
   		height: 50px;
   	}
 	& span {
-	  padding: 1rem;
+		@media (--max-small-viewport) {
+			padding: 0 1rem !important;
+		}
+	  	padding: 1rem;
     }
 }
 
