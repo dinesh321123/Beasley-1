@@ -38,7 +38,7 @@ import DraftkingEmbed from './embeds/DraftkingEmbed';
 import AudienceEmbed from './embeds/Audience';
 import CancelAccount from './embeds/CancelAccount';
 
-import PreferenceCenter from './embeds/PreferenceCenter';
+// import PreferenceCenter from './embeds/PreferenceCenter';
 import TrendingArticles from './embeds/TrendingArticles';
 import OutbrainWidget from './embeds/OutbrainWidget';
 
@@ -75,7 +75,7 @@ const mapping = {
 	dimers: Dimers,
 	audience: AudienceEmbed,
 	cancelaccount: CancelAccount,
-	preferencecenter: PreferenceCenter,
+	// preferencecenter: PreferenceCenter,
 	trendingarticles: TrendingArticles,
 	outbrainwidget: OutbrainWidget,
 };

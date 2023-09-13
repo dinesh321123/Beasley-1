@@ -34,7 +34,8 @@ if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header class="post-info">
 			<h1><?php the_title(); ?></h1>
-			<p>Welcome back to your <?php echo $publisher['title']; ?> account !</br>Thanks for joining us and unlocking exclusive content, contests, and customizing your experience with <?php echo $publisher['title']; ?>.</p>
+			<p>Welcome back to your <?php echo $publisher['title']; ?> account!</p>
+			<p>Thanks for joining us and unlocking exclusive content, contests, and customizing your experience with <?php echo $publisher['title']; ?>.</p>
 		</header>
 
 	<div class="entry-content content-wrap">
