@@ -40,6 +40,7 @@ import CancelAccount from './embeds/CancelAccount';
 
 import PreferenceCenter from './embeds/PreferenceCenter';
 import TrendingArticles from './embeds/TrendingArticles';
+import OutbrainWidget from './embeds/OutbrainWidget';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -76,6 +77,7 @@ const mapping = {
 	cancelaccount: CancelAccount,
 	preferencecenter: PreferenceCenter,
 	trendingarticles: TrendingArticles,
+	outbrainwidget: OutbrainWidget,
 };
 
 /**

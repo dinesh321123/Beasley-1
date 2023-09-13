@@ -21,3 +21,6 @@ include __DIR__ . '/includes/editor-toolbar-widgets.php';
 
 // This line includes the cache manager file for caching functionality
 include __DIR__ . '/includes/cache-manager.php';
+
+/* This file is responsible for managing and defining Outbrain widgets within the WordPress context. */
+include __DIR__ . '/includes/outbrain-widgets.php';

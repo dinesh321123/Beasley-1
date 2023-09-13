@@ -502,6 +502,12 @@ export function getStateFromContent(
 					'has_shortcode',
 				),
 			),
+			...processEmbeds(
+				container,
+				'outbrainwidget',
+				'.outbrain-widget',
+				getDatasetParams(),
+			),
 		];
 
 		// extract <script> tags
