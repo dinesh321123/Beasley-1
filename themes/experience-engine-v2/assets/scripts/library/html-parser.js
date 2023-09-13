@@ -487,6 +487,12 @@ export function getStateFromContent(
 				'.preference-section',
 				getDatasetParams(),
 			),
+			...processEmbeds(
+				container,
+				'outbrainwidget',
+				'.outbrain-widget',
+				getDatasetParams(),
+			),
 		];
 
 		// extract <script> tags

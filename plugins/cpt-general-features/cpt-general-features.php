@@ -18,3 +18,6 @@ define( 'GFF_TEXT_DOMAIN', 'gff_textdomain' );
 /* Clone Listicle post type similarly to Posts */
 include __DIR__ . '/includes/duplicate-listicle.php';
 include __DIR__ . '/includes/editor-toolbar-widgets.php';
+
+/* This file is responsible for managing and defining Outbrain widgets within the WordPress context. */
+include __DIR__ . '/includes/outbrain-widgets.php';
