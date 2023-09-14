@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { firebaseAuth } from '../../library/firebase';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
-import OAuthButtons from './authentication/OAuthButtons';
+// import OAuthButtons from './authentication/OAuthButtons';
 import { mapAuthErrorCodeToFriendlyMessage } from '../../library/friendly-error-messages';
 import { setMParticleUserAtributes } from '../../library';
 
@@ -237,10 +237,13 @@ class SignUp extends PureComponent {
 
 				<Alert message={error} />
 
+				<p>&nbsp;</p>
+				{/* Temporarily Hide Auth Buttons Due To Issues
 				<p className="p-label">
 					<em>Register with:</em>
 				</p>
 				<OAuthButtons horizontal />
+				*/}
 
 				<form className="modal-form -form-sign-up" onSubmit={this.onFormSubmit}>
 					<div className="modal-form-group-inline">
