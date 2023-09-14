@@ -217,13 +217,23 @@ class SignUp extends PureComponent {
 			error,
 			showError,
 		} = this.state;
+		const { bbgiconfig } = window;
+		const { publisher } = bbgiconfig || {};
+		console.log(publisher);
 		const { signin } = this.props;
+		const subtitle = `Create Your Account & Unlock More ${publisher.title} Than Ever Before.`;
+		const subtitle_innerText = `When logged in, you'll discover exclusive audio, video, and articles and have a customized experience with ${publisher.title}. Plus, you'll be among a group of fans helping us with direct feedback on music, events, and content.`;
 
 		return (
 			<>
 				<Header>
 					<h3>Sign Up for Exclusive Access</h3>
 				</Header>
+
+				<div className="modal-subtitle">
+					<p>{subtitle}</p>
+					<p>{subtitle_innerText}</p>
+				</div>
 
 				<Alert message={error} />
 

@@ -15,11 +15,27 @@ if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 
 } else {
 
-	the_post(); ?>
+	the_post(); 
+	
+	$publisher_id = get_option( 'ee_publisher' );
+
+	$publisher = array();
+	$publishers_map = array();
+	$ee = \Bbgi\Module::get( 'experience-engine' );
+	foreach ( $ee->get_publisher_list() as $item ) {
+		$publishers_map[ $item['id'] ] = $item['title'];
+		if ( $item['id'] == $publisher_id ) {
+			$publisher = $item;
+		}
+	}
+	
+	?>
 
 	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header class="post-info">
 			<h1><?php the_title(); ?></h1>
+			<p>Welcome back to your <?php echo $publisher['title']; ?> account!</p>
+			<p>Thanks for joining us and unlocking exclusive content, contests, and customizing your experience with <?php echo $publisher['title']; ?>.</p>
 		</header>
 
 	<div class="entry-content content-wrap">

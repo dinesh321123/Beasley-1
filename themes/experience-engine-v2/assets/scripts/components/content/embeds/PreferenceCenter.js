@@ -62,13 +62,13 @@ class PreferenceCenter extends Component {
 			<div>
 				{this.state.isLoggedIn ? (
 					<div className="user-preference-info">
-						Click here to set your
+						Click here to set your email newsletter
 						<button
 							type="button"
 							className="preference-link-btn"
 							onClick={this.getPreferenceLink}
 						>
-							Preference
+							preferences
 						</button>
 						{this.state.api_error ? <span>{this.state.api_error}</span> : null}
 					</div>
