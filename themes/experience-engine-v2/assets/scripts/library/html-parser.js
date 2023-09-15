@@ -506,7 +506,7 @@ export function getStateFromContent(
 				container,
 				'outbrainwidget',
 				'.outbrain-widget',
-				getDatasetParams(),
+				getDatasetParams('url'),
 			),
 		];
 

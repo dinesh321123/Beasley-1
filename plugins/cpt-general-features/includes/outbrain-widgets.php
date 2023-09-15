@@ -32,15 +32,9 @@ class OutbrainWidget {
         ob_start();
 
         if (ee_is_whiz()) {
-
-            echo '<div class="OUTBRAIN" data-src="DROP_PERMALINK_HERE" data-widget-id="AR_1"></div>';
-            echo '<script type="text/javascript" async="async" src="//widgets.outbrain.com/outbrain.js"></script>';
-
+            echo '<div class="OUTBRAIN" data-src="'.get_the_permalink().'" data-widget-id="AR_1"></div>';
         } else {
-
-            // Echo the HTML for the Outbrain widget. In this case, it's a <div> element with the id 'outbrain-react-widget'.
-            echo '<div id="outbrain-react-widget" class="outbrain-widget"></div>';
-        
+            echo '<div id="outbrain-react-widget" class="outbrain-widget" data-url="'.get_the_permalink().'"></div>';
         }
 
         // Get the contents of the output buffer and store it in the $outbrain_widget variable.
