@@ -59,6 +59,7 @@ the_post();
 			<?php endif; ?>
 
 			<?php get_template_part( 'partials/footer/common', 'description' ); ?>
+			<?php echo do_shortcode( '[outbrain_widget]' ); ?>
 			<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
