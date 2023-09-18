@@ -48,12 +48,27 @@ class Close extends PureComponent {
 	}
 
 	removeContestGating() {
+		// debug code
+		console.log('removeContestGating()');
+
 		if (document.getElementById('contestframe')) {
+			// debug code
+			console.log('removeContestGating() - contestframe exists');
+
 			window.removeGate('contestframe');
 			this.isUserLoggedIn().then(isLoggedIn => {
+				// debug code
+				console.log(`removeContestGating() - isLoggedIn = ${isLoggedIn}`);
+
 				if (!isLoggedIn) {
+					// debug code
+					console.log('removeContestGating() - isLoggedIn = false');
+
 					window.createGate('contestframe', 'frame-gate');
 				} else {
+					// debug code
+					console.log('removeContestGating() - isLoggedIn = true');
+
 					window.removeGate('contestframe');
 				}
 			});
