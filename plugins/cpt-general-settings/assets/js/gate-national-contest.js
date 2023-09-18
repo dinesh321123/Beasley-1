@@ -100,12 +100,18 @@ function createGate(iframeId, iGateIdCLASS) {
  */
 function removeGate(iframeId) {
 	let iframe = document.getElementById(iframeId);
-	if (!iframe) return;
-
 	let gate = document.getElementById(iframe.dataset.gateId);
 
-	// if gate does not exist return
-	if (!gate) return;
+	// if gate and frame are not set return from function and remove gate from DOM if it exists
+	if (! frame && gate) {
+		gate.parentNode.removeChild(gate);
+		return;
+	}
+
+	if (frame && gate) {
+		// hide visibility of gate
+		gate.style.visibility = "hidden";
+	}
 
 	// determine if observers exist if not return
 	if (!iframe.dataset.resizeObserverId || !iframe.dataset.mutationObserverId) {
@@ -122,7 +128,7 @@ function removeGate(iframeId) {
 	gateNotificationButton.removeEventListener("click");
 
 	// Remove gate from the DOM
-	gate.parentNode.removeChild(gate);
+
 
 	// Clean up the iframe's dataset
 	delete iframe.dataset.gateId;
