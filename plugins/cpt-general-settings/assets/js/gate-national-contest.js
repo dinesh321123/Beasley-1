@@ -61,7 +61,11 @@ function createGate(iframeId, iGateIdCLASS) {
 		gateNotificationButton.href = "/_login_activity_";
 	} else {
 		/* If whiz querystring parameter is not present */
-		gateNotificationButton.addEventListener("click", function () {
+		gateNotificationButton.addEventListener("click", function (e) {
+
+			// Prevent the default action of the link
+			e.preventDefault();
+
 			window.openLoginRegistration();
 		});
 	}
