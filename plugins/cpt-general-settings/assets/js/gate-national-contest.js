@@ -103,12 +103,12 @@ function removeGate(iframeId) {
 	let gate = document.getElementById(iframe.dataset.gateId);
 
 	// if gate and frame are not set return from function and remove gate from DOM if it exists
-	if (! frame && gate) {
+	if (! iframe && gate) {
 		gate.parentNode.removeChild(gate);
 		return;
 	}
 
-	if (frame && gate) {
+	if (iframe && gate) {
 		// hide visibility of gate
 		gate.style.visibility = "hidden";
 	}

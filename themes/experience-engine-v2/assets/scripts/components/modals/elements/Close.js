@@ -76,15 +76,31 @@ class Close extends PureComponent {
 	}
 
 	didClick() {
+		// debug code
+		console.log('didClick()');
+
 		const beforeClose = window.beforeBeasleyModalClose;
 		const { close } = this.props;
+
+		// debug code
+		console.log(`didClick() - beforeClose = ${beforeClose}`);
 
 		if (beforeClose) {
 			const result = beforeClose();
 
+			// debug code
+			console.log(`didClick() - result = ${result}`);
+
 			if (result) {
 				if (close) {
+					// debug code
+					console.log('didClick() - close()');
+
 					close();
+
+					// debug code
+					console.log('didClick() - removeContestGating()');
+
 					this.removeContestGating();
 				}
 			}
