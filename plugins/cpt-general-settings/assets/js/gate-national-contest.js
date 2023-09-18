@@ -11,7 +11,7 @@
  * @param {string} iframeId The id of the iframe
  * @param {string} iGateIdCLASS The class of the gate
  */
-function createGate(iframeId, iGateIdCLASS) {
+window.createGate = (iframeId, iGateIdCLASS) => {
 	let iframe = document.getElementById(iframeId);
 	if (!iframe) return;
 
@@ -56,18 +56,20 @@ function createGate(iframeId, iGateIdCLASS) {
 	/* Read the query string parameters */
 	const urlParams = new URLSearchParams(window.location.search);
 	const whizParam = urlParams.get('whiz');
+
+	// Function to handle click event
+	const handleClick = function (e) {
+		e.preventDefault();
+		window.openLoginRegistration();
+	};
+
 	if (whizParam) {
 		/* If whiz querystring parameter is present */
 		gateNotificationButton.href = "/_login_activity_";
 	} else {
-		/* If whiz querystring parameter is not present */
-		gateNotificationButton.addEventListener("click", function (e) {
-
-			// Prevent the default action of the link
-			e.preventDefault();
-
-			window.openLoginRegistration();
-		});
+		gateNotificationButton.addEventListener("click", handleClick);
+		// Store the event listener function reference
+		iframe.dataset.eventListenerFunc = handleClick;
 	}
 	// Instantiate the ResizeObserver and observe the iframe
 	let resizeObserver = new ResizeObserver(function (entries) {
@@ -91,28 +93,28 @@ function createGate(iframeId, iGateIdCLASS) {
 	iframe.dataset.gateId = gate.id;
 	iframe.dataset.resizeObserverId = resizeObserver;
 	iframe.dataset.mutationObserverId = mutationObserver;
-}
+};
 
 // 100 ms debounce function for createGate using a timeout
-let createGateTimeout;
-function createGateDebounce(iframeId, iGateIdCLASS) {
-clearTimeout(createGateTimeout);
-	createGateTimeout = setTimeout(function () {
-		createGate(iframeId, iGateIdCLASS);
+window.createGateTimeout = -1;
+window.createGateDebounce = (iframeId, iGateIdCLASS) => {
+	clearTimeout(window.createGateTimeout);
+	window.createGateTimeout = setTimeout(() => {
+		window.createGate(iframeId, iGateIdCLASS);
 	}, 100);
-}
+};
 
 /***
  * This function is called when the user logs in.
  *
  * 	@param {string} iframeId The id of the iframe
  */
-function removeGate(iframeId) {
+window.removeGate = iframeId => {
 	let iframe = document.getElementById(iframeId);
 	let gate = document.getElementById(iframe.dataset.gateId);
 
 	// if gate and frame are not set return from function and remove gate from DOM if it exists
-	if (! iframe && gate) {
+	if (!iframe && gate) {
 		gate.parentNode.removeChild(gate);
 		return;
 	}
@@ -134,24 +136,25 @@ function removeGate(iframeId) {
 		return;
 	}
 
-	// Remove event listeners from gate notification button
-	let gateNotificationButton = gate.getElementsByClassName("gate-notification")[0].getElementsByTagName("a")[0];
-	gateNotificationButton.removeEventListener("click");
-
-	// Remove gate from the DOM
+	// Remove the event listener using the stored function reference
+	if (iframe.dataset.eventListenerFunc) {
+		let gateNotificationButton = gate.getElementsByClassName("gate-notification")[0].getElementsByTagName("a")[0];
+		gateNotificationButton.removeEventListener("click", iframe.dataset.eventListenerFunc);
+	}
 
 
 	// Clean up the iframe's dataset
 	delete iframe.dataset.gateId;
 	delete iframe.dataset.resizeObserverId;
 	delete iframe.dataset.mutationObserverId;
-}
+	delete iframe.dataset.eventListenerFunc; // Also remove the event listener function reference
+};
 
 // 100 ms debounce function for removeGate using a timeout
-let removeGateTimeout;
-function removeGateDebounce(iframeId) {
-	clearTimeout(removeGateTimeout);
-	removeGateTimeout = setTimeout(function () {
-		removeGate(iframeId);
+window.removeGateTimeout = -1;
+window.removeGateDebounce = iframeId => {
+	clearTimeout(window.removeGateTimeout);
+	window.removeGateTimeout = setTimeout(() => {
+		window.removeGate(iframeId);
 	}, 100);
-}
+};
