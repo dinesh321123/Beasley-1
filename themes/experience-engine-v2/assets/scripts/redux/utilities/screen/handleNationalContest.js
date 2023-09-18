@@ -16,7 +16,7 @@ export default function handleNationalContest() {
 				// debug code
 				console.log('handleNationalContest() - isLoggedIn = false');
 
-				window.createGateDebounce('contestframe', 'frame-gate');
+				window.createGateDebounce('contestframe', 'framegate');
 			} else {
 				// debug code
 				console.log('handleNationalContest() - isLoggedIn = true');

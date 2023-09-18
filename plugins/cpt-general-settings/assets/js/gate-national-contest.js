@@ -9,14 +9,14 @@
  * This function is called when the user clicks on the login button in the gate.
  *
  * @param {string} iframeId The id of the iframe
- * @param {string} iGateIdCLASS The class of the gate
+ * @param {string} iGateId The class of the gate
  */
-window.createGate = (iframeId, iGateIdCLASS) => {
+window.createGate = (iframeId, iGateId) => {
 	let iframe = document.getElementById(iframeId);
 	if (!iframe) return;
 
 	// Create a new div for the gate
-	let gate = document.getElementsByClassName(iGateIdCLASS)[0];
+	let gate = document.getElementById(iGateId);
 	if (!gate) return;
 
 	// Set the gate styles
@@ -97,10 +97,10 @@ window.createGate = (iframeId, iGateIdCLASS) => {
 
 // 100 ms debounce function for createGate using a timeout
 window.createGateTimeout = -1;
-window.createGateDebounce = (iframeId, iGateIdCLASS) => {
+window.createGateDebounce = (iframeId, iGateId) => {
 	clearTimeout(window.createGateTimeout);
 	window.createGateTimeout = setTimeout(() => {
-		window.createGate(iframeId, iGateIdCLASS);
+		window.createGate(iframeId, iGateId);
 	}, 100);
 };
 
@@ -112,12 +112,6 @@ window.createGateDebounce = (iframeId, iGateIdCLASS) => {
 window.removeGate = iframeId => {
 	let iframe = document.getElementById(iframeId);
 	let gate = document.getElementById(iframe.dataset.gateId);
-
-	// if gate and frame are not set return from function and remove gate from DOM if it exists
-	if (!iframe && gate) {
-		gate.parentNode.removeChild(gate);
-		return;
-	}
 
 	if (iframe && gate) {
 		// hide visibility of gate
