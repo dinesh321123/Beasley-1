@@ -35,6 +35,31 @@ class Close extends PureComponent {
 		);
 	}
 
+	isUserLoggedIn() {
+		return new Promise((resolve, reject) => {
+			window.firebase.auth().onAuthStateChanged(user => {
+				if (user) {
+					resolve(true);
+				} else {
+					resolve(false);
+				}
+			});
+		});
+	}
+
+	removeContestGating() {
+		if (document.getElementById('contestframe')) {
+			window.removeGate('contestframe');
+			this.isUserLoggedIn().then(isLoggedIn => {
+				if (!isLoggedIn) {
+					window.createGate('contestframe', 'frame-gate');
+				} else {
+					window.removeGate('contestframe');
+				}
+			});
+		}
+	}
+
 	didClick() {
 		const beforeClose = window.beforeBeasleyModalClose;
 		const { close } = this.props;
@@ -45,10 +70,12 @@ class Close extends PureComponent {
 			if (result) {
 				if (close) {
 					close();
+					this.removeContestGating();
 				}
 			}
 		} else if (close) {
 			close();
+			this.removeContestGating();
 		}
 	}
 }
