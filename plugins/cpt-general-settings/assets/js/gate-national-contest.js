@@ -114,13 +114,15 @@ function removeGate(iframeId) {
 	}
 
 	// determine if observers exist if not return
-	if (!iframe.dataset.resizeObserverId || !iframe.dataset.mutationObserverId) {
+	if (iframe.dataset.resizeObserverId && iframe.dataset.mutationObserverId) {
 		let resizeObserver = iframe.dataset.resizeObserverId;
 		let mutationObserver = iframe.dataset.mutationObserverId;
 
 		// Disconnect observers
 		resizeObserver.disconnect();
 		mutationObserver.disconnect();
+	} else {
+		return;
 	}
 
 	// Remove event listeners from gate notification button
