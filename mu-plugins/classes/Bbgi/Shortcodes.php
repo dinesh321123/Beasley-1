@@ -207,6 +207,12 @@ class Shortcodes extends \Bbgi\Module {
 		$embed = <<<EOL
 <style>#contestframe {width: 100%;}</style>
 <iframe id="contestframe" src="https://contests.bbgi.com/landing?contest={$contest}&brand={$brand}" frameborder="0" scrolling="no" onload="iFrameResize({log:true, autoResize: true})"></iframe>
+<div class="frame-gate" style="visibility: hidden">
+    <div class="gate-notification">
+        <div>To enter the contest you must login. please press the login button below.</div>
+        <a href="#">Login</a>
+    </div>
+</div>
 EOL;
 
 		return $embed;
