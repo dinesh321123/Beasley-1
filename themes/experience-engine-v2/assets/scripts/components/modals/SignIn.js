@@ -136,10 +136,7 @@ class SignIn extends PureComponent {
 				<div className="register">
 					<h3>Not yet a member?</h3>
 					<div className="blurb">
-						<p>
-							Sign up to {title} to personalize your experience, customize your
-							homepage and discover new content!
-						</p>
+						<p>Create Your Account & Unlock More {title} Than Ever Before.</p>
 						<button
 							className="btn -sign-up -empty"
 							type="button"
