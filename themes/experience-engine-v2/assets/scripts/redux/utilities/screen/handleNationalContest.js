@@ -3,11 +3,24 @@ export default function handleNationalContest() {
 	// then call a function called createGate and pass it the id of the iframe and the
 	// class of the gate which is frame-gate
 	if (document.getElementById('contestframe')) {
+		// debug code
+		console.log('handleNationalContest() - contestframe exists');
+
 		window.removeGate('contestframe');
+
+		// debug code
+		console.log('handleNationalContest() - contestframe removed');
+
 		isUserLoggedIn().then(isLoggedIn => {
 			if (!isLoggedIn) {
+				// debug code
+				console.log('handleNationalContest() - isLoggedIn = false');
+
 				window.createGate('contestframe', 'frame-gate');
 			} else {
+				// debug code
+				console.log('handleNationalContest() - isLoggedIn = true');
+
 				window.removeGate('contestframe');
 			}
 		});
