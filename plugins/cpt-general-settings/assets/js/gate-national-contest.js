@@ -99,12 +99,19 @@ function removeGate(iframeId) {
 	if (!iframe) return;
 
 	let gate = document.getElementById(iframe.dataset.gateId);
-	let resizeObserver = iframe.dataset.resizeObserverId;
-	let mutationObserver = iframe.dataset.mutationObserverId;
 
-	// Disconnect observers
-	resizeObserver.disconnect();
-	mutationObserver.disconnect();
+	// if gate does not exist return
+	if (!gate) return;
+
+	// determine if observers exist if not return
+	if (!iframe.dataset.resizeObserverId || !iframe.dataset.mutationObserverId) {
+		let resizeObserver = iframe.dataset.resizeObserverId;
+		let mutationObserver = iframe.dataset.mutationObserverId;
+
+		// Disconnect observers
+		resizeObserver.disconnect();
+		mutationObserver.disconnect();
+	}
 
 	// Remove event listeners from gate notification button
 	let gateNotificationButton = gate.getElementsByClassName("gate-notification")[0].getElementsByTagName("a")[0];
