@@ -93,6 +93,15 @@ function createGate(iframeId, iGateIdCLASS) {
 	iframe.dataset.mutationObserverId = mutationObserver;
 }
 
+// 100 ms debounce function for createGate using a timeout
+let createGateTimeout;
+function createGateDebounce(iframeId, iGateIdCLASS) {
+clearTimeout(createGateTimeout);
+	createGateTimeout = setTimeout(function () {
+		createGate(iframeId, iGateIdCLASS);
+	}, 100);
+}
+
 /***
  * This function is called when the user logs in.
  *
@@ -136,4 +145,13 @@ function removeGate(iframeId) {
 	delete iframe.dataset.gateId;
 	delete iframe.dataset.resizeObserverId;
 	delete iframe.dataset.mutationObserverId;
+}
+
+// 100 ms debounce function for removeGate using a timeout
+let removeGateTimeout;
+function removeGateDebounce(iframeId) {
+	clearTimeout(removeGateTimeout);
+	removeGateTimeout = setTimeout(function () {
+		removeGate(iframeId);
+	}, 100);
 }

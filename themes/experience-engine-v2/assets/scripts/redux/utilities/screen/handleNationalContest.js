@@ -6,7 +6,7 @@ export default function handleNationalContest() {
 		// debug code
 		console.log('handleNationalContest() - contestframe exists');
 
-		window.removeGate('contestframe');
+		window.removeGateDebounce('contestframe');
 
 		// debug code
 		console.log('handleNationalContest() - contestframe removed');
@@ -16,12 +16,12 @@ export default function handleNationalContest() {
 				// debug code
 				console.log('handleNationalContest() - isLoggedIn = false');
 
-				window.createGate('contestframe', 'frame-gate');
+				window.createGateDebounce('contestframe', 'frame-gate');
 			} else {
 				// debug code
 				console.log('handleNationalContest() - isLoggedIn = true');
 
-				window.removeGate('contestframe');
+				window.removeGateDebounce('contestframe');
 			}
 		});
 	}
