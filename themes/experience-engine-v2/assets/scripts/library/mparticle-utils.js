@@ -54,8 +54,7 @@ export const createMparticleSession = () => {
 		);
 		window.beasleyanalytics.initializeMParticle();
 	} else {
-		console.log('mParticle is not configured to run on this site');
-		window.mParticle = null;
+		console.log('Determined no need to create mParticle session.');
 	}
 };
 
