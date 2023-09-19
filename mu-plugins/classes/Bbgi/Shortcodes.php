@@ -209,7 +209,7 @@ class Shortcodes extends \Bbgi\Module {
 <iframe id="contestframe" src="https://contests.bbgi.com/landing?contest={$contest}&brand={$brand}" frameborder="0" scrolling="no" onload="iFrameResize({log:true, autoResize: true})"></iframe>
 <div class="frame-gate" id="framegate" style="visibility: hidden">
     <div class="gate-notification">
-        <div>To enter the contest you must login. please press the login button below.</div>
+        <div>Please register or login to your account to enter the contest.</div>
         <a href="#">Login</a>
     </div>
 </div>

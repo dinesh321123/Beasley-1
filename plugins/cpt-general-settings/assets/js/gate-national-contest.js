@@ -20,7 +20,7 @@ window.createGate = (iframeId, iGateId) => {
 	if (!gate) return;
 
 	// Set the gate styles
-	gate.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+	gate.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
 	gate.style.position = "absolute";
 	gate.style.top = iframe.offsetTop + "px";
 	gate.style.left = iframe.offsetLeft + "px";
@@ -46,6 +46,7 @@ window.createGate = (iframeId, iGateId) => {
 	gateNotificationButton.style.backgroundColor = "red";
 	gateNotificationButton.style.color = "white";
 	gateNotificationButton.style.border = "none";
+	gateNotificationButton.style.fontWeight = "bold";
 	gateNotificationButton.style.padding = "10px";
 	gateNotificationButton.style.borderRadius = "5px";
 	gateNotificationButton.style.marginTop = "10px";
