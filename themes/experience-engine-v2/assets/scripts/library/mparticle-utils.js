@@ -39,6 +39,7 @@ export const setMParticleUserAtributes = (
  */
 export const createMparticleSession = () => {
 	if (
+		window.beasleyanalytics &&
 		window.bbgiAnalyticsConfig?.mparticle_key &&
 		(!window.mParticle || !window.mParticle.isInitialized())
 	) {
@@ -58,8 +59,16 @@ export const createMparticleSession = () => {
 			'Done configuring mparticle in bundle, now initializing Beasley Analytics',
 		);
 		window.beasleyanalytics.initializeMParticle();
+	} else if (
+		window.beasleyanalytics &&
+		window.bbgiAnalyticsConfig?.mparticle_key
+	) {
+		console.log('Determined no need to re-create mParticle session.');
 	} else {
-		console.log('Determined no need to create mParticle session.');
+		console.log(
+			'Clearing mParticle because Beasley Analytics is not configured.',
+		);
+		window.mParticle = null;
 	}
 };
 
