@@ -1016,7 +1016,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 					// ASSUME value is a string in YYYY-MM-DD format
 					value = new Date(`${value}T00:00:00`);
 				}
-				funcCopy(key, value);
+				return funcCopy(key, value);
 			}
 			appBoyForwarder.setUserAttribute = newFunc;
 		}
