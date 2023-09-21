@@ -9,7 +9,6 @@ class GreaterMedia_Keyword_MetaBox {
 	private $post_types;
 
 	public function __construct() {
-		//$this->post_types = get_post_types( '', 'names' );
 		add_action( 'post_submitbox_misc_actions', array( $this, 'keyword_post_submitbox_meta') );
 	}
 
