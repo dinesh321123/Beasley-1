@@ -170,7 +170,7 @@
     & .articles-meta {
         display: flex;
         justify-content: space-between;      
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         align-items: center;
     }
     & p {
@@ -312,7 +312,9 @@
                 text-align: center;
                 width: 100%;
                 margin: auto;
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
         & .post-meta {
@@ -360,18 +362,26 @@
                 max-width: unset;
             }
             & .articles-meta{
-                padding-top: 20px;
+                padding-top: 5px;
             }
-            & .share button {
-                height: 35px;
-                width: 65px;
-                border-radius: 0.25rem;
+            & .share{
+                & button {
+                    height: 35px;
+                    width: 35px;
+                    border-radius: 0.25rem;
+                    display: inline-block;
+                    padding: 0px;
+                }
+                & button:first-of-type{
+                    margin-left: 2px !important;
+                    margin-right: 2px;
+                }
             }
             & h1 {
-                font-size: 36px;    
+                font-size: 32px;    
                 color: #2c2e35;
                 font-weight: bold;  
-                margin-bottom:30px;
+                margin-bottom:10px;
             }
             & .post-date{
                 font-size: 16px;

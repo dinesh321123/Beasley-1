@@ -42,7 +42,7 @@
         }
 
             & .title_description {
-
+                text-transform: capitalize;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -52,7 +52,7 @@
 
 
                 & h2 {                   
-                    text-transform: uppercase;
+                    text-transform: capitalize;
                     color: #2c2e35;
                     font-weight: 800;
                     margin-bottom: 0px;
