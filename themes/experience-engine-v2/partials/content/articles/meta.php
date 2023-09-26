@@ -12,92 +12,66 @@
     <div class="post-meta">
         <div class="author-meta">
             <?php
-            // Check if the current page is a singular contest
-            $contest_is_singular = is_singular('contest');
+                $contest_is_singular = is_singular( 'contest' );
 
-            // Co author Checking
-            $primary_author = get_field('primary_author_cpt', $post);
-            $primary_author = $primary_author ? $primary_author : $post->post_author;
-            $secondary_author = get_field('secondary_author_cpt', $post);
+                // Co author Checking
+                $primary_author = get_field( 'primary_author_cpt', $post );
+                $primary_author = $primary_author ? $primary_author : $post->post_author;
+                $secondary_author = get_field( 'secondary_author_cpt', $post );
 
-            // Retrieve primary and secondary author names
-            $primary_author_name = $primary_author ? get_the_author_meta('display_name', $primary_author) : '';
-            $secondary_author_name = $secondary_author ? get_the_author_meta('display_name', $secondary_author) : '';
+                $primary_author_name = $primary_author ? get_the_author_meta( 'display_name', $primary_author ) : '';
+                $secondary_author_name = $secondary_author ? get_the_author_meta( 'display_name', $secondary_author) : '';
             ?>
-
-            <?php if (!$contest_is_singular) : ?>
+            <?php if ( ! $contest_is_singular ) : ?>
                 <span class="author-avatar hide-avatar">
-                    <?php if (is_singular()) : ?>
+                    <?php if ( is_singular() ) : ?>
                         <?php
-                        // Retrieve the avatar for the current author
-                        $avatar = get_avatar(get_the_author_meta('ID'), 40);
-                        if ($avatar) {
-                            echo $avatar;
-                        } else {
-                            // If no avatar is found, display a placeholder image
-                            echo '<img class="avatar avatar-40 photo" src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g" height="40" width="40" alt="Placeholder Shilloutte User Image">';
-                        }
+                            $avatar = get_avatar( get_the_author_meta( 'ID' ), 40 );
+                            if ( $avatar ) {
+                                echo $avatar;
+                            } else {
+                                echo '<img class="avatar avatar-40 photo" src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g" height="40" width="40" alt="Placeholder Shilloutte User Image">';
+                            }
                         ?>
                     <?php endif; ?>
                 </span>
-
-                <p class="author-meta-name">
-                    <strong>
+                <div class="flex-property">
+                    <div class="author-meta-name">
                         <?php
-                        // Display the author names
-                        if ($secondary_author_name) {
-                            printf(
-                                '<span style="color: %1$s;">%2$s</span><span style="color: %5$s;" > <a href="%6$s" >%3$s</a></span> <span style="color: %1$s;">and</span><span style="color: %5$s;" > <a href="%7$s" > %4$s </a></span>',
-                                'rgba(68, 68, 68, 0.6)',
-                                esc_html__('By', 'text-domain'),
-                                $primary_author_name,
-                                $secondary_author_name,
-                                '#cc1D23',
-                                esc_url( home_url( '/authors/'.$primary_author ) ),
-                                esc_url( home_url( '/authors/'.$secondary_author ) )
-                            );
-                        } else {
-                            // If no secondary author, display the primary author's name
-                            // printf(
-                            //     '%1$s | @%2$s',
-                            //     esc_html__('Author name', 'text-domain'),
-                            //     get_the_author_meta('display_name', $primary_author)
-                            // );
-
-                            printf(
-                                '%1$s | <span style="color: %2$s;"><a href="%4$s">@%3$s</a></span>',
-                                esc_html__('Author name', 'text-domain'),
-                                '#cc1D23',                               
-                                $primary_author_name,
-                                esc_url( home_url( '/authors/'.$primary_author ) )
-                            );
-                        }
+                            if($secondary_author_name) { ?>
+                                <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+                                <a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+                                    <?php echo $primary_author_name; ?>
+                                </a>
+                                <span style='color:rgba(68, 68, 68, 0.6);'> and </span>
+                                <a href="<?php echo esc_url( home_url( '/authors/'.$secondary_author ) ); ?>" title="<?php echo $secondary_author_name; ?>" >
+                                    <?php echo $secondary_author_name; ?>
+                                </a>
+                            <?php } else { ?>
+                                <!-- // the_author_meta( 'display_name', $primary_author); -->
+                                <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+                                <a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+                                    <?php echo $primary_author_name; ?>
+                                </a>
+                            <?php }
                         ?>
-                    </strong>
-                </p>
-            <?php endif; ?>
-
-            <?php
-            // Get the post date and calculate the time ago
-            $post_date = get_the_date('F jS', get_the_ID());
-            $time_ago = human_time_diff(get_the_time('U'), current_time('timestamp'));
-
-            // Format the time ago with a maximum limit of 48 hours
-            if ($time_ago < 48) {
-                $formatted_time_ago = sprintf(_n('%s hour ago', '%s ago', $time_ago, 'text-domain'), $time_ago);
-                $post_date_display = $post_date . ' (' . $formatted_time_ago . ')';
-            } else {
-                // If more than 48 hours, display only the post date
-                $post_date_display = $post_date;
-            } 
-            ?>
-            <?php if(in_array('date',$args['show'])){ // check tags argument passed in temeplate for show tags or date  ?>
-                <div class="post-date">
-                    <?php echo esc_html($post_date_display); ?>
+                    </div>
+                    
+                    <?php if(in_array('date',$args['show'])){ // check tags argument passed in temeplate for show tags or date  ?>
+                        <div class="author-meta-date">
+                            <?php ee_the_date(); ?>
+                        </div> 
+                    <?php }?>
                 </div>
-                <?php ee_the_sponsored_by_div(get_the_id(), !$contest_is_singular); ?>
-            <?php }?>
-            
+                
+                <?php 
+                    if(in_array('date',$args['show'])){
+                        ee_the_sponsored_by_div(get_the_id(), !$contest_is_singular);
+                    }
+                ?>
+
+            <?php endif; ?>
+                    
             <?php if(in_array('category',$args['show'])){ ?>
                 <?php if ( has_category() ) : ?>
                     <div class="meta-category-container">
