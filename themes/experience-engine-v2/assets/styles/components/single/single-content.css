@@ -93,9 +93,7 @@
 			line-height: 1.6;
 		}
 		& a {
-			@media (--max-medium-viewport){
-				word-break: break-all;
-			}
+			word-break: break-all;
 		}
 	}
 
