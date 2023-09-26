@@ -35,36 +35,43 @@
                         ?>
                     <?php endif; ?>
                 </span>
+                <div class="flex-property">
+                    <div class="author-meta-name">
+                        <?php
+                            if($secondary_author_name) { ?>
+                                <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+                                <a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+                                    <?php echo $primary_author_name; ?>
+                                </a>
+                                <span style='color:rgba(68, 68, 68, 0.6);'> and </span>
+                                <a href="<?php echo esc_url( home_url( '/authors/'.$secondary_author ) ); ?>" title="<?php echo $secondary_author_name; ?>" >
+                                    <?php echo $secondary_author_name; ?>
+                                </a>
+                            <?php } else { ?>
+                                <!-- // the_author_meta( 'display_name', $primary_author); -->
+                                <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+                                <a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+                                    <?php echo $primary_author_name; ?>
+                                </a>
+                            <?php }
+                        ?>
+                    </div>
+                    
+                    <?php if(in_array('date',$args['show'])){ // check tags argument passed in temeplate for show tags or date  ?>
+                        <div class="author-meta-date">
+                            <?php ee_the_date(); ?>
+                        </div> 
+                    <?php }?>
+                </div>
+                
+                <?php 
+                    if(in_array('date',$args['show'])){
+                        ee_the_sponsored_by_div(get_the_id(), !$contest_is_singular);
+                    }
+                ?>
 
-                <span class="author-meta-name">
-                    <?php
-                        if($secondary_author_name) { ?>
-                            <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
-                            <a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
-                                <?php echo $primary_author_name; ?>
-                            </a>
-                            <span style='color:rgba(68, 68, 68, 0.6);'> and </span>
-                            <a href="<?php echo esc_url( home_url( '/authors/'.$secondary_author ) ); ?>" title="<?php echo $secondary_author_name; ?>" >
-                                <?php echo $secondary_author_name; ?>
-                            </a>
-                        <?php } else { ?>
-                            <!-- // the_author_meta( 'display_name', $primary_author); -->
-                            <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
-                            <a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
-                                <?php echo $primary_author_name; ?>
-                            </a>
-                        <?php }
-                    ?>
-                </span>
             <?php endif; ?>
-
-            <?php if(in_array('date',$args['show'])){ // check tags argument passed in temeplate for show tags or date  ?>
-                <span class="author-meta-date">
-                    <?php ee_the_date(); ?>
-                </span> 
-                <?php ee_the_sponsored_by_div(get_the_id(), !$contest_is_singular); ?>
-            <?php }?>
-            
+                    
             <?php if(in_array('category',$args['show'])){ ?>
                 <?php if ( has_category() ) : ?>
                     <div class="meta-category-container">

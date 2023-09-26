@@ -186,6 +186,38 @@
         }
     }
     & .author-meta {
+        & .flex-property {
+
+            display: flex;
+            flex-wrap: wrap;
+
+            & .author-meta-date {
+                position: relative;
+                padding-left: 10px;
+                margin-left: 10px;
+                color: rgba(68,68,68,.6);
+                font-weight: 300;
+            }
+    
+            & .author-meta-date::before {
+                content: "|";
+                position: absolute;
+                left: 0;
+                top: 0;
+
+                /* @media (--max-xmedium-viewport) {
+                    display: none;
+                } */
+
+            }
+
+            @media (--max-xmedium-viewport) {
+                justify-content: center;
+            }
+
+
+        }
+
         & time {
             font-size: 14px;
             font-weight: 700;
@@ -296,6 +328,7 @@
 
         & h1 {
             @media (--max-medium-viewport){ 
+                font-size: 28px !important;
                 text-align: center;         
             }       
         }
@@ -371,6 +404,11 @@
                     border-radius: 0.25rem;
                     display: inline-block;
                     padding: 0px;
+
+                    @media (--max-medium-viewport){
+                        height: 30px;
+                    }
+
                 }
                 & button:first-of-type{
                     margin-left: 2px !important;
