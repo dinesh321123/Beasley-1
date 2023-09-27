@@ -170,7 +170,7 @@
     & .articles-meta {
         display: flex;
         justify-content: space-between;      
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         align-items: center;
     }
     & p {
@@ -186,6 +186,38 @@
         }
     }
     & .author-meta {
+        & .flex-property {
+
+            display: flex;
+            flex-wrap: wrap;
+
+            & .author-meta-date {
+                position: relative;
+                padding-left: 10px;
+                margin-left: 10px;
+                color: rgba(68,68,68,.6);
+                font-weight: 300;
+            }
+    
+            & .author-meta-date::before {
+                content: "|";
+                position: absolute;
+                left: 0;
+                top: 0;
+
+                /* @media (--max-xmedium-viewport) {
+                    display: none;
+                } */
+
+            }
+
+            @media (--max-xmedium-viewport) {
+                justify-content: center;
+            }
+
+
+        }
+
         & time {
             font-size: 14px;
             font-weight: 700;
@@ -296,6 +328,7 @@
 
         & h1 {
             @media (--max-medium-viewport){ 
+                font-size: 28px !important;
                 text-align: center;         
             }       
         }
@@ -312,7 +345,9 @@
                 text-align: center;
                 width: 100%;
                 margin: auto;
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
         & .post-meta {
@@ -360,18 +395,31 @@
                 max-width: unset;
             }
             & .articles-meta{
-                padding-top: 20px;
+                padding-top: 5px;
             }
-            & .share button {
-                height: 35px;
-                width: 65px;
-                border-radius: 0.25rem;
+            & .share{
+                & button {
+                    height: 35px;
+                    width: 35px;
+                    border-radius: 0.25rem;
+                    display: inline-block;
+                    padding: 0px;
+
+                    @media (--max-medium-viewport){
+                        height: 30px;
+                    }
+
+                }
+                & button:first-of-type{
+                    margin-left: 2px !important;
+                    margin-right: 2px;
+                }
             }
             & h1 {
-                font-size: 36px;    
+                font-size: 32px;    
                 color: #2c2e35;
                 font-weight: bold;  
-                margin-bottom:30px;
+                margin-bottom:10px;
             }
             & .post-date{
                 font-size: 16px;

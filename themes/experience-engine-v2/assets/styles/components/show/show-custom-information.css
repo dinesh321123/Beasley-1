@@ -25,9 +25,9 @@
                     border: 2px solid #e12e21;
                     border: 2px solid var(--brand-primary);
                     border-radius: 50%;
-                    height: 100px;
+                    height: 80px;
                     margin: 0 auto;
-                    width: 100px;
+                    width: 80px;
 
                     @media (--max-xmedium-viewport) {
                         width: 75px;
@@ -42,7 +42,7 @@
         }
 
             & .title_description {
-
+                text-transform: capitalize;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -52,7 +52,7 @@
 
 
                 & h2 {                   
-                    text-transform: uppercase;
+                    text-transform: capitalize;
                     color: #2c2e35;
                     font-weight: 800;
                     margin-bottom: 0px;
@@ -129,13 +129,17 @@
         height: 45px;
         width: 45px;
         border-radius: 50%;
+        @media (--max-small-viewport) {
+            height: 40px;
+            width: 40px;
+        }
     }
 }
 .mobile-navigation-logo{
     display: none;
     position: absolute;
     left: 5px;
-    top: 3px; 
+    top: 5px; 
     @media (--max-small-viewport) {
         display: block;
     }

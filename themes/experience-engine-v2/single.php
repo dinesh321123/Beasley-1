@@ -3,7 +3,6 @@ get_header();
 
 ee_switch_to_article_blog();
 the_post();
-//var_dump(ee_get_current_show());
 
 ?>
 <div id="post-<?php the_ID(); ?>" <?php post_class( [ 'single', 'article-category-archive' ] ); ?>>
@@ -20,15 +19,17 @@ the_post();
 			</div>
 		</div>
 	<?php endif; ?>
-	<header class="post-info">
-		<?php if ( ee_get_current_show() ) : ?>
-			<?php if ( bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
+	<?php if ( ee_get_current_show() ) : ?>
+		<?php if ( bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
+			<header class="post-info">
 				<?php get_template_part( 'partials/featured-media' ); ?>
-			<?php endif; ?>
-		<?php elseif ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
-			<?php get_template_part( 'partials/featured-media' ); ?>
+			</header>
 		<?php endif; ?>
-	</header>
+	<?php elseif ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
+		<header class="post-info">
+			<?php get_template_part( 'partials/featured-media' ); ?>
+		</header>
+	<?php endif; ?>
 
 	<div class="article-inner-container">
 		<div class="entry-content content-wrap">
