@@ -15,8 +15,8 @@ if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 
 } else {
 
-	the_post(); 
-	
+	the_post();
+
 	$publisher_id = get_option( 'ee_publisher' );
 
 	$publisher = array();
@@ -28,7 +28,7 @@ if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 			$publisher = $item;
 		}
 	}
-	
+
 	?>
 
 	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
