@@ -9,14 +9,14 @@ function __api(strings, ...params) {
 	return url;
 }
 
-function getChannel() {
+export function getChannel() {
 	const { publisher } = window.bbgiconfig;
 	const { id: channel } = publisher || {};
 
 	return channel || '';
 }
 
-function getToken(token = null) {
+export function getToken(token = null) {
 	if (token) {
 		return Promise.resolve(token);
 	}
@@ -383,16 +383,10 @@ export function deleteUser() {
 	});
 }
 
-export function getPreferenceLink(preferenceID) {
-	return getToken().then(token =>
-		fetch(
-			__api`user/getPreferenceURL/?authorization=${token}&preferenceID=${preferenceID}`,
-		),
-	);
-}
-
 export default {
 	saveUser,
+	getToken,
+	getChannel,
 	getUser,
 	discovery,
 	getFeeds,

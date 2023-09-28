@@ -1,8 +1,18 @@
+window.isDevEnvironment = () => {
+	return (
+		window.location.hostname.toLowerCase().indexOf('.beasley.test') > -1 ||
+		window.location.hostname.toLowerCase().indexOf('.bbgistage.com') > -1
+	);
+}
 
 window.isWhiz = () => {
 	const searchParams = new URLSearchParams(window.location?.search?.toLowerCase());
 	return searchParams && searchParams.has('whiz');
-};
+}
+
+window.getCallLetters = () => {
+	return window.bbgiconfig?.publisher?.call_letters || window.bbgiconfig?.publisher?.id;
+}
 
 window.getDayPart = (hourOfDay) => {
 	const morning = 'Morning Drive'; // 6am to 10am

@@ -64,9 +64,7 @@ class BeasleyAnalytics {
 	}
 
 	static getMParticleConfig() {
-		const isDevEnvironment =
-			window.location.hostname.toLowerCase().indexOf('.beasley.test') > -1 ||
-			window.location.hostname.toLowerCase().indexOf('.bbgistage.com') > -1;
+		const isDevEnvironment = window.isDevEnvironment();
 
 		console.log(`Returning mParticle config for ${isDevEnvironment ? 'Dev' : 'Prod'} Environment`);
 
@@ -528,7 +526,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				this.setAnalytics('is_app', window.isWhiz());
 				this.setAnalytics('station_formats', window.bbgiconfig?.publisher?.genre?.join(', '));
 				this.setAnalytics('station_location', window.bbgiconfig?.publisher?.location);
-				this.setAnalytics('call_letters', window.bbgiconfig?.publisher?.call_letters || window.bbgiconfig?.publisher?.id);
+				this.setAnalytics('call_letters', window.getCallLetters());
 				this.setAnalytics('station_id', window.bbgiconfig?.publisher?.AppId);
 				this.setAnalytics('prebid_enabled', window.bbgiconfig?.prebid_enabled);
 
