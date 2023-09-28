@@ -6,6 +6,7 @@ import {
 	handleInjectos,
 	initializeVimeo,
 	setPlayerVisibility,
+	handleNationalContest,
 } from '../../utilities';
 import refreshAllAds from '../../utilities/screen/refreshAllAds';
 // import resetScrollToTop from '../../utilities/player/resetScrollToTop';
@@ -41,11 +42,8 @@ function* yieldHideSplashScreen(action) {
 
 		renderSendToNews();
 		handleInjectos();
-		// handleNationalContest();
+		handleNationalContest();
 		initializeVimeo();
-
-		// debug code
-		console.log('yieldHideSplashScreen() - splashScreen removed');
 	});
 }
 
