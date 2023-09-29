@@ -513,10 +513,24 @@
             justify-content: space-between;
             
             & .title_description {
+                
                 display: block;
                 
-                & h2 {
+                & h2 {                   
+                    text-transform: capitalize;
+                    color: #2c2e35;
+                    font-weight: 800;
                     margin-bottom: 0px;
+                    text-align: center;
+                    margin-top: 0px;
+                    @media (--max-xlmedium-viewport) {                        
+                        width: 100%;
+                    }
+
+                    @media (--max-xmedium-viewport) {
+                        width: 100%;
+                    }
+                   
                 }
 
             }
@@ -577,6 +591,12 @@
                 
                 & .cnavigation-more{
                     font-size: 16px;
+                    cursor: pointer;
+                    user-select: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    -khtml-user-select: none;
                 }
 
                 & .cnavigation-more::after{
