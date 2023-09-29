@@ -29,16 +29,26 @@
 					$navigation.append(moreButtonContent);
 					ul_width.find('.sub_menu').width(ul_width.width());
 					mobile_ul_width.parents('.cnavigation').find('.sub_menu').width(sumWidth);
+					$(".desktop .cnavigation .bg_overlay").hide();
 		  		} else {
 					$subMenu.show();
 					$(".bg_overlay").show();
+					$(".desktop .cnavigation .bg_overlay").hide();
 		  		}
 			} else {
 				$navigation.attr("data-click-state", 1).removeClass("dropdown-active");
 				$(".sub_menu, .bg_overlay").hide();
 			}
 	  	}
-  
+		
+		if (width > 992) {
+			$(".top_header").addClass('desktop');
+			$(".top_mobile_header").empty();
+			$(".desktop .cnavigation").data("items-to-copy", 3);
+			$(".desktop .cnavigation").append(moreButtonContent);
+			$(document).on('click', '.cnavigation .cnavigation-more', handleNavigationClick);
+		}
+
 	  	if (width <= 992 && width > 768) {
 		
 			$(".top_mobile_header").empty();
