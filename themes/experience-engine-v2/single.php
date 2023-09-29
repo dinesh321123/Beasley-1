@@ -12,7 +12,7 @@ the_post();
 				<?php get_template_part( 'partials/featured-media' ); ?>
 			</header>
 		<?php endif; ?>		
-		<div class="article-inner-container">
+		<div class="article-inner-container show-header-container">
 			<div class="content-wrap">
 				<?php get_template_part( 'partials/show/custom-header' ); ?>
 			</div>
