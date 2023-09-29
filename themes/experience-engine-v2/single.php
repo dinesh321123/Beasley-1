@@ -51,11 +51,11 @@ the_post();
 					<?php echo ee_render_trending_articles('embed_bottom'); ?>
 				<?php endif; ?>
 				<?php get_template_part( 'partials/footer/common', 'description' ); ?>
-				<?php echo do_shortcode( '[outbrain_widget]' ); ?>
 				<?php get_template_part( 'partials/footer/newsletterSignupForm', 'nsf' ); ?>
 				<div class="post-meta footer-post-meta-container">
 					<?php get_template_part("partials/content/articles/meta",null,array('show'=>array('tags','category'))); ?>
 				</div>
+				<?php echo do_shortcode( '[outbrain_widget]' ); ?>
 			</div>
 			<?php get_template_part("partials/content/articles/ads"); ?>
 		</div>
