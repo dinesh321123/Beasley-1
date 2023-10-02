@@ -513,7 +513,7 @@
             justify-content: space-between;
             
             & .title_description {
-                
+                max-width: 60%;
                 display: block;
                 
                 & h2 {                   
