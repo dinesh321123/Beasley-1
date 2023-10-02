@@ -43,7 +43,10 @@ class RestorePassword extends PureComponent {
 		e.preventDefault();
 
 		firebaseAuth
-			.sendPasswordResetEmail(email, { url: window.location.href })
+			.sendPasswordResetEmail(email, {
+				url: window.location.href,
+				handleCodeInApp: false,
+			})
 			.then(() => {
 				this.setState({
 					success: true,
