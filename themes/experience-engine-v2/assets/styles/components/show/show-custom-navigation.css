@@ -544,14 +544,14 @@
                 border-bottom: 0;
                 border-top: 0;
                 list-style: none;
-                justify-content: space-between;
-                padding-left: 70px;
+                justify-content: end;
+                /* padding-left: 70px; */
                 padding-right: 5px;
     
-                & li:nth-child(n+4)
+                /* & li:nth-child(n+4)
                 {
                     display: none;
-                }
+                } */
                 & li:last-child{
                     display: block;
                 }
@@ -572,6 +572,7 @@
                     font-weight: normal;
                     display: inline-block;
                     padding: 3px 10px;
+                    white-space: nowrap;
                     @media (--max-small-viewport) {
                         font-size: 12px;
                         padding: 3px 2px;
