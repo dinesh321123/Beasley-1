@@ -80,7 +80,6 @@ class PrimaryNav extends PureComponent {
 		}
 
 		document.body.classList.remove('-lock');
-		this.setupNavigation();
 	}
 
 	componentWillUnmount() {
@@ -334,8 +333,6 @@ class PrimaryNav extends PureComponent {
 	onResize() {
 		this.handleSubMenuSize();
 		this.setRightRailTopMargin();
-		this.setupNavigation();
-		// this.handleNavigation();
 		this.handleNavigationOptimise();
 	}
 
@@ -506,8 +503,6 @@ class PrimaryNav extends PureComponent {
 	}
 
 	handlePageChange() {
-		this.setupNavigation();
-		// this.handleNavigation();
 		this.handleNavigationOptimise();
 		const { primaryNavRef } = this;
 		const { setNavigationCurrent, hideModal } = this.props;
@@ -557,20 +552,6 @@ class PrimaryNav extends PureComponent {
 		this.closeMenus();
 		this.nsf_disable_button();
 		hideModal();
-	}
-
-	setupNavigation() {
-		const currentUrl = window.location.href;
-		const subItems = document.querySelectorAll('.cnavigation li');
-		subItems.forEach(subitem => {
-			subitem.classList.remove('current-menu-item');
-		});
-		subItems.forEach(function(item) {
-			const anchor = item.querySelector('a');
-			if (anchor && anchor.href === currentUrl) {
-				item.classList.add('current-menu-item');
-			}
-		});
 	}
 
 	nsf_disable_button() {
