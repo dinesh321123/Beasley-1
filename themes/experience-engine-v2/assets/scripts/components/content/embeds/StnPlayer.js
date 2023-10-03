@@ -90,7 +90,10 @@ class StnPlayer extends PureComponent {
 				window.stnvideos.override = {
 					render: () => {
 						const stndiv = document.createElement('div');
-						stndiv.className = `s2nPlayer k-${fk}`;
+						const displayheader = true;
+						stndiv.className = `s2nPlayer k-${fk} s2nSmartPlayer${
+							displayheader ? ' s2nheadshow' : ''
+						}`;
 						stndiv.setAttribute('data-type', 'float');
 
 						const stn_barker_script = document.createElement('script');
