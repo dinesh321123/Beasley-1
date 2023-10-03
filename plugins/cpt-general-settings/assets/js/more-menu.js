@@ -16,24 +16,24 @@
 					$navigation.append("<span class='bg_overlay'></span><ul class='sub_menu'></ul>");
 					var sourceItems = $(".cnavigation li");
 					var itemsToCopy = sourceItems.slice($navigation.data("items-to-copy"));
-					var mobile_ul_width = $('.top_mobile_header .cnavigation').find('li:lt(5)');
-					var sumWidth = 0;
-					mobile_ul_width.each(function () {
-						sumWidth += $(this).width();
-					});
-
+					
 					$(".sub_menu").html(itemsToCopy);
 					$(".sub_menu .cnavigation-more").remove();
 					$navigation.append(moreButtonContent);
+					
+					var sumWidth = 0;
+					var mobile_ul_width = $('.top_mobile_header .cnavigation li:not(.sub_menu li)');
+					mobile_ul_width.each(function () {
+						sumWidth += $(this).width() + 10;
+					});
+					mobile_ul_width.parents('.cnavigation').find('.sub_menu').width(sumWidth + 50);
 
 					var desktop_sumWidth = 0;
 					var ul_width = $('.top_header.desktop .cnavigation li:not(.sub_menu li)');
 					ul_width.each(function () {
 						desktop_sumWidth += $(this).width() + 10;
 					});
-					
 					ul_width.parents('.cnavigation').find('.sub_menu').width(desktop_sumWidth - 10);
-					mobile_ul_width.parents('.cnavigation').find('.sub_menu').width(sumWidth);
 					
 					$(".desktop .cnavigation li").css('display','block');
 					$(".desktop .cnavigation .bg_overlay").hide();
@@ -51,24 +51,24 @@
 		if (width > 992) {
 			$(".top_header").addClass('desktop');
 			$(".top_mobile_header").empty();
-			// adjustMenuItems();
 			$(".desktop .cnavigation").append(moreButtonContent);
 			$(".desktop .cnavigation").data("items-to-copy", adjustMenuItems());
-			// $(".desktop .cnavigation").data("items-to-copy", 3);
-			// Start hiding items from the 4th item onwards
 			$(document).on('click', '.cnavigation .cnavigation-more', handleNavigationClick);
+
 		}
 
 	  	if (width <= 992 && width > 768) {
 		
-			$(".top_mobile_header").empty();
-			$(".cnavigation").data("items-to-copy", 7);
+			$(".article-inner-container .cnavigation").empty();
+			$(".show .cnavigation").empty();
+			$(".cnavigation").data("items-to-copy", 6);
 			$(".cnavigation").append(moreButtonContent);
 			$(document).on('click', '.cnavigation .cnavigation-more', handleNavigationClick);
 
 	  	} else if (width <= 768 && width > 480) {
 		
-			$(".top_mobile_header").empty();
+			$(".article-inner-container .cnavigation").empty();
+			$(".show .cnavigation").empty();
 			$(".cnavigation").data("items-to-copy", 4);
 			$(".cnavigation").append(moreButtonContent);
 			$(document).on('click', '.cnavigation .cnavigation-more', handleNavigationClick);
@@ -128,6 +128,14 @@
 				} 
 			}
 			
+			console.log('main_containerWidth', main_containerWidth);
+			console.log('navigation_logo_width', navigation_logo_width);
+			console.log('title_width', title_width);
+			console.log('containerWidth', containerWidth);
+			console.log('ul_width', ul_width);
+			console.log('totalWidth', totalWidth);
+			console.log('itemsToDisplay', itemsToDisplay);
+
 			return itemsToDisplay;
 
 		}
