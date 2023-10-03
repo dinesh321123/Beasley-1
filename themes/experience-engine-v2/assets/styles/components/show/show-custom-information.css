@@ -1,5 +1,5 @@
 .top_header {
-    @media (--max-small-viewport) {
+    @media (--max-xl2medium-viewport) {
         display: none;
     }    
 	& .information {
@@ -113,7 +113,15 @@
 }
 
 .top_mobile_header{
-    display: none;     
+    display: none;
+    
+    @media (--max-xl2medium-viewport) {
+        display: block;
+        & .position-relative{
+            position: relative;
+        }
+    }
+
     @media (--max-small-viewport) {
         display: block;
         & .position-relative{
@@ -121,14 +129,20 @@
         }
     }
     & .cnavigation{        
-            width: 100%;
-            padding-left: 70px;
-            margin: 0px;       
+        width: 100%;
+        padding-left: 70px;
+        margin: 0px;       
     }
     & img{
         height: 45px;
         width: 45px;
         border-radius: 50%;
+
+        @media (--max-xl2medium-viewport) {
+            height: 40px;
+            width: 40px;
+        }
+
         @media (--max-small-viewport) {
             height: 40px;
             width: 40px;
@@ -140,7 +154,7 @@
     position: absolute;
     left: 5px;
     top: 5px; 
-    @media (--max-small-viewport) {
+    @media (--max-xl2medium-viewport) {
         display: block;
     }
 }

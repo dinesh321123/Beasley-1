@@ -188,31 +188,40 @@
     & .author-meta {
         & .flex-property {
 
-            display: flex;
-            flex-wrap: wrap;
+            /* display: flex; */
+            display: block;
+            /* flex-wrap: wrap; */
 
             & .author-meta-date {
                 position: relative;
-                padding-left: 10px;
-                margin-left: 10px;
+                /* padding-left: 10px;
+                margin-left: 10px; */
                 color: rgba(68,68,68,.6);
                 font-weight: 300;
+
+                @media (--max-xl2medium-viewport) {
+                    padding-left: 0px;
+                    margin-left: 0px;
+                }
+
             }
     
-            & .author-meta-date::before {
+            /* & .author-meta-date::before {
                 content: "|";
                 position: absolute;
                 left: 0;
                 top: 0;
 
-                /* @media (--max-xmedium-viewport) {
+                @media (--max-xl2medium-viewport) {
                     display: none;
-                } */
+                }
 
-            }
+            } */
 
-            @media (--max-xmedium-viewport) {
-                justify-content: center;
+            @media (--max-xl2medium-viewport) {
+                /* display: block; */
+                /* justify-content: center; */
+
             }
 
 
