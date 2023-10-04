@@ -955,7 +955,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 			window.mParticle.Identity.getCurrentUser().isLoggedIn()
 		) {
 			const mParticleUser = window.mParticle.Identity.getCurrentUser();
-			const mParticleUserIdentities = mParticleUser?.getUserIdentities()?.userIdentities;
+			const mParticleUserIdentities = mParticleUser?.getUserIdentities().userIdentities || {};
 			const mParticleUserAttributes = mParticleUser?.getAllUserAttributes();
 
 			// Hide Newsletter Control And Exit If The mParticle User Already Has A Truthy Value For Newsletter
