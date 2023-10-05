@@ -112,6 +112,10 @@ if ( ! function_exists( 'ee_update_archive_title' ) ) :
 			$title = 'Events';
 		}
 
+		if ( is_post_type_archive( 'affiliate_marketing' ) ) {
+			$title = 'Must Haves';
+		}
+
 		$parts = explode( ':', $title, 2 );
 		return array_pop( $parts );
 	}
@@ -660,5 +664,15 @@ if ( ! function_exists( 'ee_parse_shortcode_atts' ) ) :
 
 		// Return the array
 		return $attributes;
+	}
+endif;
+
+if ( ! function_exists( 'ee_404_page_redirect' ) ) :
+	function ee_404_page_redirect() {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+		include(get_404_template());
+		exit;
 	}
 endif;

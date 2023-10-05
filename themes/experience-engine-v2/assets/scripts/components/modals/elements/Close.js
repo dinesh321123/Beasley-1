@@ -35,20 +35,78 @@ class Close extends PureComponent {
 		);
 	}
 
+	isUserLoggedIn() {
+		return new Promise((resolve, reject) => {
+			window.firebase.auth().onAuthStateChanged(user => {
+				if (user) {
+					resolve(true);
+				} else {
+					resolve(false);
+				}
+			});
+		});
+	}
+
+	removeContestGating() {
+		// debug code
+		console.log('removeContestGating()');
+
+		if (document.getElementById('contestframe')) {
+			// debug code
+			console.log('removeContestGating() - contestframe exists');
+
+			window.removeGate('contestframe');
+			this.isUserLoggedIn().then(isLoggedIn => {
+				// debug code
+				console.log(`removeContestGating() - isLoggedIn = ${isLoggedIn}`);
+
+				if (!isLoggedIn) {
+					// debug code
+					console.log('removeContestGating() - isLoggedIn = false');
+
+					window.createGate('contestframe', 'frame-gate');
+				} else {
+					// debug code
+					console.log('removeContestGating() - isLoggedIn = true');
+
+					window.removeGate('contestframe');
+				}
+			});
+		}
+	}
+
 	didClick() {
+		// debug code
+		// console.log('didClick()');
+
 		const beforeClose = window.beforeBeasleyModalClose;
 		const { close } = this.props;
+
+		// debug code
+		// console.log(`didClick() - beforeClose = ${beforeClose}`);
 
 		if (beforeClose) {
 			const result = beforeClose();
 
+			// debug code
+			// console.log(`didClick() - result = ${result}`);
+
 			if (result) {
 				if (close) {
+					// debug code
+					// console.log('didClick() - close()');
+
 					close();
+
+					// debug code
+					// console.log('didClick() - removeContestGating()');
+
+					// this.removeContestGating();
 				}
 			}
 		} else if (close) {
 			close();
+			// this.removeContestGating();
 		}
 	}
 }

@@ -10,7 +10,7 @@ import { ensureUserHasCurrentChannel } from '../../library/experience-engine';
 
 import Header from './elements/Header';
 import Alert from './elements/Alert';
-import OAuthButtons from './authentication/OAuthButtons';
+// import OAuthButtons from './authentication/OAuthButtons';
 import { mapAuthErrorCodeToFriendlyMessage } from '../../library/friendly-error-messages';
 
 class SignIn extends PureComponent {
@@ -72,13 +72,15 @@ class SignIn extends PureComponent {
 
 				<Alert message={message} />
 
-				<div className="signin-options">
+				<div>
+					{/* className="signin-options"> Temporarily Hide Auth Buttons Due To Issues
 					<div className="option">
 						<p className="p-label">
 							<em>Sign in with:</em>
 						</p>
 						<OAuthButtons />
 					</div>
+					*/}
 					<div className="option">
 						<form
 							className="modal-form -form-sign-in"
@@ -134,10 +136,7 @@ class SignIn extends PureComponent {
 				<div className="register">
 					<h3>Not yet a member?</h3>
 					<div className="blurb">
-						<p>
-							Sign up to {title} to personalize your experience, customize your
-							homepage and discover new content!
-						</p>
+						<p>Create Your Account & Unlock More {title} Than Ever Before.</p>
 						<button
 							className="btn -sign-up -empty"
 							type="button"

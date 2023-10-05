@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { firebaseAuth } from '../../library/firebase';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
-import OAuthButtons from './authentication/OAuthButtons';
+// import OAuthButtons from './authentication/OAuthButtons';
 import { mapAuthErrorCodeToFriendlyMessage } from '../../library/friendly-error-messages';
 import { setMParticleUserAtributes } from '../../library';
 
@@ -217,7 +217,12 @@ class SignUp extends PureComponent {
 			error,
 			showError,
 		} = this.state;
+		const { bbgiconfig } = window;
+		const { publisher } = bbgiconfig || {};
+		console.log(publisher);
 		const { signin } = this.props;
+		const subtitle = `Create Your Account & Unlock More ${publisher.title} Than Ever Before.`;
+		const subtitle_innerText = `When logged in, you'll discover exclusive audio, video, and articles and have a customized experience with ${publisher.title}. Plus, you'll be among a group of fans helping us with direct feedback on music, events, and content.`;
 
 		return (
 			<>
@@ -225,12 +230,20 @@ class SignUp extends PureComponent {
 					<h3>Sign Up for Exclusive Access</h3>
 				</Header>
 
+				<div className="modal-subtitle">
+					<p>{subtitle}</p>
+					<p>{subtitle_innerText}</p>
+				</div>
+
 				<Alert message={error} />
 
+				<p>&nbsp;</p>
+				{/* Temporarily Hide Auth Buttons Due To Issues
 				<p className="p-label">
 					<em>Register with:</em>
 				</p>
 				<OAuthButtons horizontal />
+				*/}
 
 				<form className="modal-form -form-sign-up" onSubmit={this.onFormSubmit}>
 					<div className="modal-form-group-inline">

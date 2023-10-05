@@ -95,3 +95,9 @@
 	}
 
 }
+
+.gallery-embed-description{
+	& .wp-caption {    
+		width: 100% !important;
+	}
+}

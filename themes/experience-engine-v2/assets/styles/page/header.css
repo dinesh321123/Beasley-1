@@ -230,6 +230,9 @@
 	  }
 	}
 	& > div {
+	  @media (--max-small-viewport) {
+	    top: 98% !important;
+	  }
 	  position: absolute;
 	  z-index: 99;
 	  display: none;

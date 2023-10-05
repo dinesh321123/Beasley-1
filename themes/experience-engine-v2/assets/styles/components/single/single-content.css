@@ -23,6 +23,7 @@
 		@media (--min-large-viewport) {
 			flex-basis: 67%;
 		}
+
 	}
 
 	& .ad {
@@ -90,6 +91,9 @@
 
 		& p {
 			line-height: 1.6;
+		}
+		& a {
+			word-break: break-all;
 		}
 	}
 
@@ -181,4 +185,11 @@
 /* General fixes for external feeds */
 .file .element-invisible {
 	visibility: hidden;
+}
+
+.article-inner-container{
+	background-color: #fff;
+	& .content-wrap{
+		padding: 0 1.3rem 1rem;
+	}
 }

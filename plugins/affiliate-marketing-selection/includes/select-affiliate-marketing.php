@@ -133,6 +133,7 @@ class ExistingAffiliateMarketingSelection {
 			$return_result['searchids'] = $search;
 		} else {
 			$return_result['data'] = new WP_Query( $query_images_args );
+			$return_result['new_data'] = get_posts($query_images_args);
 			$return_result['searchids'] = '';
 		}
 		return $return_result;
@@ -199,20 +200,73 @@ class ExistingAffiliateMarketingSelection {
 		wp_send_json_success( array( "media_image_list" => $html, "page_number" => $PagedData_val, "searchMediaImage_val" => $SearchTitle_val ) );
 	}
 
+	/**
+	 * Resolve Post Query Conflict With Take Over Button and Perform Actions
+	 *
+	 * This function sets up a custom query for a specific post, performs actions related to the post,
+	 * and ensures that the original post data and query are restored after execution.
+	 */
+	public static function am_post_query_conflict(){
+		
+		// Query to fetch ams
+		$am_data = self::get_ams_cpt_data(1, null, null, null, null);
+
+		$html = '<div id="main-container-mediaimg">
+					<input type="hidden" name="page_number" id="page_number" class="page_number" value="1" />
+					<div class="media-search">
+						<input type="text" name="s_title" id="s_title" class="searchinputs" placeholder="Search here" value="'. $searchval.'" /> &nbsp;&nbsp;
+						<button type="button" class="s_btn_mediaimage button" >Search</button> &nbsp;
+						<span class="spinner" id="s_spinner"></span>
+					</div>';
+		
+			if ($am_data['new_data']) {
+			
+				$html .= '<ul class="select-am-ul">';
+
+				foreach ($am_data['new_data'] as $post_data) {
+					
+					setup_postdata($post_data);
+					$jqueryEventSelectedClass = "'selected-am-thumbnail'";
+					$image_src = wp_get_attachment_image_src(get_post_thumbnail_id($post_data->ID), array(200, 150));
+
+					$html .= '<li class="select-exist-am-li" am-id="'.$post_data->ID.'" slug-name="'.$post_data->post_name.'" onclick=" jQuery(\'.select-am-ul li\').removeClass(' . $jqueryEventSelectedClass .'); jQuery(\'.select-am-ul li\').css(\'box-shadow\', \'0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19)\'); jQuery(this).addClass(' . $jqueryEventSelectedClass .'); " >
+								<div style="width: 200px; height: 150px; display: flex;">
+									<img
+										class="img-attachment"
+										src="' . ($image_src ? $image_src[0] : 'https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=200&d=mm&r=g') . '" image-id="' . get_post_thumbnail_id($post_data->ID) . '" />
+								</div>
+								<div class="desc-main-container">
+									<div class="desc-upper-container">'.$post_data->post_title.'</div>
+										<div class="desc-lower-container">
+										<div class="desc-lower-title">Author:</div> <div class="desc-lower-text"> '.(get_the_author_meta( 'display_name', $post_data->post_author ) ? get_the_author_meta( 'display_name', $post_data->post_author ) : "-").'</div>
+									</div>
+									<div class="desc-lower-container" style="padding-bottom:10px;">
+										<div class="desc-lower-title">Date:</div> <div> '.self::get_modified_am_date($post_data).'</div>
+									</div>
+							</li>';
+
+				}
+
+				wp_reset_postdata();
+
+				$html .= '</ul>
+				<div style="text-align: center;"><span class="spinner" id="loadmore_spinner"></span></div>
+				<div style="text-align: center;"><button type="button" id="media_loadmore" class="media_loadmore button button-secondary button-hero">Load more affiliate marketing posts</button></div>';
+			
+			} else {
+				$html .= '<div class="no-existing-am-data"><h2 class="">No existing affiliate marketing post found.</h2></div>';
+			}
+		$html .= '</div>';
+		return $html;
+	}
+
 	public static function am_print_media_templates() {
 			?><script type="text/html" id="tmpl-am-selector">			
 			<input type="hidden" name="am_selected_id" id="am_selected_id" value="{{{data.name}}}" />
 			<input type="hidden" name="am_selected_slug" id="am_selected_slug" />
 			<div class="selectam__preview">
-				<?php
-					// Query to fetch ams
-					$am_data = self::get_ams_cpt_data(1, null, null, null, null);
-
-					$html = self::prepare_html($am_data['data'], null, null, null);
-					echo $html;
-				?>
-
-				</div>
+				<?php $html = self::am_post_query_conflict(); echo $html; ?>
+			</div>
 			</script><?php
 	}
 

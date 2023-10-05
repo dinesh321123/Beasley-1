@@ -18,3 +18,4 @@ export { default as setPlayerVisibility } from './player/setPlayerVisibility';
 export { default as createMParticleMediaFields } from './player/createMParticleMediaFields';
 export { default as endMParticleMediaSession } from './player/endMParticleMediaSession';
 export { default as sendMParticlePlayMediaEvent } from './player/sendMParticlePlayMediaEvent';
+export { default as handleNationalContest } from './screen/handleNationalContest';

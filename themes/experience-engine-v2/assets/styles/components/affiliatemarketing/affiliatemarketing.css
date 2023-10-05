@@ -212,3 +212,21 @@
 		}
 	}
 }
+
+.affiliate-marketingmeta{
+	& .affiliate-marketingmeta-item {
+		& .caption{
+			& .wp-caption{
+				margin-right: 0px;
+				margin-left: 0px;
+				width: 100% !important;
+			}
+		} 
+	}
+}
+
+.am-embed-description{
+	& .wp-caption{
+		width:100% !important;
+	}
+} 

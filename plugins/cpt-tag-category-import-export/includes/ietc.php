@@ -293,6 +293,7 @@ class ImportExportTagCategory {
 		global $wpdb;
 		$blog_id		= 0;
 		$network_name	= 'All';
+		$post_per_page	= -1;
 		$term_type		= 'user posts';
 		$user_id		= get_current_user_id();
 		$input_type		= filter_input( INPUT_POST, 'input_type', FILTER_SANITIZE_STRIPPED);
@@ -328,6 +329,7 @@ class ImportExportTagCategory {
 				$export_query_string	= array(
 					'author'		=> $user->ID,
 					'post_type'		=> self::get_export_user_data_posttype_list(),
+					'posts_per_page'=> $post_per_page,
 					'post_status'	=> 'publish',
 					'date_query'	=> array(
 						'column'	=> 'post_date',

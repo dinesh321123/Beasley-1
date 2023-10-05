@@ -47,7 +47,8 @@ class CommonSettings {
 	 */
 	public static function modify_media_insert_string( $html, $id, $attachment ) {
 		if( self::verify_media_is_image( $id ) ) {
-			$html_updated = str_replace( '<img ', '<img data-media-image="'.$id.'" ', $html );
+			$image_attribution = get_post_meta( $id, 'gmr_image_attribution', true ); // Retrieve the Image Attribution
+			$html_updated = str_replace( '<img ', '<img data-media-image-attribution="'.$image_attribution.'" ', $html );
 			$html_updated = str_replace( 'class="', 'class="media-image-with-attr ', $html_updated );
 			return $html_updated;
 		}
@@ -179,8 +180,7 @@ class CommonSettings {
 			}
 		}
 
-		add_rewrite_rule('^authors/([0-9]+)/?', 'index.php?pagename=authors&author_id=$matches[1]', 'top');
-
+		add_rewrite_rule('^authors/([0-9]+)(?:/page/([0-9]+))?/?', 'index.php?pagename=authors&author_id=$matches[1]&paged=$matches[2]', 'top');
 	}
 
 	public static function add_query_vars( $author_query_vars ) {

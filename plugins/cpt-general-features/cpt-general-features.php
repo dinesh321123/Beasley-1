@@ -17,3 +17,4 @@ define( 'GFF_TEXT_DOMAIN', 'gff_textdomain' );
 
 /* Clone Listicle post type similarly to Posts */
 include __DIR__ . '/includes/duplicate-listicle.php';
+include __DIR__ . '/includes/editor-toolbar-widgets.php';

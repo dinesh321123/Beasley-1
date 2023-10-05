@@ -337,9 +337,13 @@ class UserNav extends Component {
 			component = this.renderLoadingState();
 			componentMobile = this.renderLoadingState(user);
 		} else if (user) {
+			window.openLoginRegistration = () => {}; // Null Op When User Is Logged In.
 			component = this.renderSignedInState(user);
 			componentMobile = this.renderSignedInStateMobile(user);
 		} else {
+			window.openLoginRegistration = () => {
+				this.handleSignIn();
+			};
 			component = this.renderSignedOutState();
 			componentMobile = this.renderSignedOutState(user);
 		}

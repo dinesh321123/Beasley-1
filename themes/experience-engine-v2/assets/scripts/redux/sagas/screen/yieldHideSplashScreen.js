@@ -41,6 +41,7 @@ function* yieldHideSplashScreen(action) {
 
 		renderSendToNews();
 		handleInjectos();
+		// handleNationalContest();
 		initializeVimeo();
 	});
 }
