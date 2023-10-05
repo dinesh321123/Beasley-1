@@ -1,6 +1,8 @@
 (function ($) {
 	$(document).ready(function () {
 	  	$('[class*="_shows-"]').addClass("custom-margin");
+		$(".top_header .cnavigation").attr("data-click-state", 1);
+		$(".top_mobile_header .cnavigation").attr("data-click-state", 1);
 	  	var width = $(window).width();
 	  	var moreButtonContent = '<li class="cnavigation-more"> More </li>';
 	  	function handleNavigationClick() {
@@ -52,6 +54,7 @@
 			$(".top_header").addClass('desktop');
 			$(".top_mobile_header").empty();
 			$(".desktop .cnavigation").append(moreButtonContent);
+			console.log('before adjustMenuItems', adjustMenuItems());
 			$(".desktop .cnavigation").data("items-to-copy", adjustMenuItems());
 			$(document).on('click', '.cnavigation .cnavigation-more', handleNavigationClick);
 
@@ -98,7 +101,7 @@
 			document.querySelector('.desktop .cnavigation').style.display = 'flex';
 			document.querySelector('.desktop .cnavigation').style.width = ul_width+'px';
 			const items_count = menu.querySelectorAll('li:not(.cnavigation-more)').length;
-			const items = menu.querySelectorAll('li');
+			const items = menu.querySelectorAll('li:not(.cnavigation-more)');
 			const moreItem = menu.querySelector('.cnavigation-more');
 
 
@@ -140,7 +143,24 @@
 
 		}
 
+		window.addEventListener('click', handleOutsideClick);
+		
 	});
+	
+	function handleOutsideClick(event) {
+		const navigations = $('.cnavigation');
+		const subMenuElement = document.querySelector('.sub_menu');
+		if (subMenuElement && event.target.className !== 'cnavigation-more') {
+			const computedStyles = window.getComputedStyle(subMenuElement);
+			const displayPropertyValue = computedStyles.getPropertyValue('display');
+			if (displayPropertyValue === 'block') {
+				subMenuElement.style.display = 'none';
+				navigations
+					.attr('data-click-state', 1)
+					.removeClass('dropdown-active');
+			}
+		}
+	}
 
 })(jQuery);
   
