@@ -50,7 +50,7 @@ class Google extends \Bbgi\Module {
 		);
 
 		$homeUrl = home_url($wp->request);
-		$fileNameAddition = str_contains($homeUrl, '.beasley.test') || str_contains($homeUrl, '.bbgistage.com') ? '-staging' : '';
+		$fileNameAddition = str_contains($homeUrl, '.beasley.test') || str_contains($homeUrl, '.bbgistage.com') ? '-dev' : '';
 		wp_enqueue_script(
 			'mparticle_enqueue_scripts',
 			'https://analytics-plan.bbgi.com/mparticle-events' . $fileNameAddition . '.js'
