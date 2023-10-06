@@ -68,7 +68,7 @@ class BeasleyAnalytics {
 
 		console.log(`Returning mParticle config for ${isDevEnvironment ? 'Dev' : 'Prod'} Environment`);
 
-		const versionNo = mParticlePlan?.version;
+		const versionNo = beasley_mParticlePlan?.version;
 		console.log(`Using plan version ${versionNo} based on cached plan`);
 		const retval = isDevEnvironment ? BeasleyAnalytics.getMParticleDevConfig(versionNo) : BeasleyAnalytics.getMParticleProdConfig(versionNo);
 
@@ -335,7 +335,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	lazyPageEventObserver;
 
 	getCleanEventObject(eventName, isIgnoringBuiltInMparticleFields, isIncludingOnlyMediaSpecificFields) {
-		const dataPoints = mParticlePlan?.dataPointArray;
+		const dataPoints = beasley_mParticlePlan?.dataPointArray;
 		if (dataPoints) {
 			const dataPoint = dataPoints.find( dp => dp.eventName === eventName );
 			if (dataPoint) {
@@ -366,7 +366,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	};
 
 	getCustomEventTypeValueForEventName(eventName) {
-		const dataPoints = mParticlePlan?.dataPointArray;
+		const dataPoints = beasley_mParticlePlan?.dataPointArray;
 		if (dataPoints) {
 			/* We need to filter because event names are not unique.
 				For instance, there are 2 play events: one of type media and one of type other.
@@ -495,7 +495,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 
 	createKeyValuePairs() {
-		this.keyValuePairsTemplate = mParticlePlan?.allFields;
+		this.keyValuePairsTemplate = beasley_mParticlePlan?.allFields;
 		this.clearKeyValuePairs();
 	}
 
@@ -504,7 +504,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 
 	createMediaKeyValuePairs() {
-		this.mediaSpecificKeyValuePairsTemplate = mParticlePlan?.mediaFields;
+		this.mediaSpecificKeyValuePairsTemplate = beasley_mParticlePlan?.mediaFields;
 		this.clearMediaKeyValuePairs();
 	}
 
@@ -520,6 +520,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				super.debugLog('Beasley Analytics mParticle Was Initialized. Now Processing...');
 				this.isInitialized = true;
 
+				this.setAnalytics('is_station_site', true);
 				this.setAnalytics('ad_block_enabled', isBlockingAds);
 				this.setAnalytics('domain', window.location.hostname);
 				this.setAnalytics('platform', 'Web');
