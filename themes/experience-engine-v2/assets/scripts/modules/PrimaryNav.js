@@ -333,7 +333,7 @@ class PrimaryNav extends PureComponent {
 	onResize() {
 		this.handleSubMenuSize();
 		this.setRightRailTopMargin();
-		this.handleNavigationOptimise();
+		// this.handleNavigationOptimise();
 	}
 
 	handleOnLoadFix() {
@@ -503,6 +503,16 @@ class PrimaryNav extends PureComponent {
 	}
 
 	handlePageChange() {
+		const { body } = document;
+		const headerContainer = document.querySelector('.show-header-container');
+
+		if (headerContainer) {
+			if (!body.classList.contains('slimmer-menu-react')) {
+				body.classList.add('slimmer-menu-react');
+				alert('Added slimmer-menu-react to the body.');
+			}
+		}
+
 		this.handleNavigationOptimise();
 		const { primaryNavRef } = this;
 		const { setNavigationCurrent, hideModal } = this.props;
@@ -578,12 +588,13 @@ class PrimaryNav extends PureComponent {
 
 		function handleNavigationClick() {
 			// const navigation = this.closest('.cnavigation');
-			const navigations = document.querySelector('.cnavigation');
-			const navigation = navigations[0];
+			const navigation = document.querySelector('.cnavigation');
+			// const navigation = navigations[0];
 			const clickState = navigation.getAttribute('data-click-state');
 			alert('clickState');
-			if (clickState === 1) {
-				alert('1');
+			console.log('clickState', typeof clickState);
+
+			if (clickState === '1') {
 				navigation.setAttribute('data-click-state', 0);
 				navigation.classList.add('dropdown-active');
 
@@ -591,19 +602,23 @@ class PrimaryNav extends PureComponent {
 				if (!subMenu) {
 					navigation.insertAdjacentHTML(
 						'beforeend',
-						"<span class='bg_overlay'></span><ul class='sub_menu'></ul>",
+						"<span class='bg_overlay'></span><ul id='slimmer-submenu' class='sub_menu'></ul>",
 					);
 					const sourceItems = document.querySelectorAll('.cnavigation li');
 					const itemsToCopy = Array.prototype.slice.call(
 						sourceItems,
 						navigation.dataset.itemsToCopy,
 					);
+					console.log('sourceItems', sourceItems);
+					console.log('itemsToCopy', itemsToCopy);
 
-					const subMenuList = document.querySelector('.sub_menu');
+					const subMenuList = document.querySelector('#slimmer-submenu');
 					subMenuList.innerHTML = '';
 					itemsToCopy.forEach(function(item) {
-						subMenuList.appendChild(item.cloneNode(true));
+						console.log('inner li item', item);
+						subMenuList.appendChild(item);
 					});
+
 					subMenuList.querySelector('.cnavigation-more').remove();
 					navigation.insertAdjacentHTML('beforeend', moreButtonContent);
 
@@ -611,24 +626,41 @@ class PrimaryNav extends PureComponent {
 					const mobileUlWidth = document.querySelectorAll(
 						'.top_mobile_header .cnavigation li:not(.sub_menu li)',
 					);
-					mobileUlWidth.forEach(function(li) {
-						sumWidth += li.offsetWidth + 10;
-					});
-					mobileUlWidth[0]
-						.closest('.cnavigation')
-						.querySelector('.sub_menu').style.width = `${sumWidth + 50}px`;
+
+					if (mobileUlWidth.length > 0) {
+						mobileUlWidth.forEach(function(li) {
+							sumWidth += li.offsetWidth + 10;
+						});
+
+						const closestNavigation = mobileUlWidth[0].closest('.cnavigation');
+
+						if (closestNavigation) {
+							const subMenu = closestNavigation.querySelector('.sub_menu');
+							if (subMenu) {
+								subMenu.style.width = `${sumWidth + 50}px`;
+							}
+						}
+					}
 
 					let desktopSumWidth = 0;
 					const ulWidth = document.querySelectorAll(
 						'.top_header.desktop .cnavigation li:not(.sub_menu li)',
 					);
-					ulWidth.forEach(function(li) {
-						desktopSumWidth += li.offsetWidth + 10;
-					});
-					ulWidth[0]
-						.closest('.cnavigation')
-						.querySelector('.sub_menu').style.width = `${desktopSumWidth -
-						10}px`;
+
+					if (ulWidth.length > 0) {
+						ulWidth.forEach(function(li) {
+							desktopSumWidth += li.offsetWidth + 10;
+						});
+
+						const closestNavigation = ulWidth[0].closest('.cnavigation');
+
+						if (closestNavigation) {
+							const subMenu = closestNavigation.querySelector('.sub_menu');
+							if (subMenu) {
+								subMenu.style.width = `${desktopSumWidth - 10}px`;
+							}
+						}
+					}
 
 					const desktopLis = document.querySelectorAll(
 						'.desktop .cnavigation li',
@@ -648,7 +680,7 @@ class PrimaryNav extends PureComponent {
 					).style.display = 'none';
 				}
 			} else {
-				// navigation.setAttribute('data-click-state', 1);
+				navigation.setAttribute('data-click-state', 1);
 				navigation.classList.remove('dropdown-active');
 				document
 					.querySelectorAll('.sub_menu, .bg_overlay')
@@ -689,8 +721,10 @@ class PrimaryNav extends PureComponent {
 			if (!existingMoreButton) {
 				desktopCNavigation.insertAdjacentHTML('beforeend', moreButtonContent);
 			}
-			console.log('before adjustMenuItems', adjustMenuItems());
-			desktopCNavigation.dataset.itemsToCopy = adjustMenuItems();
+
+			const getMenuItemsCounts = adjustMenuItems();
+			console.log('before adjustMenuItems', getMenuItemsCounts);
+			desktopCNavigation.dataset.itemsToCopy = getMenuItemsCounts; // rupesh to dynamic
 			window.addEventListener('click', handleOutsideClick);
 			document.addEventListener('click', function(event) {
 				if (event.target.classList.contains('cnavigation-more')) {
