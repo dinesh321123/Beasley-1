@@ -42,4 +42,4 @@ include __DIR__ . '/includes/capability.php';
 
 /* Include the trending-article.php file for the trending article shortcode functionality. */
 include __DIR__ . '/includes/trending-article.php';
-include __DIR__ . '/includes/more-menu.php';
+include __DIR__ . '/includes/slimmer-menu.php';

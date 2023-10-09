@@ -430,6 +430,18 @@
 
         }
 
+        @media (max-width: 320px) {
+            padding-left:60px ;
+            
+            & li:nth-child(n+3)
+            {
+                display: none;
+            }
+            & li:last-child{
+                display: block;
+            }
+
+        }
 
         & li {
             font-size: 14px;
