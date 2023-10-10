@@ -2,7 +2,7 @@
 	$(document).ready(function () {
 
 		var body = document.body;
-		var headerContainer = document.querySelector('.show-header-container');
+		var headerContainer = document.querySelector('#show-header-container');
 
 		if (headerContainer) {
 			if (!body.classList.contains('slimmer-menu-react')) {

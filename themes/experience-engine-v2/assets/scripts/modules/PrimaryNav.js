@@ -506,7 +506,7 @@ class PrimaryNav extends PureComponent {
 	handlePageChange() {
 		// related to slimmer menu : code start
 		const { body } = document;
-		const headerContainer = document.querySelector('.show-header-container');
+		const headerContainer = document.querySelector('#show-header-container');
 
 		if (headerContainer) {
 			if (!body.classList.contains('slimmer-menu-react')) {
@@ -567,7 +567,7 @@ class PrimaryNav extends PureComponent {
 
 	handleSlimmerMenu() {
 		document.querySelectorAll('[class*="_shows-"]').forEach(function(element) {
-			element.classList.add('custom-margin123');
+			element.classList.add('custom-margin');
 		});
 
 		const topHeaderNavigations = document.querySelectorAll(
