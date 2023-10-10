@@ -46,6 +46,7 @@ class PrimaryNav extends PureComponent {
 		this.closeMenus = this.closeMenus.bind(this);
 		this.handleSubMenuSize = this.handleSubMenuSize.bind(this);
 		this.setTwoColAdTopMargin = this.setTwoColAdTopMargin.bind(this);
+		this.handleSlimmerMenuClick = this.handleSlimmerMenuClick.bind(this);
 
 		removeChildren(navRoot);
 	}
@@ -334,7 +335,6 @@ class PrimaryNav extends PureComponent {
 	onResize() {
 		this.handleSubMenuSize();
 		this.setRightRailTopMargin();
-		// this.handleNavigationOptimise();
 	}
 
 	handleOnLoadFix() {
@@ -506,16 +506,16 @@ class PrimaryNav extends PureComponent {
 	handlePageChange() {
 		// related to slimmer menu : code start
 		const { body } = document;
-		const headerContainer = document.querySelector('.show-header-container');
+		const headerContainer = document.querySelector('#show-header-container');
 
 		if (headerContainer) {
 			if (!body.classList.contains('slimmer-menu-react')) {
 				body.classList.add('slimmer-menu-react');
 			}
 		}
+		this.handleSlimmerMenu();
 		// End code
 
-		this.handleNavigationOptimise();
 		const { primaryNavRef } = this;
 		const { setNavigationCurrent, hideModal } = this.props;
 		const container = primaryNavRef.current;
@@ -592,16 +592,16 @@ class PrimaryNav extends PureComponent {
 		}
 	}
 
-	handleNavigationOptimise() {
+	handleSlimmerMenu() {
 		document.querySelectorAll('[class*="_shows-"]').forEach(function(element) {
 			element.classList.add('custom-margin');
 		});
 
 		const topHeaderNavigations = document.querySelectorAll(
-			'.top_header .cnavigation',
+			'#top_header .cnavigation',
 		);
 		const topMobileHeaderNavigations = document.querySelectorAll(
-			'.top_mobile_header .cnavigation',
+			'#top_mobile_header .cnavigation',
 		);
 
 		topHeaderNavigations.forEach(function(element) {
@@ -614,113 +614,11 @@ class PrimaryNav extends PureComponent {
 
 		const width = window.innerWidth;
 
-		function handleNavigationClick() {
-			const navigation = document.querySelector('.cnavigation');
-			const clickState = navigation.getAttribute('data-click-state');
-
-			if (clickState === '1') {
-				navigation.setAttribute('data-click-state', 0);
-				navigation.classList.add('dropdown-active');
-
-				const subMenu = document.querySelector('.sub_menu');
-				if (!subMenu) {
-					navigation.insertAdjacentHTML(
-						'beforeend',
-						"<span class='bg_overlay'></span><ul id='slimmer-submenu' class='sub_menu'></ul>",
-					);
-					const sourceItems = document.querySelectorAll('.cnavigation li');
-					const itemsToCopy = Array.prototype.slice.call(
-						sourceItems,
-						navigation.dataset.itemsToCopy,
-					);
-
-					const subMenuList = document.querySelector('#slimmer-submenu');
-					subMenuList.innerHTML = '';
-					itemsToCopy.forEach(function(item) {
-						subMenuList.appendChild(item);
-					});
-
-					subMenuList.querySelector('.cnavigation-more').remove();
-					navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-
-					let sumWidth = 0;
-					const mobileUlWidth = document.querySelectorAll(
-						'.top_mobile_header .cnavigation li:not(.sub_menu li)',
-					);
-
-					if (mobileUlWidth.length > 0) {
-						mobileUlWidth.forEach(function(li) {
-							sumWidth += li.offsetWidth + 10;
-						});
-
-						const closestNavigation = mobileUlWidth[0].closest('.cnavigation');
-
-						if (closestNavigation) {
-							const subMenu = closestNavigation.querySelector('.sub_menu');
-							if (subMenu) {
-								subMenu.style.width = `${sumWidth + 50}px`;
-							}
-						}
-					}
-
-					let desktopSumWidth = 0;
-					const ulWidth = document.querySelectorAll(
-						'.top_header.desktop .cnavigation li:not(.sub_menu li)',
-					);
-
-					if (ulWidth.length > 0) {
-						ulWidth.forEach(function(li) {
-							desktopSumWidth += li.offsetWidth + 10;
-						});
-
-						const closestNavigation = ulWidth[0].closest('.cnavigation');
-
-						if (closestNavigation) {
-							const subMenu = closestNavigation.querySelector('.sub_menu');
-							if (subMenu) {
-								subMenu.style.width = `${desktopSumWidth - 10}px`;
-							}
-						}
-					}
-
-					const desktopLis = document.querySelectorAll(
-						'.desktop .cnavigation li',
-					);
-					desktopLis.forEach(function(li) {
-						li.style.display = 'block';
-					});
-					const overlayElement = document.querySelector(
-						'.desktop .cnavigation .bg_overlay',
-					);
-					if (overlayElement) {
-						overlayElement.style.display = 'none';
-					}
-				} else {
-					subMenu.style.display = 'block';
-					document.querySelector('.bg_overlay').style.display = 'block';
-					const overlayElement = document.querySelector(
-						'.desktop .cnavigation .bg_overlay',
-					);
-					if (overlayElement) {
-						overlayElement.style.display = 'none';
-					}
-				}
-			} else {
-				navigation.setAttribute('data-click-state', 1);
-				navigation.classList.remove('dropdown-active');
-				document
-					.querySelectorAll('.sub_menu, .bg_overlay')
-					.forEach(function(el) {
-						el.style.display = 'none';
-					});
-			}
-		}
-
 		if (width > 992) {
-			const topHeader = document.querySelector('.top_header');
+			const topHeader = document.querySelector('#top_header');
 			topHeader.classList.add('desktop');
 
-			document.querySelector('.top_mobile_header').innerHTML = '';
+			document.querySelector('#top_mobile_header').innerHTML = '';
 			const desktopCNavigation = document.querySelector(
 				'.desktop .cnavigation',
 			);
@@ -736,94 +634,150 @@ class PrimaryNav extends PureComponent {
 			const getMenuItemsCounts = this.handleMenuItemsCounts();
 			desktopCNavigation.dataset.itemsToCopy = getMenuItemsCounts; // rupesh to dynamic
 			window.addEventListener('click', this.handleSlimmerMenuOutsideClick);
-			document.addEventListener('click', function(event) {
+			document.addEventListener('click', event => {
 				if (event.target.classList.contains('cnavigation-more')) {
-					handleNavigationClick(event);
+					this.handleSlimmerMenuClick();
 				}
 			});
 		}
 
 		if (width <= 992 && width > 768) {
-			document.querySelector(
-				'.article-inner-container .cnavigation',
-			).innerHTML = '';
-			const navigation = document.querySelector(
-				'#top_mobile_header .cnavigation',
-			);
-			navigation.setAttribute('data-items-to-copy', '6');
-			// navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-			const existingMoreButton = navigation.querySelector('.cnavigation-more');
-			if (!existingMoreButton) {
-				navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-				document.addEventListener('click', function(event) {
-					if (event.target.classList.contains('cnavigation-more')) {
-						handleNavigationClick.call(event.target);
-					}
-				});
-			}
+			this.handleSlimmerMenuInit(6);
 		} else if (width <= 768 && width > 480) {
-			document.querySelector(
-				'.article-inner-container .cnavigation',
-			).innerHTML = '';
-			const navigation = document.querySelector(
-				'#top_mobile_header .cnavigation',
-			);
-			navigation.setAttribute('data-items-to-copy', '4');
-			// navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-			const existingMoreButton = navigation.querySelector('.cnavigation-more');
-			if (!existingMoreButton) {
-				navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-				document.addEventListener('click', function(event) {
-					if (event.target.classList.contains('cnavigation-more')) {
-						handleNavigationClick.call(event.target);
-					}
-				});
-			}
+			this.handleSlimmerMenuInit(4);
 		} else if (width <= 480 && width > 320) {
-			document.querySelector(
-				'.article-inner-container .cnavigation',
-			).innerHTML = '';
-			const navigation = document.querySelector(
-				'#top_mobile_header .cnavigation',
-			);
-			navigation.setAttribute('data-items-to-copy', '3');
-			// navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-			const existingMoreButton = navigation.querySelector('.cnavigation-more');
-			if (!existingMoreButton) {
-				navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-				document.addEventListener('click', function(event) {
-					if (event.target.classList.contains('cnavigation-more')) {
-						handleNavigationClick.call(event.target);
-					}
-				});
-			}
+			this.handleSlimmerMenuInit(3);
 		} else if (width <= 320) {
-			document.querySelector(
-				'.article-inner-container .cnavigation',
-			).innerHTML = '';
-			const navigation = document.querySelector(
-				'#top_mobile_header .cnavigation',
-			);
-			navigation.setAttribute('data-items-to-copy', '2');
-			// navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-			const existingMoreButton = navigation.querySelector('.cnavigation-more');
-			if (!existingMoreButton) {
-				navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-				document.addEventListener('click', function(event) {
-					if (event.target.classList.contains('cnavigation-more')) {
-						handleNavigationClick.call(event.target);
-					}
-				});
-			}
+			this.handleSlimmerMenuInit(2);
 		} else {
 			const targetElement = document.querySelector('.cnavigation');
 			targetElement.classList.toggle('no-pseudo');
 		}
 	}
 
+	handleSlimmerMenuInit(itemsCountToCopy) {
+		document.querySelector('.article-inner-container .cnavigation').innerHTML =
+			'';
+		const navigation = document.querySelector(
+			'#top_mobile_header .cnavigation',
+		);
+		navigation.setAttribute('data-items-to-copy', itemsCountToCopy);
+		const existingMoreButton = navigation.querySelector('.cnavigation-more');
+		if (!existingMoreButton) {
+			navigation.insertAdjacentHTML('beforeend', moreButtonContent);
+			window.addEventListener('click', this.handleSlimmerMenuOutsideClick);
+			document.addEventListener('click', event => {
+				if (event.target.classList.contains('cnavigation-more')) {
+					this.handleSlimmerMenuClick();
+				}
+			});
+		}
+	}
+
+	handleSlimmerMenuClick() {
+		const navigation = document.querySelector('.cnavigation');
+		const clickState = navigation.getAttribute('data-click-state');
+
+		if (clickState === '1') {
+			navigation.setAttribute('data-click-state', 0);
+			navigation.classList.add('dropdown-active');
+
+			const subMenu = document.querySelector('#slimmer-submenu');
+			if (!subMenu) {
+				navigation.insertAdjacentHTML(
+					'beforeend',
+					"<span class='bg_overlay'></span><ul id='slimmer-submenu' class='sub_menu'></ul>",
+				);
+				const sourceItems = document.querySelectorAll('.cnavigation li');
+				const itemsToCopy = Array.prototype.slice.call(
+					sourceItems,
+					navigation.dataset.itemsToCopy,
+				);
+				const subMenuList = document.querySelector('#slimmer-submenu');
+				subMenuList.innerHTML = '';
+				itemsToCopy.forEach(function(item) {
+					subMenuList.appendChild(item);
+				});
+
+				subMenuList.querySelector('.cnavigation-more').remove();
+				navigation.insertAdjacentHTML('beforeend', moreButtonContent);
+
+				let sumWidth = 0;
+				const mobileUlWidth = document.querySelectorAll(
+					'.top_mobile_header .cnavigation li:not(#slimmer-submenu li)',
+				);
+
+				if (mobileUlWidth.length > 0) {
+					mobileUlWidth.forEach(function(li) {
+						sumWidth += li.offsetWidth + 10;
+					});
+
+					const closestNavigation = mobileUlWidth[0].closest('.cnavigation');
+
+					if (closestNavigation) {
+						const subMenu = closestNavigation.querySelector('#slimmer-submenu');
+						if (subMenu) {
+							subMenu.style.width = `${sumWidth + 50}px`;
+						}
+					}
+				}
+
+				let desktopSumWidth = 0;
+				const ulWidth = document.querySelectorAll(
+					'.top_header.desktop .cnavigation li:not(#slimmer-submenu li)',
+				);
+
+				if (ulWidth.length > 0) {
+					ulWidth.forEach(function(li) {
+						desktopSumWidth += li.offsetWidth + 10;
+					});
+
+					const closestNavigation = ulWidth[0].closest('.cnavigation');
+
+					if (closestNavigation) {
+						const subMenu = closestNavigation.querySelector('#slimmer-submenu');
+						if (subMenu) {
+							subMenu.style.width = `${desktopSumWidth - 10}px`;
+						}
+					}
+				}
+
+				const desktopLis = document.querySelectorAll(
+					'.desktop .cnavigation li',
+				);
+				desktopLis.forEach(function(li) {
+					li.style.display = 'block';
+				});
+				const overlayElement = document.querySelector(
+					'.desktop .cnavigation .bg_overlay',
+				);
+				if (overlayElement) {
+					overlayElement.style.display = 'none';
+				}
+			} else {
+				subMenu.style.display = 'block';
+				document.querySelector('.bg_overlay').style.display = 'block';
+				const overlayElement = document.querySelector(
+					'.desktop .cnavigation .bg_overlay',
+				);
+				if (overlayElement) {
+					overlayElement.style.display = 'none';
+				}
+			}
+		} else {
+			navigation.setAttribute('data-click-state', 1);
+			navigation.classList.remove('dropdown-active');
+			document
+				.querySelectorAll('#slimmer-submenu, .bg_overlay')
+				.forEach(function(el) {
+					el.style.display = 'none';
+				});
+		}
+	}
+
 	handleSlimmerMenuOutsideClick(event) {
 		const navigations = $('.cnavigation');
-		const subMenuElement = document.querySelector('.sub_menu');
+		const subMenuElement = document.querySelector('#slimmer-submenu');
 		const bgOverlayElement = document.querySelector('.bg_overlay');
 		if (subMenuElement && event.target.className !== 'cnavigation-more') {
 			const computedStyles = window.getComputedStyle(subMenuElement);
@@ -888,112 +842,6 @@ class PrimaryNav extends PureComponent {
 
 		return itemsToDisplay;
 	}
-
-	// handleSlimmerMenuClick() {
-	// 	const navigation = document.querySelector('.cnavigation');
-	// 	const clickState = navigation.getAttribute('data-click-state');
-	// 	alert('clickState');
-	// 	console.log('clickState', typeof clickState);
-
-	// 	if (clickState === '1') {
-	// 		navigation.setAttribute('data-click-state', 0);
-	// 		navigation.classList.add('dropdown-active');
-
-	// 		const subMenu = document.querySelector('.sub_menu');
-	// 		if (!subMenu) {
-	// 			navigation.insertAdjacentHTML(
-	// 				'beforeend',
-	// 				"<span class='bg_overlay'></span><ul id='slimmer-submenu' class='sub_menu'></ul>",
-	// 			);
-	// 			const sourceItems = document.querySelectorAll('.cnavigation li');
-	// 			const itemsToCopy = Array.prototype.slice.call(
-	// 				sourceItems,
-	// 				navigation.dataset.itemsToCopy,
-	// 			);
-	// 			console.log('sourceItems', sourceItems);
-	// 			console.log('itemsToCopy', itemsToCopy);
-
-	// 			const subMenuList = document.querySelector('#slimmer-submenu');
-	// 			subMenuList.innerHTML = '';
-	// 			itemsToCopy.forEach(function(item) {
-	// 				console.log('inner li item', item);
-	// 				subMenuList.appendChild(item);
-	// 			});
-
-	// 			subMenuList.querySelector('.cnavigation-more').remove();
-	// 			navigation.insertAdjacentHTML('beforeend', moreButtonContent);
-
-	// 			let sumWidth = 0;
-	// 			const mobileUlWidth = document.querySelectorAll(
-	// 				'.top_mobile_header .cnavigation li:not(.sub_menu li)',
-	// 			);
-
-	// 			if (mobileUlWidth.length > 0) {
-	// 				mobileUlWidth.forEach(function(li) {
-	// 					sumWidth += li.offsetWidth + 10;
-	// 				});
-
-	// 				const closestNavigation = mobileUlWidth[0].closest('.cnavigation');
-
-	// 				if (closestNavigation) {
-	// 					const subMenu = closestNavigation.querySelector('.sub_menu');
-	// 					if (subMenu) {
-	// 						subMenu.style.width = `${sumWidth + 50}px`;
-	// 					}
-	// 				}
-	// 			}
-
-	// 			let desktopSumWidth = 0;
-	// 			const ulWidth = document.querySelectorAll(
-	// 				'.top_header.desktop .cnavigation li:not(.sub_menu li)',
-	// 			);
-
-	// 			if (ulWidth.length > 0) {
-	// 				ulWidth.forEach(function(li) {
-	// 					desktopSumWidth += li.offsetWidth + 10;
-	// 				});
-
-	// 				const closestNavigation = ulWidth[0].closest('.cnavigation');
-
-	// 				if (closestNavigation) {
-	// 					const subMenu = closestNavigation.querySelector('.sub_menu');
-	// 					if (subMenu) {
-	// 						subMenu.style.width = `${desktopSumWidth - 10}px`;
-	// 					}
-	// 				}
-	// 			}
-
-	// 			const desktopLis = document.querySelectorAll(
-	// 				'.desktop .cnavigation li',
-	// 			);
-	// 			desktopLis.forEach(function(li) {
-	// 				li.style.display = 'block';
-	// 			});
-	// 			const overlayElement = document.querySelector(
-	// 				'.desktop .cnavigation .bg_overlay',
-	// 			);
-	// 			if (overlayElement) {
-	// 				overlayElement.style.display = 'none';
-	// 			}
-	// 		} else {
-	// 			subMenu.style.display = 'block';
-	// 			alert(0);
-	// 			document.querySelector('.bg_overlay').style.display = 'block';
-	// 			const overlayElement = document.querySelector(
-	// 				'.desktop .cnavigation .bg_overlay',
-	// 			);
-	// 			if (overlayElement) {
-	// 				overlayElement.style.display = 'none';
-	// 			}
-	// 		}
-	// 	} else {
-	// 		navigation.setAttribute('data-click-state', 1);
-	// 		navigation.classList.remove('dropdown-active');
-	// 		document.querySelectorAll('.sub_menu, .bg_overlay').forEach(function(el) {
-	// 			el.style.display = 'none';
-	// 		});
-	// 	}
-	// }
 
 	closeMenus() {
 		const megaMenuUl = document.getElementById('mega-menu-primary-nav');

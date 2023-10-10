@@ -2,22 +2,22 @@
 	$(document).ready(function () {
 
 		var body = document.body;
-		var headerContainer = document.querySelector('.show-header-container');
+		var headerContainer = document.querySelector('#show-header-container');
 
 		if (headerContainer) {
 			if (!body.classList.contains('slimmer-menu-react')) {
 
 				$('[class*="_shows-"]').addClass("custom-margin");
-				$(".top_header .cnavigation").attr("data-click-state", 1);
-				$(".top_mobile_header .cnavigation").attr("data-click-state", 1);
+				$("#top_header .cnavigation").attr("data-click-state", 1);
+				$("#top_mobile_header .cnavigation").attr("data-click-state", 1);
 
 				var width = $(window).width();
 				var moreButtonContent = '<li class="cnavigation-more"> More </li>';
 				
 				if (width > 992) {
 
-					$(".top_header").addClass('desktop');
-					$(".top_mobile_header").empty();
+					$("#top_header").addClass('desktop');
+					$("#top_mobile_header").empty();
 					var getMenuItemsCounts = adjustMenuItems();
 					$(".desktop .cnavigation").data("items-to-copy", getMenuItemsCounts);
 					$(".desktop .cnavigation").append(moreButtonContent);
@@ -63,7 +63,7 @@
 						if (clickState == 1) {
 							
 							$navigation.attr("data-click-state", 0).addClass("dropdown-active");
-							var $subMenu = $(".sub_menu");
+							var $subMenu = $("#slimmer-submenu");
 							
 							if ($subMenu.length === 0) {
 								
@@ -71,25 +71,25 @@
 								var sourceItems = $(".cnavigation li");
 								var itemsToCopy = sourceItems.slice($navigation.data("items-to-copy"));
 								
-								$(".sub_menu").html(itemsToCopy);
-								$(".sub_menu .cnavigation-more").remove();
+								$("#slimmer-submenu").html(itemsToCopy);
+								$("#slimmer-submenu .cnavigation-more").remove();
 								$navigation.append(moreButtonContent);
 								
 								var sumWidth = 0;
-								var mobile_ul_width = $('.top_mobile_header .cnavigation li:not(.sub_menu li)');
+								var mobile_ul_width = $('#top_mobile_header .cnavigation li:not(#slimmer-submenu li)');
 								
 								mobile_ul_width.each(function () {
 									sumWidth += $(this).width() + 10;
 								});
-								mobile_ul_width.parents('.cnavigation').find('.sub_menu').width(sumWidth + 50);
+								mobile_ul_width.parents('.cnavigation').find('#slimmer-submenu').width(sumWidth + 50);
 
 								var desktop_sumWidth = 0;
-								var ul_width = $('.top_header.desktop .cnavigation li:not(.sub_menu li)');
+								var ul_width = $('#top_header.desktop .cnavigation li:not(#slimmer-submenu li)');
 								
 								ul_width.each(function () {
 									desktop_sumWidth += $(this).width() + 10;
 								});
-								ul_width.parents('.cnavigation').find('.sub_menu').width(desktop_sumWidth - 10);
+								ul_width.parents('.cnavigation').find('#slimmer-submenu').width(desktop_sumWidth - 10);
 								
 								$(".desktop .cnavigation li").css('display','block');
 								$(".desktop .cnavigation .bg_overlay").hide();
@@ -101,7 +101,7 @@
 							}
 						} else {
 							$navigation.attr("data-click-state", 1).removeClass("dropdown-active");
-							$(".sub_menu, .bg_overlay").hide();
+							$("#slimmer-submenu, .bg_overlay").hide();
 						}
 					}
 				}
@@ -156,7 +156,7 @@
 
 				function handleOutsideClick(event) {
 					const navigations = $('.cnavigation');
-					const subMenuElement = document.querySelector('.sub_menu');
+					const subMenuElement = document.querySelector('#slimmer-submenu');
 					const bgOverlayElement = document.querySelector('.bg_overlay');
 					if (subMenuElement && event.target.className !== 'cnavigation-more') {
 						const computedStyles = window.getComputedStyle(subMenuElement);
