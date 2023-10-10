@@ -177,7 +177,7 @@
     }
 }
 
-.show-header-container{
+#show-header-container{
     & .content-wrap{
         padding-bottom: 0px;
     }
