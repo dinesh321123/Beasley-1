@@ -2,6 +2,40 @@
 .notice-warning.tribe-notice-events-legacy-views-updated,
 .notice-warning.tribe-notice-event-tickets-install{
     display: none;
-} 
+}
 
+.nav-tab-wrapper.station-settings{
+	display: flex;
+	flex-wrap: wrap;
+}
 
+.nav-tab-wrapper.station-settings .nav-tab{
+	margin-top: 5px;
+}
+
+.nav-tab-wrapper.station-settings .nav-tab-active:focus{
+	box-shadow: none;
+}
+
+.settings_page_greatermedia-settings table.form-table {
+	width: 100%;
+	background-color: #FFF;
+	display: block;
+	margin-top:0px;
+}
+
+.settings_page_greatermedia-settings table.form-table th,
+.settings_page_greatermedia-settings table.form-table td {
+	padding: 20px;
+}
+
+.settings_page_greatermedia-settings table.form-table th {
+	font-weight: bold;
+}
+
+.settings_page_greatermedia-settings form h2 {
+	border-bottom: 1px solid #CCC;
+	padding: 20px;
+	margin-bottom: 0px;
+	background: #CCC;
+}
