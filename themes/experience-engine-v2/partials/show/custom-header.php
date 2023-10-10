@@ -6,7 +6,7 @@ if ( ! $show || ee_is_whiz()) :
 endif;
 
 ?>
-<div class="top_header">
+<div id="top_header" class="top_header">
 	<?php get_template_part( 'partials/show/custom-information' ); ?>
 	<?php get_template_part( 'partials/show/custom-navigation' ); ?>
 </div>
