@@ -3,10 +3,9 @@
 
 		var body = document.body;
 		var headerContainer = document.querySelector('#show-header-container');
-
 		if (headerContainer) {
 			if (!body.classList.contains('slimmer-menu-react')) {
-
+				
 				$('[class*="_shows-"]').addClass("custom-margin");
 				$("#top_header .cnavigation").attr("data-click-state", 1);
 				$("#top_mobile_header .cnavigation").attr("data-click-state", 1);
@@ -67,7 +66,7 @@
 							
 							if ($subMenu.length === 0) {
 								
-								$navigation.append("<span class='bg_overlay'></span><ul id='slimmer-submenu' class='sub_menu'></ul>");
+								$navigation.append("<span class='bg_overlay'></span><ul id='slimmer-submenu' class='sub_menu' style='display:none;'></ul>");
 								var sourceItems = $(".cnavigation li");
 								var itemsToCopy = sourceItems.slice($navigation.data("items-to-copy"));
 								
@@ -155,20 +154,28 @@
 				}
 
 				function handleOutsideClick(event) {
-					const navigations = $('.cnavigation');
-					const subMenuElement = document.querySelector('#slimmer-submenu');
-					const bgOverlayElement = document.querySelector('.bg_overlay');
-					if (subMenuElement && event.target.className !== 'cnavigation-more') {
-						const computedStyles = window.getComputedStyle(subMenuElement);
-						const displayPropertyValue = computedStyles.getPropertyValue('display');
-						if (displayPropertyValue === 'block') {
-							subMenuElement.style.display = 'none';
-							bgOverlayElement.style.display = 'none';
-							navigations
+					
+					var slimmerSubmenu = document.getElementById('slimmer-submenu');
+					var moreButton = document.querySelector('.cnavigation-more');
+					var navigation_ul = $('.cnavigation');
+					var clickstate = navigation_ul.attr('data-click-state');
+
+					if (clickstate == 0 && !slimmerSubmenu.contains(event.target) && event.target !== moreButton) {
+						if(slimmerSubmenu.style.display == 'block'){
+							slimmerSubmenu.style.display = 'none';
+							$(".bg_overlay").hide();
+							navigation_ul
 								.attr('data-click-state', 1)
 								.removeClass('dropdown-active');
+						} else {
+							slimmerSubmenu.style.display = 'block';
+							$(".bg_overlay").show();
+							navigation_ul
+								.attr('data-click-state', 0)
+								.addClass('dropdown-active');
 						}
 					}
+
 				}
 
 				window.addEventListener('click', handleOutsideClick);
