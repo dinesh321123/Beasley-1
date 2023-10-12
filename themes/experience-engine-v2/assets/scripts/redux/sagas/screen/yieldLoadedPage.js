@@ -7,6 +7,7 @@ import {
 	updateTargeting,
 	renderSendToNews,
 	handleInjectos,
+	handleNationalContest,
 } from '../../utilities';
 import {
 	ACTION_LOADED_PAGE,
@@ -138,7 +139,7 @@ function* yieldLoadedPage(action) {
 
 	yield call(handleInjectos);
 
-	// yield call(handleNationalContest);
+	yield call(handleNationalContest);
 
 	yield call(manageInlineScripts, parsedHtml.inlineScripts);
 }

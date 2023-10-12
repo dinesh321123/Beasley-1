@@ -44,9 +44,9 @@ class Settings extends \Bbgi\Module {
 	 * @access public
 	 */
 	public function render_settings_page() {
-		
+
 		$sections = $GLOBALS['wp_settings_sections']['settings_page_greatermedia-settings'];
-		
+
 		if ($sections) {
 			echo '<h2 class="nav-tab-wrapper station-settings">';
 			echo '<a class="nav-tab" href="#all">All Settings</a>';
@@ -58,7 +58,7 @@ class Settings extends \Bbgi\Module {
 
 		if ($sections) {
 			echo '<form action="options.php" method="post" style="max-width:750px;">';
-				settings_fields( self::option_group );	
+				settings_fields( self::option_group );
 				foreach ($sections as $section) {
 					echo '<div id="' . $section['id'] . '" class="tab-content">';
 						echo '<h2>' . ucfirst(str_replace('_', ' ', $section['title'])) . '</h2>'; // Display section title
@@ -143,7 +143,7 @@ class Settings extends \Bbgi\Module {
 			'name'     => 'ee_login',
 			'selected' => get_option( 'ee_login'),
 			'default' => 'disabled',
-		);	
+		);
 
 		$feature_video_provider_disabled_args = array(
 				'name'     => 'feature_video_provider',
