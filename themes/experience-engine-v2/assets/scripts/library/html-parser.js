@@ -487,6 +487,12 @@ export function getStateFromContent(
 				'.preference-section',
 				getDatasetParams(),
 			),
+			...processEmbeds(
+				container,
+				'votingballot',
+				'#eie_app',
+				getDatasetParams('contestcode'),
+			),
 		];
 
 		// extract <script> tags
