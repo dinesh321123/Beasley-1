@@ -508,6 +508,12 @@ export function getStateFromContent(
 				'.outbrain-widget',
 				getDatasetParams('url'),
 			),
+			...processEmbeds(
+				container,
+				'votingballot',
+				'#eie_app',
+				getDatasetParams('contestcode'),
+			),
 		];
 
 		// extract <script> tags

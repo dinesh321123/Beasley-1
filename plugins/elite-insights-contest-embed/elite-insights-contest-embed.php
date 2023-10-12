@@ -27,16 +27,7 @@ function ei_embed_script($atts) {
     if (!empty($contest_code)) :
         $escaped_contest_code = esc_attr($contest_code);
         ?>
-        <div id="eie_app"></div>
-        <script>
-            (function(w,d,s,i){
-                var eies = d.createElement(s);
-                eies.id = 'eie_app_script';
-                eies.dataset.contestid = i;
-                eies.src = 'https://eliteinsights-bucket-prod.s3.us-east-2.amazonaws.com/sbuilder/scrkk.js?cb=' + Math.random();
-                document.body.appendChild(eies);
-            })(window,document,'script','<?= $escaped_contest_code ?>');
-        </script>
+        <div id="eie_app" data-contestcode="<?php echo $escaped_contest_code; ?>"></div>
         <?php
     else :
         ?>
