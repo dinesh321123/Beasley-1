@@ -15,8 +15,8 @@ class SlimmerMenuButton {
        
         $morebutton_nonce = wp_create_nonce( 'slimmer_menu-ajax-nonce' );
         $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';      
-        // wp_register_script('slimmer_menu', GENERAL_SETTINGS_CPT_URL . 'assets/js/slimmer-menu-menu'. $postfix .'.js', array('jquery'), '1.0.1');
-        wp_register_script('slimmer_menu', GENERAL_SETTINGS_CPT_URL . 'assets/js/slimmer-menu.js', array('jquery'), '1.1.2');
+        wp_register_script('slimmer_menu', GENERAL_SETTINGS_CPT_URL . 'assets/js/slimmer-menu'. $postfix .'.js', array('jquery'), '1.1.3');
+        // wp_register_script('slimmer_menu', GENERAL_SETTINGS_CPT_URL . 'assets/js/slimmer-menu.js', array('jquery'), '1.1.2');
         wp_localize_script(
             'slimmer_menu',
             'slimmer_menu',
