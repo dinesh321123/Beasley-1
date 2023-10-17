@@ -23,7 +23,10 @@ class articleSchemaMarkup
      */
     public function add_article_schema_markup()
     {
-        if (is_single()) { // Apply structured data only on single post pages
+        $allowed_post_types = $this->restrict_schema_markup_posttype_list();
+
+        if (is_single() && in_array(get_post_type(), $allowed_post_types)) {
+            // Apply structured data only on single post pages
             $post_id = get_the_ID();
             $post_title = get_the_title();
             $post_url = get_permalink();
@@ -32,6 +35,11 @@ class articleSchemaMarkup
             $post_author = get_the_author();
             $post_image = get_the_post_thumbnail_url($post_id, 'full');
             $post_description = get_the_excerpt(); // You can use get_the_excerpt() to get the post excerpt or get_the_content() for full content.
+
+            // Check if any of the essential fields are empty
+            if (empty($post_title) || empty($post_url) || empty($post_date) || empty($post_date_modified) || empty($post_author) || empty($post_image) || empty($post_description)) {
+                return; // Exit if any essential data is empty
+            }
 
             $markup = array(
                 '@context' => 'http://schema.org',
@@ -64,6 +72,10 @@ class articleSchemaMarkup
             echo '<script type="application/ld+json">' . $markup_json . '</script>';
         }
     }
+
+    public function restrict_schema_markup_posttype_list() {
+		return (array) apply_filters( 'restrict-schema-markup-for-posttypes', array( 'post', 'affiliate_marketing', 'gmr_gallery', 'contest', 'tribe_events', 'listicle_cpt' ) );
+	}
 }
 
 // Instantiate the articleSchemaMarkup class
