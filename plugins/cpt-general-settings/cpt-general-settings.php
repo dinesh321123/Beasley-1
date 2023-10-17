@@ -36,3 +36,6 @@ include __DIR__ . '/includes/gate-national-contest.php';
 include __DIR__ . '/includes/shutdown-elasticsearch-log.php';
 
 include __DIR__ . '/includes/bbgi-station-second-stream-settings.php';
+
+/** Include the file responsible for adding article schema markup to the current page. */
+include __DIR__ . '/includes/article-schema-markup.php';
