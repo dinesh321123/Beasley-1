@@ -12,24 +12,19 @@ class SlimmerMenu extends Component {
 	}
 
 	componentDidMount() {
-		console.log('SlimmerMenu -- componentDidMount');
 		this.onSlimmerMenuPageChange();
 		const clickButtonDom = document.querySelector('#cnavigation-more');
-		console.log('clickButtonDom', clickButtonDom);
 		clickButtonDom.addEventListener('click', this.handleSlimmerMenuClick);
 		window.addEventListener('click', this.handleSlimmerMenuOutsideClick);
 	}
 
 	componentWillUnmount() {
-		console.log('SlimmerMenu -- componentWillUnmount');
 		const clickButtonDom = document.querySelector('#cnavigation-more');
 		clickButtonDom.addEventListener('click', this.handleSlimmerMenuClick);
 		window.removeEventListener('click', this.handleSlimmerMenuOutsideClick);
 	}
 
 	onSlimmerMenuPageChange() {
-		console.log('SlimmerMenu -- onSlimmerMenuPageChange');
-
 		const { body } = document;
 		const headerContainer = document.querySelector('#show-header-container');
 
@@ -42,8 +37,6 @@ class SlimmerMenu extends Component {
 	}
 
 	handleSlimmerMenu() {
-		console.log('SlimmerMenu -- handleSlimmerMenu');
-
 		document.querySelectorAll('[class*="_shows-"]').forEach(function(element) {
 			element.classList.add('custom-margin');
 		});
@@ -105,7 +98,6 @@ class SlimmerMenu extends Component {
 	}
 
 	handleMenuItemsCounts() {
-		console.log('SlimmerMenu -- handleMenuItemsCounts');
 		const desktopCNavigation = document.querySelector('.desktop .cnavigation');
 		desktopCNavigation.style.display = 'none';
 		const mainContainerWidth = document.querySelector(
@@ -159,12 +151,9 @@ class SlimmerMenu extends Component {
 	}
 
 	handleSlimmerMenuCollapse() {
-		console.log('SlimmerMenu -- handleSlimmerMenuCollapse');
 		const navigation = document.querySelector('.cnavigation');
 		const clickState = navigation.getAttribute('data-click-state');
-		console.log('clickState', clickState);
 		if (clickState === '1') {
-			console.log('clickState if', clickState);
 			navigation.setAttribute('data-click-state', 0);
 			navigation.classList.add('dropdown-active');
 
@@ -253,7 +242,6 @@ class SlimmerMenu extends Component {
 				}
 			}
 		} else {
-			console.log('clickState else', clickState);
 			navigation.setAttribute('data-click-state', 1);
 			navigation.classList.remove('dropdown-active');
 			document
@@ -265,21 +253,9 @@ class SlimmerMenu extends Component {
 	}
 
 	handleSlimmerMenuOutsideClick = event => {
-		console.log('SlimmerMenu -- handleSlimmerMenuOutsideClick');
 		const slimmerSubmenu = document.getElementById('slimmer-submenu');
-		const moreButton = document.querySelector('#cnavigation-more');
 		const navigationUl = document.querySelector('.cnavigation');
 		const clickState = navigationUl.getAttribute('data-click-state');
-
-		console.log('slimmerSubmenu', slimmerSubmenu);
-		console.log('navigationUl', navigationUl);
-		console.log('clickState', clickState);
-		console.log(
-			'!slimmerSubmenu.contains(event.target)',
-			slimmerSubmenu.contains(event.target),
-		);
-		console.log('moreButton', moreButton);
-		console.log('event.target', event.target.id);
 
 		if (
 			clickState === '0' &&
@@ -287,14 +263,7 @@ class SlimmerMenu extends Component {
 			!slimmerSubmenu.contains(event.target) &&
 			event.target.id !== 'cnavigation-more'
 		) {
-			console.log('outdide - clickState', clickState);
-			console.log(
-				'outdide - slimmerSubmenu.style.display',
-				slimmerSubmenu.style.display,
-			);
-
 			if (slimmerSubmenu.style.display === 'block') {
-				console.log('outdide - if', clickState);
 				slimmerSubmenu.style.display = 'none';
 				document.querySelector('.bg_overlay').style.display = 'none';
 				navigationUl.setAttribute('data-click-state', '1');
@@ -323,7 +292,6 @@ class SlimmerMenu extends Component {
 	};
 
 	render() {
-		console.log('SlimmerMenu -- render');
 		return null;
 	}
 }
