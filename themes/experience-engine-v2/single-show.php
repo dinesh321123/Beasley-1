@@ -5,7 +5,7 @@ get_header();
 the_post();
 
 echo '<div class="', join( ' ', get_post_class() ), '">';
-	echo '<div class="article-inner-container">';
+	echo '<div id="show-header-container" class="article-inner-container show-header-container">';
 		echo '<div class="content-wrap">';
 			echo '<div class="content-wrap">';
 				if ( ee_is_first_page() ) :			

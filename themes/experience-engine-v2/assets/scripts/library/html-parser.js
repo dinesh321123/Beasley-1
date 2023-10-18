@@ -501,6 +501,12 @@ export function getStateFromContent(
 					'has_shortcode',
 				),
 			),
+			...processEmbeds(
+				container,
+				'slimmermenu',
+				'.cm-slimmer-menu',
+				getDatasetParams(),
+			),
 		];
 
 		// extract <script> tags

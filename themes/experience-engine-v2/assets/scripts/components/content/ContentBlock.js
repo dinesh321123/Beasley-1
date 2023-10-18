@@ -41,6 +41,8 @@ import CancelAccount from './embeds/CancelAccount';
 import PreferenceCenter from './embeds/PreferenceCenter';
 import TrendingArticles from './embeds/TrendingArticles';
 
+import SlimmerMenu from './embeds/SlimmerMenu';
+
 const mapping = {
 	audio: AudioEmbed,
 	countdown: Countdown,
@@ -76,6 +78,7 @@ const mapping = {
 	cancelaccount: CancelAccount,
 	preferencecenter: PreferenceCenter,
 	trendingarticles: TrendingArticles,
+	slimmermenu: SlimmerMenu,
 };
 
 /**

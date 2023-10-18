@@ -8,7 +8,7 @@ class SlimmerMenuButton {
         add_action( 'init', array( $this, 'wp_init_morebuttom' ), 1 );
     }
     public function wp_init_morebuttom() {
-        add_action( 'wp_enqueue_scripts', array( $this, 'more_button_scripts' ), 1 );
+        // add_action( 'wp_enqueue_scripts', array( $this, 'more_button_scripts' ), 1 );
     }
     public function more_button_scripts() {
         //Script for front end
