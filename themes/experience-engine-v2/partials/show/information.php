@@ -17,7 +17,7 @@ endif;
 		<div class="meta-fave-time">
 			<?php if ( ( $showtime = ee_get_show_meta( $show, 'show-time' ) ) ) : ?>
 				<p>
-					<?php echo esc_html( $showtime ); ?>
+					<time><?php echo esc_html( $showtime ); ?></time>
 				</p>
 			<?php endif; ?>
 		</div>
