@@ -40,26 +40,26 @@
                         <?php
                             if($secondary_author_name) { ?>
                                 <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
-                                <a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+                                <author><a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
                                     <?php echo $primary_author_name; ?>
-                                </a>
+                                </a></author>
                                 <span style='color:rgba(68, 68, 68, 0.6);'> and </span>
-                                <a href="<?php echo esc_url( home_url( '/authors/'.$secondary_author ) ); ?>" title="<?php echo $secondary_author_name; ?>" >
+                                <author><a href="<?php echo esc_url( home_url( '/authors/'.$secondary_author ) ); ?>" title="<?php echo $secondary_author_name; ?>" >
                                     <?php echo $secondary_author_name; ?>
-                                </a>
+                                </a></author>
                             <?php } else { ?>
                                 <!-- // the_author_meta( 'display_name', $primary_author); -->
                                 <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
-                                <a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+                                <author><a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
                                     <?php echo $primary_author_name; ?>
-                                </a>
+                                </a></author>
                             <?php }
                         ?>
                     </div>
                     
                     <?php if(in_array('date',$args['show'])){ // check tags argument passed in temeplate for show tags or date  ?>
                         <div class="author-meta-date">
-                            <?php ee_the_date(); ?>
+                            <time><?php ee_the_date(); ?></time>
                         </div> 
                     <?php }?>
                 </div>
