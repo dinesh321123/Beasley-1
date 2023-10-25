@@ -36,10 +36,10 @@
 	}
 
 	& .twitter {
-		background-color: rgb(43, 174, 232);
+		background-color:#000000;
 
 		&:hover {
-			background-color: rgba(43, 174, 232, .9);
+			background-color:#000000;
 		}
 	}
 
