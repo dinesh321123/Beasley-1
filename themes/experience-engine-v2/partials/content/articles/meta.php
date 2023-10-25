@@ -39,7 +39,7 @@
                     <div class="author-meta-name">
                         <?php
                             if($secondary_author_name) { ?>
-                                <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+                                <span style='color:rgba(68, 68, 68, 0.6);'>Author </span>
                                 <author><a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
                                     <?php echo $primary_author_name; ?>
                                 </a></author>
@@ -49,7 +49,7 @@
                                 </a></author>
                             <?php } else { ?>
                                 <!-- // the_author_meta( 'display_name', $primary_author); -->
-                                <span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+                                <span style='color:rgba(68, 68, 68, 0.6);'>Author </span>
                                 <author><a href="<?php echo esc_url( home_url( '/authors/'.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
                                     <?php echo $primary_author_name; ?>
                                 </a></author>
@@ -59,7 +59,7 @@
                     
                     <?php if(in_array('date',$args['show'])){ // check tags argument passed in temeplate for show tags or date  ?>
                         <div class="author-meta-date">
-                            <time><?php ee_the_date(); ?></time>
+                            <time><?php echo ee_the_date().' '.get_the_time('g:i A', $post); ?></time>
                         </div> 
                     <?php }?>
                 </div>
